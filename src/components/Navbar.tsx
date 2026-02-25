@@ -1,48 +1,48 @@
 import { useState } from "react";
 import { ShoppingCart, Menu, X, Search, User, Heart, Phone } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
 
   const navLinks = [
-    { label: "হোমপেজ", href: "#", icon: "🏠" },
-    { label: "পণ্য সমূহ", href: "#best-sellers" },
-    { label: "অর্ডার ট্র্যাক", href: "#" },
-    { label: "যোগাযোগ", href: "#contact" },
+    { label: "হোমপেজ", href: "/" },
+    { label: "পণ্য সমূহ", href: "/shop" },
+    { label: "ক্যাটাগরি", href: "/categories" },
+    { label: "আমাদের সম্পর্কে", href: "/about" },
+    { label: "যোগাযোগ", href: "/contact" },
   ];
 
   return (
     <header className="sticky top-0 z-50 bg-background border-b border-border shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-[72px] gap-4">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2 shrink-0">
+          <Link to="/" className="flex items-center gap-2 shrink-0">
             <img src={logo} alt="হার্বাল হোমস লোগো" className="h-9 md:h-11 w-auto" />
             <span className="hidden sm:block font-bold text-lg md:text-xl text-foreground uppercase tracking-wide">
               Herbal Homes
             </span>
-          </a>
+          </Link>
 
-          {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link, i) => (
-              <a
+            {navLinks.map((link) => (
+              <Link
                 key={link.label}
-                href={link.href}
+                to={link.href}
                 className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  i === 0
+                  location.pathname === link.href
                     ? "text-primary bg-accent"
                     : "text-muted-foreground hover:text-primary hover:bg-accent"
                 }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
-          {/* Search Bar */}
           <div className="hidden md:flex flex-1 max-w-sm">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -56,7 +56,6 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Right icons */}
           <div className="flex items-center gap-1 md:gap-2">
             <button className="hidden md:flex p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
               <Heart className="h-5 w-5" />
@@ -71,7 +70,6 @@ const Navbar = () => {
               <User className="h-5 w-5" />
             </button>
 
-            {/* Call CTA */}
             <a
               href="tel:+8801712345678"
               className="hidden lg:flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
@@ -89,10 +87,8 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Nav */}
         {isOpen && (
           <nav className="lg:hidden pb-4 border-t border-border pt-3 animate-fade-in space-y-1">
-            {/* Mobile search */}
             <div className="relative mb-3 md:hidden">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
@@ -102,14 +98,18 @@ const Navbar = () => {
               />
             </div>
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
-                href={link.href}
-                className="block py-2.5 px-3 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-accent rounded-lg transition-colors"
+                to={link.href}
+                className={`block py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${
+                  location.pathname === link.href
+                    ? "text-primary bg-accent"
+                    : "text-muted-foreground hover:text-primary hover:bg-accent"
+                }`}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <a
               href="tel:+8801712345678"

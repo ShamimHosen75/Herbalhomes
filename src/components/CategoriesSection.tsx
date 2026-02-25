@@ -1,4 +1,5 @@
 import { Baby, Sparkles, UtensilsCrossed, Package } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const categories = [
   { name: "জৈব সাবান", subtitle: "প্রাকৃতিক ও হাতে তৈরি", icon: Sparkles, bg: "bg-badge-pink", color: "text-pink-500" },
@@ -17,9 +18,9 @@ const CategoriesSection = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
           {categories.map((cat) => (
-            <a
+            <Link
               key={cat.name}
-              href="#"
+              to="/shop"
               className="group flex flex-col items-center text-center p-6 md:p-8 rounded-2xl border border-border bg-card hover:shadow-lg hover:border-primary/20 transition-all duration-300"
             >
               <div className={`h-14 w-14 md:h-16 md:w-16 rounded-2xl ${cat.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
@@ -27,7 +28,7 @@ const CategoriesSection = () => {
               </div>
               <h3 className="font-semibold text-foreground text-sm md:text-base">{cat.name}</h3>
               <p className="text-xs text-muted-foreground mt-1">{cat.subtitle}</p>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
