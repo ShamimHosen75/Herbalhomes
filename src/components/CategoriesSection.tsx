@@ -1,46 +1,32 @@
-import categorySoap from "@/assets/category-soap.jpg";
-import categoryOils from "@/assets/category-oils.jpg";
-import categorySkincare from "@/assets/category-skincare.jpg";
-import categoryFood from "@/assets/category-food.jpg";
+import { Baby, Sparkles, UtensilsCrossed, Package } from "lucide-react";
 
 const categories = [
-  { name: "জৈব সাবান", image: categorySoap, count: "২৪টি পণ্য" },
-  { name: "প্রাকৃতিক তেল", image: categoryOils, count: "১৮টি পণ্য" },
-  { name: "ভেষজ স্কিনকেয়ার", image: categorySkincare, count: "৩২টি পণ্য" },
-  { name: "স্বাস্থ্যকর খাবার", image: categoryFood, count: "১৫টি পণ্য" },
+  { name: "জৈব সাবান", subtitle: "প্রাকৃতিক ও হাতে তৈরি", icon: Sparkles, bg: "bg-badge-pink", color: "text-pink-500" },
+  { name: "প্রাকৃতিক তেল", subtitle: "কালোজিরা, নারকেল তেল", icon: Package, bg: "bg-badge-green", color: "text-primary" },
+  { name: "ভেষজ স্কিনকেয়ার", subtitle: "ত্বকের যত্ন", icon: Baby, bg: "bg-badge-orange", color: "text-orange-500" },
+  { name: "স্বাস্থ্যকর খাবার", subtitle: "খাদ্য সামগ্রী", icon: UtensilsCrossed, bg: "bg-badge-blue", color: "text-blue-500" },
 ];
 
 const CategoriesSection = () => {
   return (
-    <section id="categories" className="py-20 md:py-28 bg-background">
+    <section id="categories" className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-14">
-          <span className="text-sm font-medium tracking-widest uppercase text-primary">ব্রাউজ করুন</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            ক্যাটাগরি অনুযায়ী কিনুন
-          </h2>
-        </div>
+        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-10">
+          প্রোডাক্ট বাছাই করুন
+        </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
           {categories.map((cat) => (
             <a
               key={cat.name}
               href="#"
-              className="group relative rounded-2xl overflow-hidden aspect-[3/4] cursor-pointer"
+              className="group flex flex-col items-center text-center p-6 md:p-8 rounded-2xl border border-border bg-card hover:shadow-lg hover:border-primary/20 transition-all duration-300"
             >
-              <img
-                src={cat.image}
-                alt={cat.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h3 className="font-display text-lg md:text-xl font-semibold text-primary-foreground">
-                  {cat.name}
-                </h3>
-                <p className="text-sm text-primary-foreground/70 mt-0.5">{cat.count}</p>
+              <div className={`h-14 w-14 md:h-16 md:w-16 rounded-2xl ${cat.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                <cat.icon className={`h-6 w-6 md:h-7 md:w-7 ${cat.color}`} />
               </div>
+              <h3 className="font-semibold text-foreground text-sm md:text-base">{cat.name}</h3>
+              <p className="text-xs text-muted-foreground mt-1">{cat.subtitle}</p>
             </a>
           ))}
         </div>

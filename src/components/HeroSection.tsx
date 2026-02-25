@@ -1,45 +1,86 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import heroBanner from "@/assets/hero-banner.jpg";
+import { ArrowRight, Truck, ShieldCheck, Star } from "lucide-react";
+import heroPerson from "@/assets/hero-person.png";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden">
-      <div className="absolute inset-0">
-        <img
-          src={heroBanner}
-          alt="প্রাকৃতিক জৈব পণ্য - সাবান, এসেনশিয়াল অয়েল এবং ইউক্যালিপটাস"
-          className="w-full h-full object-cover"
-          loading="eager"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
-      </div>
+    <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
+      <div className="container mx-auto px-4 py-12 md:py-20">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          {/* Left Content */}
+          <div className="flex-1 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 bg-accent text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+              <Star className="h-3.5 w-3.5 fill-primary text-primary" />
+              বাংলাদেশের বিশ্বস্ত অর্গানিক শপ
+            </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-xl">
-          <span className="inline-block text-sm font-medium tracking-widest uppercase text-primary mb-4 animate-fade-up">
-            ১০০% প্রাকৃতিক ও জৈব
-          </span>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
-            বিশুদ্ধ প্রকৃতি,{" "}
-            <span className="text-primary italic">বিশুদ্ধ আপনি</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 animate-fade-up" style={{ animationDelay: "0.2s" }}>
-            রাসায়নিকমুক্ত জীবনযাপনের সঙ্গী আমাদের হাতে তৈরি জৈব পণ্য।
-            প্রকৃতি থেকে আপনার দোরগোড়ায় — বিশুদ্ধ, সৎ এবং টেকসই।
-          </p>
-          <div className="flex flex-wrap gap-4 animate-fade-up" style={{ animationDelay: "0.3s" }}>
-            <Button size="lg" className="px-8 gap-2 text-base">
-              এখনই কিনুন <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="lg" className="px-8 text-base">
-              ক্যাটাগরি দেখুন
-            </Button>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-foreground leading-tight mb-5">
+              আপনার পছন্দের{" "}
+              <span className="text-primary">অর্গানিক পণ্য</span>{" "}
+              এখন আপনার হাতের নাগালে
+            </h1>
+
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
+              জৈব সাবান, প্রাকৃতিক তেল, ভেষজ স্কিনকেয়ার ও স্বাস্থ্যকর খাবার — সবকিছু এক জায়গায়। ক্যাশ অন ডেলিভারি ও দ্রুত হোম ডেলিভারি সুবিধা।
+            </p>
+
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              <a
+                href="#best-sellers"
+                className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
+              >
+                <ShoppingCartIcon />
+                শপিং শুরু করুন
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="#categories"
+                className="inline-flex items-center gap-2 bg-background text-foreground px-7 py-3.5 rounded-xl text-sm font-semibold border border-border hover:bg-muted transition-colors"
+              >
+                ক্যাটাগরি দেখুন
+              </a>
+            </div>
+          </div>
+
+          {/* Right Image */}
+          <div className="flex-1 relative flex justify-center">
+            <div className="relative">
+              <img
+                src={heroPerson}
+                alt="পিউরন্যাচারা প্রতিনিধি"
+                className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10"
+              />
+
+              {/* Floating badges */}
+              <div className="absolute top-8 -right-2 md:right-0 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20">
+                <div className="h-8 w-8 rounded-full bg-badge-blue flex items-center justify-center">
+                  <Truck className="h-4 w-4 text-primary" />
+                </div>
+                <span className="text-xs font-semibold text-foreground">ফাস্ট ডেলিভারি</span>
+              </div>
+
+              <div className="absolute bottom-16 -left-4 md:left-0 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20" style={{ animationDelay: "1s" }}>
+                <div className="h-8 w-8 rounded-full bg-badge-green flex items-center justify-center">
+                  <ShieldCheck className="h-4 w-4 text-primary" />
+                </div>
+                <span className="text-xs font-semibold text-foreground">১০০% অরিজিনাল</span>
+              </div>
+
+              <div className="absolute bottom-4 right-4 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20" style={{ animationDelay: "2s" }}>
+                <div className="h-8 w-8 rounded-full bg-badge-orange flex items-center justify-center">
+                  <Star className="h-4 w-4 fill-primary text-primary" />
+                </div>
+                <span className="text-xs font-semibold text-foreground">নিরাপদ সেবা</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 };
+
+const ShoppingCartIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+);
 
 export default HeroSection;
