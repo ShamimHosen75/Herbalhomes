@@ -19,9 +19,9 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 md:h-[72px] gap-4">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 shrink-0">
-            <img src={logo} alt="পিউরন্যাচারা লোগো" className="h-9 md:h-11 w-auto" />
+            <img src={logo} alt="হার্বাল হোমস লোগো" className="h-9 md:h-11 w-auto" />
             <span className="hidden sm:block font-bold text-lg md:text-xl text-foreground uppercase tracking-wide">
-              PureNatura
+              Herbal Homes
             </span>
           </a>
 
