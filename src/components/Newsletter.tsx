@@ -14,10 +14,10 @@ const Newsletter = () => {
             <Mail className="h-6 w-6 text-primary" />
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Stay Connected
+            সংযুক্ত থাকুন
           </h2>
           <p className="text-muted-foreground mb-8">
-            Get exclusive offers, wellness tips, and new product updates delivered to your inbox.
+            এক্সক্লুসিভ অফার, স্বাস্থ্য টিপস এবং নতুন পণ্যের আপডেট সরাসরি আপনার ইনবক্সে পান।
           </p>
           <form
             onSubmit={(e) => e.preventDefault()}
@@ -25,17 +25,17 @@ const Newsletter = () => {
           >
             <Input
               type="email"
-              placeholder="Enter your email address"
+              placeholder="আপনার ইমেইল ঠিকানা লিখুন"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="flex-1 h-12 px-5 rounded-xl"
             />
             <Button type="submit" size="lg" className="px-8 rounded-xl">
-              Subscribe
+              সাবস্ক্রাইব
             </Button>
           </form>
           <p className="text-xs text-muted-foreground mt-3">
-            No spam, unsubscribe anytime. We respect your privacy.
+            কোনো স্প্যাম নেই, যেকোনো সময় আনসাবস্ক্রাইব করতে পারবেন। আমরা আপনার গোপনীয়তাকে সম্মান করি।
           </p>
         </div>
       </div>

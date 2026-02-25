@@ -4,10 +4,10 @@ import categorySkincare from "@/assets/category-skincare.jpg";
 import categoryFood from "@/assets/category-food.jpg";
 
 const categories = [
-  { name: "Organic Soap", image: categorySoap, count: "24 Products" },
-  { name: "Natural Oils", image: categoryOils, count: "18 Products" },
-  { name: "Herbal Skincare", image: categorySkincare, count: "32 Products" },
-  { name: "Healthy Foods", image: categoryFood, count: "15 Products" },
+  { name: "জৈব সাবান", image: categorySoap, count: "২৪টি পণ্য" },
+  { name: "প্রাকৃতিক তেল", image: categoryOils, count: "১৮টি পণ্য" },
+  { name: "ভেষজ স্কিনকেয়ার", image: categorySkincare, count: "৩২টি পণ্য" },
+  { name: "স্বাস্থ্যকর খাবার", image: categoryFood, count: "১৫টি পণ্য" },
 ];
 
 const CategoriesSection = () => {
@@ -15,9 +15,9 @@ const CategoriesSection = () => {
     <section id="categories" className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-14">
-          <span className="text-sm font-medium tracking-widest uppercase text-primary">Browse</span>
+          <span className="text-sm font-medium tracking-widest uppercase text-primary">ব্রাউজ করুন</span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            Shop by Category
+            ক্যাটাগরি অনুযায়ী কিনুন
           </h2>
         </div>
 
