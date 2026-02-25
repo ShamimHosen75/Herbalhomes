@@ -1,4 +1,5 @@
-import { Leaf, Instagram, Facebook, Twitter } from "lucide-react";
+import { Instagram, Facebook, Twitter } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   return (
@@ -7,7 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <Leaf className="h-6 w-6 text-primary" />
+              <img src={logo} alt="পিউরন্যাচারা লোগো" className="h-10 w-auto brightness-0 invert" />
               <span className="font-display text-xl font-bold text-primary-foreground">পিউরন্যাচারা</span>
             </div>
             <p className="text-sm leading-relaxed text-primary-foreground/60">
