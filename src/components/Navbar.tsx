@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { ShoppingCart, Menu, X, Search, User, Heart, Phone } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
+  const { getItemCount } = useCart();
+  const { getCount: getWishlistCount } = useWishlist();
+  const cartCount = getItemCount();
+  const wishlistCount = getWishlistCount();
 
   const navLinks = [
     { label: "হোমপেজ", href: "/" },
@@ -57,18 +63,17 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-1 md:gap-2">
-            <button className="hidden md:flex p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
+            <Link to="/wishlist" className="hidden md:flex relative p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
               <Heart className="h-5 w-5" />
-            </button>
-            <button className="relative p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
+              {wishlistCount > 0 && <span className="absolute top-0.5 right-0.5 h-4 w-4 bg-discount text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">{wishlistCount}</span>}
+            </Link>
+            <Link to="/cart" className="relative p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
               <ShoppingCart className="h-5 w-5" />
-              <span className="absolute top-0.5 right-0.5 h-4 w-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
-                ৩
-              </span>
-            </button>
-            <button className="hidden md:flex p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
+              {cartCount > 0 && <span className="absolute top-0.5 right-0.5 h-4 w-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">{cartCount}</span>}
+            </Link>
+            <Link to="/account" className="hidden md:flex p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
               <User className="h-5 w-5" />
-            </button>
+            </Link>
 
             <a
               href="tel:+8801712345678"
