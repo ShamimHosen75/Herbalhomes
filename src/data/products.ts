@@ -1,0 +1,500 @@
+import productSoapLavender from "@/assets/product-soap-lavender.jpg";
+import productBlackseedOil from "@/assets/product-blackseed-oil.jpg";
+import productFaceCream from "@/assets/product-face-cream.jpg";
+import productHoney from "@/assets/product-honey.jpg";
+import productCoconutOil from "@/assets/product-coconut-oil.jpg";
+import productSoapCharcoal from "@/assets/product-soap-charcoal.jpg";
+import productRosehipSerum from "@/assets/product-rosehip-serum.jpg";
+import productHerbalTea from "@/assets/product-herbal-tea.jpg";
+import categorySoap from "@/assets/category-soap.jpg";
+import categoryOils from "@/assets/category-oils.jpg";
+import categorySkincare from "@/assets/category-skincare.jpg";
+import categoryFood from "@/assets/category-food.jpg";
+
+// ─── Types ───────────────────────────────────────────────
+export type ProductVariant = {
+  id: string;
+  label: string; // e.g. "100g", "250g", "1kg"
+  price: number;
+  oldPrice: number | null;
+  stock: number;
+  sku: string;
+};
+
+export type ProductReview = {
+  id: string;
+  author: string;
+  rating: number;
+  comment: string;
+  date: string;
+  verified: boolean;
+};
+
+export type Product = {
+  id: string;
+  slug: string;
+  name: string;
+  shortDesc: string;
+  description: string;
+  ingredients: string;
+  benefits: string[];
+  usage: string;
+  images: string[];
+  category: string;
+  subcategory?: string;
+  brand: string;
+  tags: string[];
+  badge?: "নতুন" | "সেরা" | "ছাড়" | "জনপ্রিয়";
+  variants: ProductVariant[];
+  reviews: ProductReview[];
+  rating: number;
+  reviewCount: number;
+  relatedIds: string[];
+  faq: { q: string; a: string }[];
+  metaTitle: string;
+  metaDesc: string;
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  image: string;
+  description: string;
+  count: number;
+};
+
+export type CouponRule = {
+  code: string;
+  type: "percentage" | "fixed" | "free_shipping";
+  value: number;
+  minSpend: number;
+  maxUses: number;
+  usedCount: number;
+  perUserLimit: number;
+  expiresAt: string;
+  active: boolean;
+};
+
+export type ShippingMethod = {
+  id: string;
+  name: string;
+  cost: number;
+  estimatedDays: string;
+};
+
+export type OrderStatus = "pending" | "confirmed" | "packed" | "shipped" | "delivered" | "cancelled" | "refunded";
+
+export type OrderItem = {
+  productId: string;
+  variantId: string;
+  name: string;
+  variantLabel: string;
+  price: number;
+  quantity: number;
+  image: string;
+};
+
+export type Order = {
+  id: string;
+  items: OrderItem[];
+  subtotal: number;
+  discount: number;
+  shippingCost: number;
+  codFee: number;
+  total: number;
+  couponCode?: string;
+  status: OrderStatus;
+  statusHistory: { status: OrderStatus; date: string; note?: string }[];
+  paymentMethod: "cod";
+  shippingMethod: string;
+  trackingNumber?: string;
+  courierName?: string;
+  address: ShippingAddress;
+  createdAt: string;
+  customerEmail?: string;
+  customerPhone: string;
+  customerName: string;
+};
+
+export type ShippingAddress = {
+  fullName: string;
+  phone: string;
+  email?: string;
+  address: string;
+  city: string;
+  area: string;
+  postalCode: string;
+  notes?: string;
+};
+
+// ─── Seed Data ───────────────────────────────────────────
+const genReviews = (count: number): ProductReview[] =>
+  Array.from({ length: count }, (_, i) => ({
+    id: `rev-${i}`,
+    author: ["আহমেদ হোসেন", "ফাতিমা খানম", "রাহেলা আক্তার", "মোঃ রফিকুল", "নাজমা বেগম", "করিম উদ্দিন"][i % 6],
+    rating: [5, 4, 5, 5, 4, 3][i % 6],
+    comment: [
+      "অসাধারণ পণ্য! খুব ভালো লেগেছে।",
+      "মান ভালো, তবে ডেলিভারি আরো দ্রুত হলে ভালো হতো।",
+      "পরিবারের সবাই ব্যবহার করছি। খুবই সন্তুষ্ট।",
+      "দামের তুলনায় মান চমৎকার।",
+      "প্রাকৃতিক পণ্য খুঁজছিলাম, এটা পারফেক্ট।",
+      "ভালো কিন্তু প্যাকেজিং আরো উন্নত করা দরকার।",
+    ][i % 6],
+    date: `2025-${String((i % 12) + 1).padStart(2, "0")}-${String((i % 28) + 1).padStart(2, "0")}`,
+    verified: i % 3 !== 2,
+  }));
+
+export const categories: Category[] = [
+  { id: "cat-soap", name: "জৈব সাবান", slug: "soap", image: categorySoap, description: "প্রাকৃতিক ও হাতে তৈরি সাবান", count: 4 },
+  { id: "cat-oil", name: "প্রাকৃতিক তেল", slug: "oil", image: categoryOils, description: "বিশুদ্ধ ও কোল্ড-প্রেসড তেল", count: 3 },
+  { id: "cat-skincare", name: "ভেষজ স্কিনকেয়ার", slug: "skincare", image: categorySkincare, description: "ত্বকের যত্নে প্রকৃতির ছোঁয়া", count: 4 },
+  { id: "cat-food", name: "স্বাস্থ্যকর খাবার", slug: "food", image: categoryFood, description: "খাঁটি ও জৈব খাদ্য সামগ্রী", count: 3 },
+];
+
+export const products: Product[] = [
+  {
+    id: "p1",
+    slug: "lavender-organic-soap",
+    name: "ল্যাভেন্ডার জৈব সাবান",
+    shortDesc: "ফ্রেঞ্চ ল্যাভেন্ডার অয়েল সমৃদ্ধ হ্যান্ডমেড সাবান",
+    description: "ফ্রান্স থেকে আনা বিশুদ্ধ ল্যাভেন্ডার এসেনশিয়াল অয়েল দিয়ে তৈরি এই সাবান ত্বককে মসৃণ ও সুগন্ধিত করে। কোনো রাসায়নিক পদার্থ ছাড়াই সম্পূর্ণ প্রাকৃতিক উপাদানে তৈরি।",
+    ingredients: "অলিভ অয়েল, নারকেল তেল, শিয়া বাটার, ল্যাভেন্ডার এসেনশিয়াল অয়েল, ভিটামিন ই",
+    benefits: ["ত্বক মসৃণ করে", "মানসিক চাপ কমায়", "গভীর পরিষ্কার করে", "প্রাকৃতিক সুগন্ধ"],
+    usage: "ভেজা ত্বকে সাবান ব্যবহার করুন, ফেনা তৈরি করে আলতো মেসেজ করুন এবং পানি দিয়ে ধুয়ে ফেলুন।",
+    images: [productSoapLavender, categorySoap],
+    category: "soap",
+    brand: "Herbal Homes",
+    tags: ["সাবান", "ল্যাভেন্ডার", "জৈব", "হ্যান্ডমেড"],
+    badge: "সেরা",
+    variants: [
+      { id: "p1-v1", label: "75g", price: 250, oldPrice: 350, stock: 45, sku: "HH-SOAP-LAV-75" },
+      { id: "p1-v2", label: "150g", price: 420, oldPrice: 550, stock: 30, sku: "HH-SOAP-LAV-150" },
+    ],
+    reviews: genReviews(5),
+    rating: 4.8,
+    reviewCount: 124,
+    relatedIds: ["p6", "p2"],
+    faq: [
+      { q: "এই সাবান কি সব ধরনের ত্বকে ব্যবহার করা যায়?", a: "হ্যাঁ, এটি সব ধরনের ত্বকের জন্য উপযুক্ত।" },
+      { q: "এতে কি কোনো রাসায়নিক আছে?", a: "না, এটি ১০০% প্রাকৃতিক উপাদানে তৈরি।" },
+    ],
+    metaTitle: "ল্যাভেন্ডার জৈব সাবান | Herbal Homes",
+    metaDesc: "ফ্রেঞ্চ ল্যাভেন্ডার অয়েল সমৃদ্ধ ১০০% প্রাকৃতিক হ্যান্ডমেড সাবান। Herbal Homes থেকে অর্ডার করুন।",
+  },
+  {
+    id: "p2",
+    slug: "blackseed-oil",
+    name: "কালোজিরার তেল",
+    shortDesc: "কোল্ড-প্রেসড খাঁটি কালোজিরার তেল",
+    description: "১০০% বিশুদ্ধ কোল্ড-প্রেসড কালোজিরার তেল। রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি, চুলের যত্ন এবং ত্বকের সমস্যা সমাধানে অত্যন্ত কার্যকর।",
+    ingredients: "১০০% কোল্ড-প্রেসড কালোজিরার তেল (Nigella Sativa)",
+    benefits: ["রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি", "চুল পড়া রোধ করে", "ত্বকের সমস্যা দূর করে", "হজম শক্তি বাড়ায়"],
+    usage: "প্রতিদিন সকালে ১ চামচ মধু মিশিয়ে খান অথবা চুলে ও ত্বকে সরাসরি ব্যবহার করুন।",
+    images: [productBlackseedOil, categoryOils],
+    category: "oil",
+    brand: "Herbal Homes",
+    tags: ["তেল", "কালোজিরা", "কোল্ড-প্রেসড"],
+    variants: [
+      { id: "p2-v1", label: "100ml", price: 350, oldPrice: null, stock: 60, sku: "HH-OIL-BS-100" },
+      { id: "p2-v2", label: "250ml", price: 550, oldPrice: null, stock: 40, sku: "HH-OIL-BS-250" },
+      { id: "p2-v3", label: "500ml", price: 950, oldPrice: 1100, stock: 20, sku: "HH-OIL-BS-500" },
+    ],
+    reviews: genReviews(4),
+    rating: 4.9,
+    reviewCount: 89,
+    relatedIds: ["p5", "p4"],
+    faq: [
+      { q: "এটা কি খাওয়া যায়?", a: "হ্যাঁ, এটি খাদ্য গ্রেড কালোজিরার তেল।" },
+    ],
+    metaTitle: "কালোজিরার তেল | Herbal Homes",
+    metaDesc: "কোল্ড-প্রেসড ১০০% খাঁটি কালোজিরার তেল। Herbal Homes থেকে অর্ডার করুন।",
+  },
+  {
+    id: "p3",
+    slug: "aloe-vera-face-cream",
+    name: "অ্যালোভেরা ফেস ক্রিম",
+    shortDesc: "অ্যালোভেরা ও ভিটামিন সি সমৃদ্ধ ফেস ক্রিম",
+    description: "তাজা অ্যালোভেরা জেল ও প্রাকৃতিক ভিটামিন সি দিয়ে তৈরি এই ক্রিম ত্বককে উজ্জ্বল ও আর্দ্র রাখে। সব ধরনের ত্বকের জন্য উপযুক্ত।",
+    ingredients: "অ্যালোভেরা জেল, ভিটামিন সি, শিয়া বাটার, জোজোবা অয়েল, ভিটামিন ই",
+    benefits: ["ত্বক উজ্জ্বল করে", "আর্দ্রতা ধরে রাখে", "বলিরেখা কমায়", "সানবার্ন সারায়"],
+    usage: "মুখ ধুয়ে তোয়ালে দিয়ে মুছে হালকা করে মাখুন। দিনে ২ বার ব্যবহার করুন।",
+    images: [productFaceCream, categorySkincare],
+    category: "skincare",
+    brand: "Herbal Homes",
+    tags: ["স্কিনকেয়ার", "অ্যালোভেরা", "ফেস ক্রিম"],
+    badge: "ছাড়",
+    variants: [
+      { id: "p3-v1", label: "50g", price: 699, oldPrice: 899, stock: 35, sku: "HH-SC-AV-50" },
+      { id: "p3-v2", label: "100g", price: 1199, oldPrice: 1499, stock: 20, sku: "HH-SC-AV-100" },
+    ],
+    reviews: genReviews(6),
+    rating: 4.7,
+    reviewCount: 203,
+    relatedIds: ["p7", "p1"],
+    faq: [
+      { q: "তৈলাক্ত ত্বকে কি ব্যবহার করা যাবে?", a: "হ্যাঁ, এটি হালকা ফর্মুলা এবং সব ত্বকে উপযোগী।" },
+    ],
+    metaTitle: "অ্যালোভেরা ফেস ক্রিম | Herbal Homes",
+    metaDesc: "অ্যালোভেরা ও ভিটামিন সি সমৃদ্ধ প্রাকৃতিক ফেস ক্রিম। Herbal Homes থেকে কিনুন।",
+  },
+  {
+    id: "p4",
+    slug: "pure-organic-honey",
+    name: "খাঁটি জৈব মধু",
+    shortDesc: "সুন্দরবনের খাঁটি চাকের মধু",
+    description: "সুন্দরবন থেকে সংগ্রহিত ১০০% খাঁটি চাকের মধু। কোনো ভেজাল বা চিনি মেশানো নেই। স্বাস্থ্য সচেতন পরিবারের জন্য আদর্শ।",
+    ingredients: "১০০% খাঁটি সুন্দরবনের চাকের মধু",
+    benefits: ["রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি", "ত্বকের উজ্জ্বলতা বাড়ায়", "গলা ব্যথায় উপকারী", "শক্তি যোগায়"],
+    usage: "প্রতিদিন সকালে খালি পেটে ১-২ চামচ মধু পানির সাথে মিশিয়ে খান।",
+    images: [productHoney, categoryFood],
+    category: "food",
+    brand: "Herbal Homes",
+    tags: ["মধু", "খাঁটি", "সুন্দরবন", "জৈব"],
+    variants: [
+      { id: "p4-v1", label: "250g", price: 450, oldPrice: null, stock: 50, sku: "HH-FOOD-HON-250" },
+      { id: "p4-v2", label: "500g", price: 800, oldPrice: 900, stock: 30, sku: "HH-FOOD-HON-500" },
+      { id: "p4-v3", label: "1kg", price: 1450, oldPrice: 1650, stock: 15, sku: "HH-FOOD-HON-1K" },
+    ],
+    reviews: genReviews(5),
+    rating: 4.9,
+    reviewCount: 156,
+    relatedIds: ["p8", "p2"],
+    faq: [
+      { q: "মধু কি আসল?", a: "১০০% আসল সুন্দরবনের চাকের মধু। আমরা গ্যারান্টি দিচ্ছি।" },
+    ],
+    metaTitle: "খাঁটি জৈব মধু | Herbal Homes",
+    metaDesc: "সুন্দরবনের ১০০% খাঁটি চাকের মধু। ভেজালমুক্ত। Herbal Homes থেকে অর্ডার করুন।",
+  },
+  {
+    id: "p5",
+    slug: "virgin-coconut-oil",
+    name: "ভার্জিন নারকেল তেল",
+    shortDesc: "কোল্ড-প্রেসড ভার্জিন নারকেল তেল",
+    description: "১০০% বিশুদ্ধ কোল্ড-প্রেসড ভার্জিন নারকেল তেল। রান্না, চুলের যত্ন ও ত্বকের যত্নে সমান কার্যকর।",
+    ingredients: "১০০% কোল্ড-প্রেসড ভার্জিন নারকেল তেল",
+    benefits: ["চুল ঘন করে", "ত্বক নরম রাখে", "রান্নায় স্বাস্থ্যকর", "মেটাবলিজম বাড়ায়"],
+    usage: "চুলে বা ত্বকে সরাসরি ব্যবহার করুন। রান্নায় সাধারণ তেলের বিকল্প হিসেবেও ব্যবহার করা যায়।",
+    images: [productCoconutOil, categoryOils],
+    category: "oil",
+    brand: "Herbal Homes",
+    tags: ["তেল", "নারকেল", "ভার্জিন", "কোল্ড-প্রেসড"],
+    badge: "ছাড়",
+    variants: [
+      { id: "p5-v1", label: "200ml", price: 380, oldPrice: 499, stock: 40, sku: "HH-OIL-COC-200" },
+      { id: "p5-v2", label: "500ml", price: 700, oldPrice: 899, stock: 25, sku: "HH-OIL-COC-500" },
+    ],
+    reviews: genReviews(4),
+    rating: 4.6,
+    reviewCount: 98,
+    relatedIds: ["p2", "p4"],
+    faq: [
+      { q: "এটা কি খাবার তেল হিসেবে ব্যবহার করা যাবে?", a: "হ্যাঁ, এটি ফুড-গ্রেড ভার্জিন নারকেল তেল।" },
+    ],
+    metaTitle: "ভার্জিন নারকেল তেল | Herbal Homes",
+    metaDesc: "কোল্ড-প্রেসড ভার্জিন নারকেল তেল। চুল ও ত্বকের যত্নে আদর্শ। Herbal Homes।",
+  },
+  {
+    id: "p6",
+    slug: "charcoal-detox-soap",
+    name: "চারকোল ডিটক্স সাবান",
+    shortDesc: "অ্যাক্টিভেটেড চারকোল দিয়ে তৈরি ডিটক্স সাবান",
+    description: "অ্যাক্টিভেটেড চারকোল ও টি ট্রি অয়েল দিয়ে তৈরি এই সাবান ত্বকের গভীর থেকে ময়লা ও টক্সিন পরিষ্কার করে। ব্রণ ও তৈলাক্ত ত্বকের জন্য বিশেষভাবে কার্যকর।",
+    ingredients: "অ্যাক্টিভেটেড চারকোল, টি ট্রি অয়েল, অলিভ অয়েল, নারকেল তেল",
+    benefits: ["গভীর পরিষ্কার", "ব্রণ দূর করে", "তৈলাক্ত ত্বক নিয়ন্ত্রণ", "ডিটক্সিফাই করে"],
+    usage: "ভেজা মুখে বা শরীরে সাবান ঘষে ফেনা তৈরি করুন, ১ মিনিট রেখে ধুয়ে ফেলুন।",
+    images: [productSoapCharcoal, categorySoap],
+    category: "soap",
+    brand: "Herbal Homes",
+    tags: ["সাবান", "চারকোল", "ডিটক্স"],
+    badge: "নতুন",
+    variants: [
+      { id: "p6-v1", label: "75g", price: 299, oldPrice: null, stock: 55, sku: "HH-SOAP-CHR-75" },
+      { id: "p6-v2", label: "150g", price: 499, oldPrice: 599, stock: 30, sku: "HH-SOAP-CHR-150" },
+    ],
+    reviews: genReviews(3),
+    rating: 4.8,
+    reviewCount: 67,
+    relatedIds: ["p1", "p3"],
+    faq: [
+      { q: "সেনসিটিভ ত্বকে ব্যবহার করা যাবে?", a: "প্রথমে একটু পরীক্ষা করে নিন। সাধারণত সব ত্বকে নিরাপদ।" },
+    ],
+    metaTitle: "চারকোল ডিটক্স সাবান | Herbal Homes",
+    metaDesc: "অ্যাক্টিভেটেড চারকোল ডিটক্স সাবান। ব্রণ ও তৈলাক্ত ত্বকের সমাধান। Herbal Homes।",
+  },
+  {
+    id: "p7",
+    slug: "rosehip-face-serum",
+    name: "রোজহিপ ফেস সিরাম",
+    shortDesc: "অর্গানিক রোজহিপ অয়েল সমৃদ্ধ অ্যান্টি-এজিং সিরাম",
+    description: "চিলি থেকে আনা বিশুদ্ধ রোজহিপ অয়েল দিয়ে তৈরি এই সিরাম ত্বকের বলিরেখা কমায়, দাগ দূর করে এবং ত্বককে তারুণ্যদীপ্ত করে তোলে।",
+    ingredients: "রোজহিপ অয়েল, ভিটামিন সি, হায়ালুরনিক এসিড, জোজোবা অয়েল",
+    benefits: ["বলিরেখা কমায়", "দাগ দূর করে", "ত্বক টান টান করে", "গভীর আর্দ্রতা"],
+    usage: "রাতে ঘুমানোর আগে পরিষ্কার মুখে ২-৩ ফোঁটা সিরাম আলতো করে মাখুন।",
+    images: [productRosehipSerum, categorySkincare],
+    category: "skincare",
+    brand: "Herbal Homes",
+    tags: ["সিরাম", "রোজহিপ", "অ্যান্টি-এজিং", "স্কিনকেয়ার"],
+    badge: "জনপ্রিয়",
+    variants: [
+      { id: "p7-v1", label: "30ml", price: 850, oldPrice: 1050, stock: 25, sku: "HH-SC-RH-30" },
+      { id: "p7-v2", label: "50ml", price: 1350, oldPrice: 1650, stock: 15, sku: "HH-SC-RH-50" },
+    ],
+    reviews: genReviews(5),
+    rating: 4.9,
+    reviewCount: 142,
+    relatedIds: ["p3", "p1"],
+    faq: [
+      { q: "ফলাফল কত দিনে পাওয়া যায়?", a: "সাধারণত ২-৩ সপ্তাহ নিয়মিত ব্যবহারে ফলাফল পাবেন।" },
+    ],
+    metaTitle: "রোজহিপ ফেস সিরাম | Herbal Homes",
+    metaDesc: "অর্গানিক রোজহিপ অ্যান্টি-এজিং সিরাম। বলিরেখা কমায়, ত্বক উজ্জ্বল করে। Herbal Homes।",
+  },
+  {
+    id: "p8",
+    slug: "organic-chamomile-tea",
+    name: "জৈব ক্যামোমিল চা",
+    shortDesc: "মিশর থেকে আনা বিশুদ্ধ ক্যামোমিল ফুলের চা",
+    description: "মিশর থেকে আমদানি করা বিশুদ্ধ ক্যামোমিল ফুল দিয়ে তৈরি এই চা ঘুমের মান উন্নত করে, স্ট্রেস কমায় এবং হজম শক্তি বাড়ায়।",
+    ingredients: "১০০% বিশুদ্ধ জৈব ক্যামোমিল ফুল",
+    benefits: ["ঘুমের মান উন্নত করে", "মানসিক চাপ কমায়", "হজম শক্তি বাড়ায়", "রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি"],
+    usage: "১ চামচ চা ১ কাপ ফুটন্ত পানিতে ৫ মিনিট ভিজিয়ে ছেঁকে নিন। মধু দিয়ে পান করুন।",
+    images: [productHerbalTea, categoryFood],
+    category: "food",
+    brand: "Herbal Homes",
+    tags: ["চা", "ক্যামোমিল", "জৈব", "ভেষজ"],
+    variants: [
+      { id: "p8-v1", label: "50g", price: 350, oldPrice: null, stock: 45, sku: "HH-FOOD-CT-50" },
+      { id: "p8-v2", label: "100g", price: 600, oldPrice: 700, stock: 30, sku: "HH-FOOD-CT-100" },
+    ],
+    reviews: genReviews(3),
+    rating: 4.7,
+    reviewCount: 73,
+    relatedIds: ["p4", "p2"],
+    faq: [
+      { q: "দিনে কতবার খাওয়া যায়?", a: "দিনে ২-৩ কাপ পান করতে পারেন।" },
+    ],
+    metaTitle: "জৈব ক্যামোমিল চা | Herbal Homes",
+    metaDesc: "মিশর থেকে আনা বিশুদ্ধ ক্যামোমিল ফুলের চা। ঘুমের মান উন্নত করে। Herbal Homes।",
+  },
+  {
+    id: "p9",
+    slug: "neem-soap",
+    name: "নিম পাতার সাবান",
+    shortDesc: "প্রাকৃতিক নিম পাতার নির্যাস দিয়ে তৈরি",
+    description: "দেশীয় নিম পাতার নির্যাস ও হলুদ মিশিয়ে তৈরি এই সাবান ত্বকের ইনফেকশন, চুলকানি ও ব্রণ দূর করতে সাহায্য করে।",
+    ingredients: "নিম পাতার নির্যাস, হলুদ, নারকেল তেল, অলিভ অয়েল",
+    benefits: ["অ্যান্টি-ব্যাকটেরিয়াল", "ব্রণ দূর করে", "চুলকানি কমায়", "ত্বক পরিষ্কার রাখে"],
+    usage: "প্রতিদিন গোসলের সময় ব্যবহার করুন। সমস্যাযুক্ত জায়গায় বেশি সময় রেখে ধুয়ে ফেলুন।",
+    images: [categorySoap, productSoapLavender],
+    category: "soap",
+    brand: "Herbal Homes",
+    tags: ["সাবান", "নিম", "অ্যান্টি-ব্যাকটেরিয়াল"],
+    variants: [
+      { id: "p9-v1", label: "75g", price: 199, oldPrice: null, stock: 70, sku: "HH-SOAP-NEM-75" },
+      { id: "p9-v2", label: "150g", price: 350, oldPrice: 420, stock: 40, sku: "HH-SOAP-NEM-150" },
+    ],
+    reviews: genReviews(4),
+    rating: 4.5,
+    reviewCount: 91,
+    relatedIds: ["p1", "p6"],
+    faq: [],
+    metaTitle: "নিম পাতার সাবান | Herbal Homes",
+    metaDesc: "প্রাকৃতিক নিম পাতার সাবান। ব্রণ ও চুলকানি দূর করে। Herbal Homes।",
+  },
+  {
+    id: "p10",
+    slug: "turmeric-face-pack",
+    name: "হলুদ ফেস প্যাক",
+    shortDesc: "কাস্তুরী হলুদ ও মুলতানি মাটির ফেস প্যাক",
+    description: "কাস্তুরী হলুদ, মুলতানি মাটি ও চন্দন গুঁড়া দিয়ে তৈরি এই ফেস প্যাক ত্বকের উজ্জ্বলতা বাড়ায়, দাগ দূর করে এবং ত্বককে মসৃণ করে।",
+    ingredients: "কাস্তুরী হলুদ, মুলতানি মাটি, চন্দন গুঁড়া, গোলাপ জল",
+    benefits: ["ত্বক উজ্জ্বল করে", "দাগ দূর করে", "ত্বক মসৃণ করে", "ব্রণ প্রতিরোধ করে"],
+    usage: "পানি বা দুধ মিশিয়ে পেস্ট করুন, মুখে মেখে ১৫ মিনিট রেখে ধুয়ে ফেলুন। সপ্তাহে ২-৩ বার ব্যবহার করুন।",
+    images: [categorySkincare, productFaceCream],
+    category: "skincare",
+    brand: "Herbal Homes",
+    tags: ["স্কিনকেয়ার", "হলুদ", "ফেস প্যাক"],
+    badge: "নতুন",
+    variants: [
+      { id: "p10-v1", label: "100g", price: 299, oldPrice: null, stock: 45, sku: "HH-SC-TUR-100" },
+      { id: "p10-v2", label: "200g", price: 520, oldPrice: 599, stock: 25, sku: "HH-SC-TUR-200" },
+    ],
+    reviews: genReviews(3),
+    rating: 4.6,
+    reviewCount: 54,
+    relatedIds: ["p3", "p7"],
+    faq: [],
+    metaTitle: "হলুদ ফেস প্যাক | Herbal Homes",
+    metaDesc: "কাস্তুরী হলুদ ও মুলতানি মাটির প্রাকৃতিক ফেস প্যাক। ত্বক উজ্জ্বল করে। Herbal Homes।",
+  },
+  {
+    id: "p11",
+    slug: "mustard-oil-pure",
+    name: "খাঁটি সরিষার তেল",
+    shortDesc: "ঘানিভাঙা খাঁটি সরিষার তেল",
+    description: "ঐতিহ্যবাহী ঘানি পদ্ধতিতে ভাঙা ১০০% খাঁটি সরিষার তেল। রান্নায় ও চুলের যত্নে অতুলনীয়।",
+    ingredients: "১০০% ঘানিভাঙা সরিষার তেল",
+    benefits: ["রান্নায় স্বাদ বাড়ায়", "চুলের গোড়া মজবুত করে", "রক্ত সঞ্চালন বাড়ায়", "অ্যান্টি-অক্সিডেন্ট"],
+    usage: "রান্নায় সাধারণ তেলের মতো ব্যবহার করুন। চুলে ম্যাসাজ করে ১ ঘণ্টা রেখে ধুয়ে ফেলুন।",
+    images: [categoryOils, productCoconutOil],
+    category: "oil",
+    brand: "Herbal Homes",
+    tags: ["তেল", "সরিষা", "ঘানিভাঙা"],
+    variants: [
+      { id: "p11-v1", label: "500ml", price: 320, oldPrice: null, stock: 50, sku: "HH-OIL-MUS-500" },
+      { id: "p11-v2", label: "1 লিটার", price: 580, oldPrice: 650, stock: 30, sku: "HH-OIL-MUS-1L" },
+    ],
+    reviews: genReviews(3),
+    rating: 4.7,
+    reviewCount: 82,
+    relatedIds: ["p2", "p5"],
+    faq: [],
+    metaTitle: "খাঁটি সরিষার তেল | Herbal Homes",
+    metaDesc: "ঘানিভাঙা ১০০% খাঁটি সরিষার তেল। Herbal Homes থেকে কিনুন।",
+  },
+  {
+    id: "p12",
+    slug: "organic-moringa-powder",
+    name: "অর্গানিক মরিঙ্গা পাউডার",
+    shortDesc: "সজনে পাতার গুঁড়া - সুপারফুড",
+    description: "১০০% জৈব সজনে পাতার গুঁড়া। ৯০+ পুষ্টি উপাদান সমৃদ্ধ এই সুপারফুড শরীরের পুষ্টির ঘাটতি পূরণ করে।",
+    ingredients: "১০০% জৈব মরিঙ্গা (সজনে) পাতার গুঁড়া",
+    benefits: ["পুষ্টির ঘাটতি পূরণ", "রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি", "এনার্জি বাড়ায়", "প্রাকৃতিক ডিটক্স"],
+    usage: "১ চামচ পাউডার পানি, জুস বা স্মুদিতে মিশিয়ে পান করুন।",
+    images: [categoryFood, productHerbalTea],
+    category: "food",
+    brand: "Herbal Homes",
+    tags: ["সুপারফুড", "মরিঙ্গা", "সজনে", "পাউডার"],
+    variants: [
+      { id: "p12-v1", label: "100g", price: 280, oldPrice: null, stock: 40, sku: "HH-FOOD-MOR-100" },
+      { id: "p12-v2", label: "250g", price: 600, oldPrice: 700, stock: 20, sku: "HH-FOOD-MOR-250" },
+    ],
+    reviews: genReviews(3),
+    rating: 4.5,
+    reviewCount: 47,
+    relatedIds: ["p4", "p8"],
+    faq: [],
+    metaTitle: "অর্গানিক মরিঙ্গা পাউডার | Herbal Homes",
+    metaDesc: "১০০% জৈব সজনে পাতার গুঁড়া - সুপারফুড। Herbal Homes থেকে অর্ডার করুন।",
+  },
+];
+
+export const shippingMethods: ShippingMethod[] = [
+  { id: "standard-dhaka", name: "ঢাকার ভিতরে (স্ট্যান্ডার্ড)", cost: 60, estimatedDays: "১-২ দিন" },
+  { id: "express-dhaka", name: "ঢাকার ভিতরে (এক্সপ্রেস)", cost: 100, estimatedDays: "একই দিন" },
+  { id: "standard-outside", name: "ঢাকার বাইরে (স্ট্যান্ডার্ড)", cost: 120, estimatedDays: "৩-৫ দিন" },
+  { id: "express-outside", name: "ঢাকার বাইরে (এক্সপ্রেস)", cost: 180, estimatedDays: "১-২ দিন" },
+];
+
+export const coupons: CouponRule[] = [
+  { code: "WELCOME10", type: "percentage", value: 10, minSpend: 500, maxUses: 1000, usedCount: 234, perUserLimit: 1, expiresAt: "2026-12-31", active: true },
+  { code: "SAVE50", type: "fixed", value: 50, minSpend: 300, maxUses: 500, usedCount: 120, perUserLimit: 2, expiresAt: "2026-06-30", active: true },
+  { code: "FREESHIP", type: "free_shipping", value: 0, minSpend: 1000, maxUses: 200, usedCount: 55, perUserLimit: 3, expiresAt: "2026-12-31", active: true },
+];
+
+export const getProductBySlug = (slug: string) => products.find((p) => p.slug === slug);
+export const getProductById = (id: string) => products.find((p) => p.id === id);
+export const getProductsByCategory = (cat: string) => products.filter((p) => p.category === cat);
+export const getRelatedProducts = (product: Product) => product.relatedIds.map(getProductById).filter(Boolean) as Product[];
