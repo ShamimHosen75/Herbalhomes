@@ -14,7 +14,7 @@ const ContactSection = () => {
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <a
-              href="https://m.me/purenatura"
+              href="https://m.me/herbalhomes"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-[hsl(221,44%,41%)] text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"

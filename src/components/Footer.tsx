@@ -9,8 +9,8 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src={logo} alt="পিউরন্যাচারা লোগো" className="h-9 w-auto brightness-0 invert" />
-              <span className="font-bold text-lg text-primary-foreground uppercase">PureNatura</span>
+              <img src={logo} alt="হার্বাল হোমস লোগো" className="h-9 w-auto brightness-0 invert" />
+              <span className="font-bold text-lg text-primary-foreground uppercase">Herbal Homes</span>
             </div>
             <p className="text-sm leading-relaxed text-primary-foreground/50 mb-5">
               সুস্থ ও টেকসই জীবনযাপনের জন্য হাতে তৈরি জৈব পণ্য।
@@ -45,7 +45,7 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-primary-foreground mb-4 text-sm">যোগাযোগ</h4>
             <ul className="space-y-2.5 text-sm text-primary-foreground/50">
-              <li>hello@purenatura.com</li>
+              <li>hello@herbalhomes.com</li>
               <li>+৮৮০ ১৭১২-৩৪৫৬৭৮</li>
               <li>শনি - বৃহস্পতি, সকাল ৯টা - সন্ধ্যা ৬টা</li>
             </ul>
@@ -53,7 +53,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/10 mt-10 pt-6 text-center text-xs text-primary-foreground/30">
-          © ২০২৬ পিউরন্যাচারা। সর্বস্বত্ব সংরক্ষিত।
+          © ২০২৬ হার্বাল হোমস। সর্বস্বত্ব সংরক্ষিত।
         </div>
       </div>
     </footer>

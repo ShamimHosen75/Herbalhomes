@@ -87,7 +87,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
       {/* Info */}
       <div className="p-3.5 flex flex-col flex-1">
-        <span className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">PURENATURA</span>
+        <span className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">HERBAL HOMES</span>
         <h3 className="font-semibold text-foreground text-sm leading-snug line-clamp-2 mb-2 flex-1">
           {product.name}
         </h3>

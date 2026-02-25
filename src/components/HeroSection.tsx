@@ -46,7 +46,7 @@ const HeroSection = () => {
             <div className="relative">
               <img
                 src={heroPerson}
-                alt="পিউরন্যাচারা প্রতিনিধি"
+                alt="হার্বাল হোমস প্রতিনিধি"
                 className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10"
               />
 
