@@ -24,16 +24,9 @@ const Checkout = () => {
   const codFee = 20;
   const total = subtotal - discount + shipping.cost + codFee;
 
-  const [address, setAddress] = useState<ShippingAddress>({
-    fullName: "",
-    phone: "",
-    email: "",
-    address: "",
-    city: "",
-    area: "",
-    postalCode: "",
-    notes: "",
-  });
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -51,13 +44,10 @@ const Checkout = () => {
 
   const validate = (): boolean => {
     const e: Record<string, string> = {};
-    if (!address.fullName.trim()) e.fullName = "নাম প্রয়োজন";
-    if (!address.phone.trim()) e.phone = "ফোন নম্বর প্রয়োজন";
-    else if (!/^01[3-9]\d{8}$/.test(address.phone.replace(/\s|-/g, ""))) e.phone = "সঠিক ফোন নম্বর দিন (01xxxxxxxxx)";
-    if (address.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address.email)) e.email = "সঠিক ইমেইল দিন";
-    if (!address.address.trim()) e.address = "ঠিকানা প্রয়োজন";
-    if (!address.city.trim()) e.city = "শহর প্রয়োজন";
-    if (!address.area.trim()) e.area = "এলাকা প্রয়োজন";
+    if (!name.trim()) e.name = "নাম প্রয়োজন";
+    if (!phone.trim()) e.phone = "ফোন নম্বর প্রয়োজন";
+    else if (!/^01[3-9]\d{8}$/.test(phone.replace(/\s|-/g, ""))) e.phone = "সঠিক ফোন নম্বর দিন (01xxxxxxxxx)";
+    if (!deliveryAddress.trim()) e.deliveryAddress = "ঠিকানা প্রয়োজন";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -99,6 +89,17 @@ const Checkout = () => {
         image: item.product.images[0],
       }));
 
+      const shippingAddress: ShippingAddress = {
+        fullName: name,
+        phone,
+        address: deliveryAddress,
+        city: "",
+        area: "",
+        email: "",
+        postalCode: "",
+        notes: "",
+      };
+
       const order = createOrder({
         items: orderItems,
         subtotal,
@@ -108,10 +109,9 @@ const Checkout = () => {
         total,
         couponCode: appliedCoupon?.code,
         shippingMethod: shipping.name,
-        address,
-        customerName: address.fullName,
-        customerPhone: address.phone,
-        customerEmail: address.email || undefined,
+        address: shippingAddress,
+        customerName: name,
+        customerPhone: phone,
       });
 
       clearCart();
@@ -122,31 +122,6 @@ const Checkout = () => {
       setIsSubmitting(false);
     }
   };
-
-  const Field = ({ name, label, type = "text", required = false, placeholder = "", half = false }: {
-    name: keyof ShippingAddress;
-    label: string;
-    type?: string;
-    required?: boolean;
-    placeholder?: string;
-    half?: boolean;
-  }) => (
-    <div className={half ? "" : "col-span-2"}>
-      <label className="block text-sm font-medium text-foreground mb-1.5">
-        {label} {required && <span className="text-discount">*</span>}
-      </label>
-      <input
-        type={type}
-        value={address[name] || ""}
-        onChange={(e) => setAddress({ ...address, [name]: e.target.value })}
-        placeholder={placeholder}
-        className={`w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 ${
-          errors[name] ? "ring-2 ring-discount/50" : "focus:ring-primary/30"
-        }`}
-      />
-      {errors[name] && <p className="text-xs text-discount mt-1">{errors[name]}</p>}
-    </div>
-  );
 
   return (
     <PageLayout>
@@ -161,31 +136,58 @@ const Checkout = () => {
         <div className="container mx-auto px-4">
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Left: Address + Shipping */}
+              {/* Delivery Info - Simplified */}
               <div className="lg:col-span-2 space-y-6">
-                {/* Address */}
                 <div className="bg-card rounded-2xl border border-border p-5">
                   <div className="flex items-center gap-2 mb-5">
                     <MapPin className="h-5 w-5 text-primary" />
-                    <h3 className="font-bold text-foreground">ডেলিভারি ঠিকানা</h3>
+                    <h3 className="font-bold text-foreground">ডেলিভারি তথ্য</h3>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <Field name="fullName" label="পুরো নাম" required placeholder="আপনার নাম" half />
-                    <Field name="phone" label="ফোন নম্বর" type="tel" required placeholder="01XXXXXXXXX" half />
-                    <Field name="email" label="ইমেইল (ঐচ্ছিক)" type="email" placeholder="example@email.com" />
-                    <Field name="address" label="বিস্তারিত ঠিকানা" required placeholder="বাসা/ফ্ল্যাট নম্বর, রাস্তা" />
-                    <Field name="city" label="শহর" required placeholder="ঢাকা" half />
-                    <Field name="area" label="এলাকা" required placeholder="মিরপুর" half />
-                    <Field name="postalCode" label="পোস্ট কোড" placeholder="1216" half />
+                  <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-1.5">বিশেষ নোট (ঐচ্ছিক)</label>
-                      <textarea
-                        value={address.notes || ""}
-                        onChange={(e) => setAddress({ ...address, notes: e.target.value })}
-                        rows={2}
-                        placeholder="কোনো বিশেষ নির্দেশনা..."
-                        className="w-full px-4 py-3 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                      <label className="block text-sm font-medium text-foreground mb-1.5">
+                        নাম <span className="text-discount">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="আপনার নাম"
+                        className={`w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 ${
+                          errors.name ? "ring-2 ring-discount/50" : "focus:ring-primary/30"
+                        }`}
                       />
+                      {errors.name && <p className="text-xs text-discount mt-1">{errors.name}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-1.5">
+                        ফোন নম্বর <span className="text-discount">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="01XXXXXXXXX"
+                        className={`w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 ${
+                          errors.phone ? "ring-2 ring-discount/50" : "focus:ring-primary/30"
+                        }`}
+                      />
+                      {errors.phone && <p className="text-xs text-discount mt-1">{errors.phone}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-1.5">
+                        ঠিকানা <span className="text-discount">*</span>
+                      </label>
+                      <textarea
+                        value={deliveryAddress}
+                        onChange={(e) => setDeliveryAddress(e.target.value)}
+                        placeholder="বাসা/ফ্ল্যাট নম্বর, রাস্তা, এলাকা, শহর"
+                        rows={3}
+                        className={`w-full px-4 py-3 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 resize-none ${
+                          errors.deliveryAddress ? "ring-2 ring-discount/50" : "focus:ring-primary/30"
+                        }`}
+                      />
+                      {errors.deliveryAddress && <p className="text-xs text-discount mt-1">{errors.deliveryAddress}</p>}
                     </div>
                   </div>
                 </div>

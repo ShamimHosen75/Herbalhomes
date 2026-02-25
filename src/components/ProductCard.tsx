@@ -1,5 +1,5 @@
-import { ShoppingCart, Heart, Star } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ShoppingCart, Heart, Star, Zap } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/data/products";
@@ -13,6 +13,7 @@ type Props = {
 const ProductCard = ({ product, showRating = true }: Props) => {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
+  const navigate = useNavigate();
   const defaultVariant = product.variants[0];
   const [selectedVariant, setSelectedVariant] = useState(defaultVariant);
 
@@ -26,6 +27,13 @@ const ProductCard = ({ product, showRating = true }: Props) => {
     e.preventDefault();
     e.stopPropagation();
     addItem(product.id, selectedVariant.id);
+  };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(product.id, selectedVariant.id);
+    navigate("/checkout");
   };
 
   const handleWishlist = (e: React.MouseEvent) => {
@@ -112,13 +120,22 @@ const ProductCard = ({ product, showRating = true }: Props) => {
         </div>
 
         {selectedVariant.stock > 0 ? (
-          <button
-            onClick={handleAddToCart}
-            className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
-          >
-            <ShoppingCart className="h-4 w-4" />
-            অর্ডার করুন
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 flex items-center justify-center gap-1.5 bg-accent text-primary py-2.5 rounded-xl text-sm font-semibold hover:bg-accent/80 border border-primary/20 transition-colors"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              কার্টে
+            </button>
+            <button
+              onClick={handleBuyNow}
+              className="flex-1 flex items-center justify-center gap-1.5 bg-primary text-primary-foreground py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
+            >
+              <Zap className="h-4 w-4" />
+              এখনই কিনুন
+            </button>
+          </div>
         ) : (
           <button
             disabled
