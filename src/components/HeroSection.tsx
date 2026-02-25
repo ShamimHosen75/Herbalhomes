@@ -1,4 +1,5 @@
 import { ArrowRight, Truck, ShieldCheck, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroPerson from "@/assets/hero-person.png";
 
 const HeroSection = () => {
@@ -24,20 +25,20 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <a
-                href="#best-sellers"
+              <Link
+                to="/shop"
                 className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
               >
                 <ShoppingCartIcon />
                 শপিং শুরু করুন
                 <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href="#categories"
+              </Link>
+              <Link
+                to="/categories"
                 className="inline-flex items-center gap-2 bg-background text-foreground px-7 py-3.5 rounded-xl text-sm font-semibold border border-border hover:bg-muted transition-colors"
               >
                 ক্যাটাগরি দেখুন
-              </a>
+              </Link>
             </div>
           </div>
 
