@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { ShoppingCart, Heart, Star, Minus, Plus, ChevronDown, ChevronUp, Check, Truck, RotateCcw, Shield } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ShoppingCart, Heart, Star, Minus, Plus, ChevronDown, ChevronUp, Check, Truck, RotateCcw, Shield, Zap } from "lucide-react";
 import { getProductBySlug, getRelatedProducts, type Product } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
@@ -34,6 +34,7 @@ const ProductDetail = () => {
 const ProductDetailContent = ({ product }: { product: Product }) => {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
+  const navigate = useNavigate();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -50,6 +51,11 @@ const ProductDetailContent = ({ product }: { product: Product }) => {
   const handleAddToCart = () => {
     addItem(product.id, selectedVariant.id, quantity);
     setQuantity(1);
+  };
+
+  const handleBuyNow = () => {
+    addItem(product.id, selectedVariant.id, quantity);
+    navigate("/checkout");
   };
 
   const categoryLabel = {
@@ -182,14 +188,21 @@ const ProductDetailContent = ({ product }: { product: Product }) => {
                   </div>
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground h-11 px-6 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 bg-accent text-primary h-11 px-6 rounded-xl text-sm font-semibold hover:bg-accent/80 border border-primary/20 transition-colors"
                   >
                     <ShoppingCart className="h-4 w-4" />
-                    কার্টে যোগ করুন — ৳{selectedVariant.price * quantity}
+                    কার্টে যোগ করুন
+                  </button>
+                  <button
+                    onClick={handleBuyNow}
+                    className="flex-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground h-11 px-6 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
+                  >
+                    <Zap className="h-4 w-4" />
+                    এখনই কিনুন — ৳{selectedVariant.price * quantity}
                   </button>
                   <button
                     onClick={() => toggleItem(product.id)}
-                    className={`h-11 w-11 rounded-xl border flex items-center justify-center transition-colors ${
+                    className={`h-11 w-11 rounded-xl border flex items-center justify-center transition-colors shrink-0 ${
                       inWishlist ? "border-discount bg-discount/10 text-discount" : "border-border text-muted-foreground hover:border-primary"
                     }`}
                     aria-label="উইশলিস্ট"
