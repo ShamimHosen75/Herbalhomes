@@ -4,49 +4,50 @@ const features = [
   {
     icon: Leaf,
     title: "১০০% জৈব",
-    description: "সকল পণ্য প্রত্যয়িত জৈব খামার থেকে সংগ্রহ করা হয়, কোনো কৃত্রিম উপাদান নেই।",
+    description: "সকল পণ্য প্রত্যয়িত জৈব খামার থেকে সংগ্রহ করা।",
+    bg: "bg-badge-green",
   },
   {
     icon: ShieldCheck,
-    title: "ক্ষতিকর রাসায়নিক মুক্ত",
-    description: "প্যারাবেন, সালফেট এবং কৃত্রিম সুগন্ধি মুক্ত। শুধুই বিশুদ্ধ প্রকৃতি।",
+    title: "রাসায়নিক মুক্ত",
+    description: "প্যারাবেন ও সালফেট মুক্ত। শুধুই বিশুদ্ধ প্রকৃতি।",
+    bg: "bg-badge-blue",
   },
   {
     icon: Recycle,
-    title: "পরিবেশবান্ধব প্যাকেজিং",
-    description: "জৈব-বিশ্লেষ্য, পুনর্ব্যবহারযোগ্য প্যাকেজিং যা পৃথিবীর জন্যও নিরাপদ।",
+    title: "পরিবেশবান্ধব",
+    description: "জৈব-বিশ্লেষ্য ও পুনর্ব্যবহারযোগ্য প্যাকেজিং।",
+    bg: "bg-badge-orange",
   },
   {
     icon: Users,
-    title: "হাজারো গ্রাহকের বিশ্বাস",
-    description: "৫০,০০০+ সন্তুষ্ট গ্রাহক তাদের দৈনন্দিন সুস্থতায় পিউরন্যাচারাকে বিশ্বাস করেন।",
+    title: "৫০,০০০+ গ্রাহক",
+    description: "হাজারো গ্রাহকের বিশ্বাসের প্রতীক।",
+    bg: "bg-badge-pink",
   },
 ];
 
 const WhyChooseUs = () => {
   return (
-    <section id="why-us" className="py-20 md:py-28 bg-background">
+    <section id="why-us" className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-14">
-          <span className="text-sm font-medium tracking-widest uppercase text-primary">আমাদের প্রতিশ্রুতি</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            কেন পিউরন্যাচারা বেছে নেবেন
-          </h2>
-        </div>
+        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-10">
+          কেন আমাদের বেছে নেবেন
+        </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="text-center p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/30 hover:shadow-md transition-all duration-300"
+              className="text-center p-6 rounded-2xl border border-border bg-card hover:shadow-md hover:border-primary/20 transition-all duration-300"
             >
-              <div className="inline-flex items-center justify-center h-14 w-14 rounded-full bg-leaf-light mb-5">
+              <div className={`inline-flex items-center justify-center h-14 w-14 rounded-2xl ${feature.bg} mb-4`}>
                 <feature.icon className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="font-display text-lg font-semibold text-foreground mb-2">
+              <h3 className="font-bold text-foreground text-sm md:text-base mb-1.5">
                 {feature.title}
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                 {feature.description}
               </p>
             </div>

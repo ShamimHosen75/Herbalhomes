@@ -5,7 +5,7 @@ import BestSellers from "@/components/BestSellers";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
 import OfferBanner from "@/components/OfferBanner";
-import Newsletter from "@/components/Newsletter";
+import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -17,9 +17,9 @@ const Index = () => {
         <CategoriesSection />
         <BestSellers />
         <WhyChooseUs />
-        <Testimonials />
         <OfferBanner />
-        <Newsletter />
+        <Testimonials />
+        <ContactSection />
       </main>
       <Footer />
     </div>

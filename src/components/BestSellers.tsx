@@ -1,4 +1,4 @@
-import { Star, ShoppingCart, Eye } from "lucide-react";
+import { ArrowRight, ShoppingCart } from "lucide-react";
 import productSoapLavender from "@/assets/product-soap-lavender.jpg";
 import productBlackseedOil from "@/assets/product-blackseed-oil.jpg";
 import productFaceCream from "@/assets/product-face-cream.jpg";
@@ -7,83 +7,149 @@ import productCoconutOil from "@/assets/product-coconut-oil.jpg";
 import productSoapCharcoal from "@/assets/product-soap-charcoal.jpg";
 import productRosehipSerum from "@/assets/product-rosehip-serum.jpg";
 import productHerbalTea from "@/assets/product-herbal-tea.jpg";
+import categorySoap from "@/assets/category-soap.jpg";
+import categoryOils from "@/assets/category-oils.jpg";
+import categorySkincare from "@/assets/category-skincare.jpg";
+import categoryFood from "@/assets/category-food.jpg";
 
-const products = [
-  { name: "ল্যাভেন্ডার জৈব সাবান", price: 250, oldPrice: 350, rating: 4.8, reviews: 124, image: productSoapLavender, badge: "সেরা বিক্রি" },
-  { name: "কালোজিরার তেল", price: 550, oldPrice: null, rating: 4.9, reviews: 89, image: productBlackseedOil, badge: null },
-  { name: "অ্যালোভেরা ফেস ক্রিম", price: 699, oldPrice: 899, rating: 4.7, reviews: 203, image: productFaceCream, badge: "ছাড়" },
-  { name: "খাঁটি জৈব মধু", price: 450, oldPrice: null, rating: 4.9, reviews: 156, image: productHoney, badge: null },
-  { name: "ভার্জিন নারকেল তেল", price: 380, oldPrice: 499, rating: 4.6, reviews: 98, image: productCoconutOil, badge: null },
-  { name: "চারকোল ডিটক্স সাবান", price: 299, oldPrice: null, rating: 4.8, reviews: 67, image: productSoapCharcoal, badge: "নতুন" },
-  { name: "রোজহিপ ফেস সিরাম", price: 850, oldPrice: 1050, rating: 4.9, reviews: 142, image: productRosehipSerum, badge: "জনপ্রিয়" },
-  { name: "জৈব ক্যামোমিল চা", price: 350, oldPrice: null, rating: 4.7, reviews: 73, image: productHerbalTea, badge: null },
+type Product = {
+  name: string;
+  price: number;
+  oldPrice: number | null;
+  image: string;
+  badge?: string;
+};
+
+const productGroups = [
+  {
+    title: "জৈব সাবান",
+    subtitle: "প্রাকৃতিক ও হাতে তৈরি সাবান",
+    emoji: "🧼",
+    products: [
+      { name: "ল্যাভেন্ডার জৈব সাবান", price: 250, oldPrice: 350, image: productSoapLavender, badge: "সেরা" },
+      { name: "চারকোল ডিটক্স সাবান", price: 299, oldPrice: null, image: productSoapCharcoal, badge: "নতুন" },
+      { name: "অর্গানিক সোপ কালেকশন", price: 450, oldPrice: 599, image: categorySoap },
+    ] as Product[],
+  },
+  {
+    title: "প্রাকৃতিক তেল",
+    subtitle: "বিশুদ্ধ ও কোল্ড-প্রেসড",
+    emoji: "🫒",
+    products: [
+      { name: "কালোজিরার তেল", price: 550, oldPrice: null, image: productBlackseedOil },
+      { name: "ভার্জিন নারকেল তেল", price: 380, oldPrice: 499, image: productCoconutOil, badge: "ছাড়" },
+      { name: "প্রাকৃতিক তেল কালেকশন", price: 699, oldPrice: 899, image: categoryOils },
+    ] as Product[],
+  },
+  {
+    title: "ভেষজ স্কিনকেয়ার",
+    subtitle: "ত্বকের যত্নে প্রকৃতির ছোঁয়া",
+    emoji: "🌿",
+    products: [
+      { name: "অ্যালোভেরা ফেস ক্রিম", price: 699, oldPrice: 899, image: productFaceCream, badge: "ছাড়" },
+      { name: "রোজহিপ ফেস সিরাম", price: 850, oldPrice: 1050, image: productRosehipSerum, badge: "জনপ্রিয়" },
+      { name: "স্কিনকেয়ার কালেকশন", price: 999, oldPrice: 1299, image: categorySkincare },
+    ] as Product[],
+  },
+  {
+    title: "স্বাস্থ্যকর খাবার",
+    subtitle: "খাদ্য সামগ্রী",
+    emoji: "🍯",
+    products: [
+      { name: "খাঁটি জৈব মধু", price: 450, oldPrice: null, image: productHoney },
+      { name: "জৈব ক্যামোমিল চা", price: 350, oldPrice: null, image: productHerbalTea },
+      { name: "অর্গানিক ফুড কালেকশন", price: 599, oldPrice: 799, image: categoryFood, badge: "ছাড়" },
+    ] as Product[],
+  },
 ];
+
+const ProductCard = ({ product }: { product: Product }) => {
+  const discount = product.oldPrice
+    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+    : null;
+
+  return (
+    <div className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300 flex flex-col">
+      {/* Image */}
+      <div className="relative aspect-square overflow-hidden bg-muted">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+        {product.badge && (
+          <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-[11px] font-bold px-2.5 py-1 rounded-lg">
+            {product.badge}
+          </span>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="p-3.5 flex flex-col flex-1">
+        <span className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">PURENATURA</span>
+        <h3 className="font-semibold text-foreground text-sm leading-snug line-clamp-2 mb-2 flex-1">
+          {product.name}
+        </h3>
+        <div className="flex items-center gap-2 mb-3">
+          <span className="font-bold text-foreground text-base">৳{product.price}</span>
+          {product.oldPrice && (
+            <span className="text-xs text-muted-foreground line-through">৳{product.oldPrice}</span>
+          )}
+          {discount && (
+            <span className="text-xs font-bold text-discount">-{discount}%</span>
+          )}
+        </div>
+        <button className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors">
+          <ShoppingCart className="h-4 w-4" />
+          অর্ডার করুন
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const BestSellers = () => {
   return (
-    <section id="best-sellers" className="py-20 md:py-28 bg-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-14">
-          <span className="text-sm font-medium tracking-widest uppercase text-primary">সেরা পছন্দ</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            সেরা বিক্রিত পণ্য
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product) => (
-            <div
-              key={product.name}
-              className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-border/50"
-            >
-              <div className="relative aspect-square overflow-hidden bg-muted">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                {product.badge && (
-                  <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-semibold px-2.5 py-1 rounded-full">
-                    {product.badge}
-                  </span>
-                )}
-                <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-foreground/5">
-                  <button className="h-10 w-10 rounded-full bg-card shadow-md flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
-                    <Eye className="h-4 w-4" />
-                  </button>
-                  <button className="h-10 w-10 rounded-full bg-card shadow-md flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
-                    <ShoppingCart className="h-4 w-4" />
-                  </button>
+    <section id="best-sellers" className="bg-muted/50">
+      {productGroups.map((group) => (
+        <div key={group.title} className="py-12 md:py-16">
+          <div className="container mx-auto px-4">
+            {/* Group Header */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{group.emoji}</span>
+                <div>
+                  <h2 className="text-xl md:text-2xl font-bold text-foreground">{group.title}</h2>
+                  <p className="text-sm text-muted-foreground">{group.subtitle}</p>
                 </div>
               </div>
-
-              <div className="p-4">
-                <h3 className="font-medium text-foreground text-sm md:text-base leading-snug line-clamp-1">
-                  {product.name}
-                </h3>
-                <div className="flex items-center gap-1 mt-1.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-3.5 w-3.5 ${i < Math.floor(product.rating) ? "fill-warm text-warm" : "text-border"}`}
-                    />
-                  ))}
-                  <span className="text-xs text-muted-foreground ml-1">({product.reviews})</span>
-                </div>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="font-bold text-foreground">৳{product.price}</span>
-                  {product.oldPrice && (
-                    <span className="text-sm text-muted-foreground line-through">
-                      ৳{product.oldPrice}
-                    </span>
-                  )}
-                </div>
-              </div>
+              <a
+                href="#"
+                className="hidden sm:flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+              >
+                সব দেখুন <ArrowRight className="h-4 w-4" />
+              </a>
             </div>
-          ))}
+
+            {/* Products Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-5">
+              {group.products.map((product) => (
+                <ProductCard key={product.name} product={product} />
+              ))}
+            </div>
+
+            <div className="sm:hidden mt-5 text-center">
+              <a
+                href="#"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-primary"
+              >
+                আরো দেখুন <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
     </section>
   );
 };
