@@ -120,20 +120,20 @@ const ProductCard = ({ product, showRating = true }: Props) => {
         </div>
 
         {selectedVariant.stock > 0 ? (
-          <div className="flex gap-2">
-            <button
-              onClick={handleAddToCart}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-accent text-primary py-2.5 rounded-xl text-sm font-semibold hover:bg-accent/80 border border-primary/20 transition-colors"
-            >
-              <ShoppingCart className="h-4 w-4" />
-              কার্টে
-            </button>
+          <div className="flex flex-col gap-2">
             <button
               onClick={handleBuyNow}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-primary text-primary-foreground py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
+              className="w-full flex items-center justify-center gap-1.5 bg-primary text-primary-foreground py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
               <Zap className="h-4 w-4" />
               এখনই কিনুন
+            </button>
+            <button
+              onClick={handleAddToCart}
+              className="w-full flex items-center justify-center gap-1.5 bg-accent text-primary py-2 rounded-xl text-xs font-semibold hover:bg-accent/80 border border-primary/20 transition-colors"
+            >
+              <ShoppingCart className="h-3.5 w-3.5" />
+              কার্টে যোগ করুন
             </button>
           </div>
         ) : (
