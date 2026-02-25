@@ -2,22 +2,22 @@ import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Sarah M.",
-    text: "I've been using PureNatura's lavender soap for 3 months now and my skin has never felt better. Truly chemical-free and gentle!",
+    name: "সারাহ মুন্নি",
+    text: "পিউরন্যাচারার ল্যাভেন্ডার সাবান ৩ মাস ধরে ব্যবহার করছি। আমার ত্বক এত ভালো আগে কখনো ছিল না। সত্যিই রাসায়নিকমুক্ত এবং কোমল!",
     rating: 5,
-    product: "Lavender Soap",
+    product: "ল্যাভেন্ডার সাবান",
   },
   {
-    name: "James R.",
-    text: "The black seed oil is incredible quality. Cold-pressed and pure — you can really tell the difference from store-bought brands.",
+    name: "জামিল রহমান",
+    text: "কালোজিরার তেলের মান অসাধারণ। কোল্ড-প্রেসড এবং বিশুদ্ধ — বাজারের অন্যান্য ব্র্যান্ডের সাথে পার্থক্যটা স্পষ্ট বোঝা যায়।",
     rating: 5,
-    product: "Black Seed Oil",
+    product: "কালোজিরার তেল",
   },
   {
-    name: "Amira K.",
-    text: "Beautiful packaging, amazing products. The rosehip serum has transformed my skincare routine. My skin glows now!",
+    name: "আমিরা খান",
+    text: "চমৎকার প্যাকেজিং, অসাধারণ পণ্য। রোজহিপ সিরাম আমার স্কিনকেয়ার রুটিন বদলে দিয়েছে। এখন আমার ত্বক ঝলমল করে!",
     rating: 5,
-    product: "Rosehip Serum",
+    product: "রোজহিপ সিরাম",
   },
 ];
 
@@ -26,9 +26,9 @@ const Testimonials = () => {
     <section className="py-20 md:py-28 bg-secondary/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-14">
-          <span className="text-sm font-medium tracking-widest uppercase text-primary">Reviews</span>
+          <span className="text-sm font-medium tracking-widest uppercase text-primary">রিভিউ</span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            What Our Customers Say
+            আমাদের গ্রাহকরা কী বলছেন
           </h2>
         </div>
 
@@ -46,7 +46,7 @@ const Testimonials = () => {
                 ))}
               </div>
               <p className="font-semibold text-foreground">{t.name}</p>
-              <p className="text-xs text-muted-foreground">Verified Buyer — {t.product}</p>
+              <p className="text-xs text-muted-foreground">যাচাইকৃত ক্রেতা — {t.product}</p>
             </div>
           ))}
         </div>

@@ -5,14 +5,13 @@ const Footer = () => {
     <footer className="bg-foreground text-primary-foreground/80">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <Leaf className="h-6 w-6 text-primary" />
-              <span className="font-display text-xl font-bold text-primary-foreground">PureNatura</span>
+              <span className="font-display text-xl font-bold text-primary-foreground">পিউরন্যাচারা</span>
             </div>
             <p className="text-sm leading-relaxed text-primary-foreground/60">
-              Handcrafted organic products for a healthier, more sustainable lifestyle.
+              সুস্থ ও টেকসই জীবনযাপনের জন্য হাতে তৈরি জৈব পণ্য।
             </p>
             <div className="flex gap-3 mt-5">
               <a href="#" className="h-9 w-9 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors">
@@ -27,39 +26,36 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h4 className="font-display font-semibold text-primary-foreground mb-4">Quick Links</h4>
+            <h4 className="font-display font-semibold text-primary-foreground mb-4">দ্রুত লিংক</h4>
             <ul className="space-y-2.5 text-sm">
-              {["Shop All", "Best Sellers", "New Arrivals", "Gift Sets", "Sale"].map((l) => (
+              {["সকল পণ্য", "সেরা বিক্রিত", "নতুন পণ্য", "গিফট সেট", "ছাড়"].map((l) => (
                 <li key={l}><a href="#" className="hover:text-primary transition-colors">{l}</a></li>
               ))}
             </ul>
           </div>
 
-          {/* Help */}
           <div>
-            <h4 className="font-display font-semibold text-primary-foreground mb-4">Help</h4>
+            <h4 className="font-display font-semibold text-primary-foreground mb-4">সাহায্য</h4>
             <ul className="space-y-2.5 text-sm">
-              {["FAQ", "Shipping & Returns", "Track Order", "Contact Us", "Privacy Policy"].map((l) => (
+              {["সচরাচর জিজ্ঞাসা", "শিপিং ও রিটার্ন", "অর্ডার ট্র্যাক করুন", "যোগাযোগ করুন", "গোপনীয়তা নীতি"].map((l) => (
                 <li key={l}><a href="#" className="hover:text-primary transition-colors">{l}</a></li>
               ))}
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
-            <h4 className="font-display font-semibold text-primary-foreground mb-4">Contact</h4>
+            <h4 className="font-display font-semibold text-primary-foreground mb-4">যোগাযোগ</h4>
             <ul className="space-y-2.5 text-sm">
               <li>hello@purenatura.com</li>
-              <li>+1 (555) 123-4567</li>
-              <li>Mon - Fri, 9am - 6pm EST</li>
+              <li>+৮৮০ ১৭১২-৩৪৫৬৭৮</li>
+              <li>শনি - বৃহস্পতি, সকাল ৯টা - সন্ধ্যা ৬টা</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 text-center text-sm text-primary-foreground/40">
-          © 2026 PureNatura. All rights reserved.
+          © ২০২৬ পিউরন্যাচারা। সর্বস্বত্ব সংরক্ষিত।
         </div>
       </div>
     </footer>

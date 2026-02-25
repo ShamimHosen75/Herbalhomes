@@ -3,23 +3,23 @@ import { Leaf, ShieldCheck, Recycle, Users } from "lucide-react";
 const features = [
   {
     icon: Leaf,
-    title: "100% Organic",
-    description: "All products are sourced from certified organic farms with zero synthetic additives.",
+    title: "১০০% জৈব",
+    description: "সকল পণ্য প্রত্যয়িত জৈব খামার থেকে সংগ্রহ করা হয়, কোনো কৃত্রিম উপাদান নেই।",
   },
   {
     icon: ShieldCheck,
-    title: "No Harmful Chemicals",
-    description: "Free from parabens, sulfates, and artificial fragrances. Just pure nature.",
+    title: "ক্ষতিকর রাসায়নিক মুক্ত",
+    description: "প্যারাবেন, সালফেট এবং কৃত্রিম সুগন্ধি মুক্ত। শুধুই বিশুদ্ধ প্রকৃতি।",
   },
   {
     icon: Recycle,
-    title: "Eco-Friendly Packaging",
-    description: "Biodegradable, recyclable packaging that's as kind to the earth as our products.",
+    title: "পরিবেশবান্ধব প্যাকেজিং",
+    description: "জৈব-বিশ্লেষ্য, পুনর্ব্যবহারযোগ্য প্যাকেজিং যা পৃথিবীর জন্যও নিরাপদ।",
   },
   {
     icon: Users,
-    title: "Trusted by Thousands",
-    description: "Over 50,000 happy customers trust PureNatura for their daily wellness needs.",
+    title: "হাজারো গ্রাহকের বিশ্বাস",
+    description: "৫০,০০০+ সন্তুষ্ট গ্রাহক তাদের দৈনন্দিন সুস্থতায় পিউরন্যাচারাকে বিশ্বাস করেন।",
   },
 ];
 
@@ -28,9 +28,9 @@ const WhyChooseUs = () => {
     <section id="why-us" className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-14">
-          <span className="text-sm font-medium tracking-widest uppercase text-primary">Our Promise</span>
+          <span className="text-sm font-medium tracking-widest uppercase text-primary">আমাদের প্রতিশ্রুতি</span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">
-            Why Choose PureNatura
+            কেন পিউরন্যাচারা বেছে নেবেন
           </h2>
         </div>
 
