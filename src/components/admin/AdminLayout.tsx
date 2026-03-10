@@ -27,6 +27,7 @@ import { useAdmin } from "@/contexts/AdminContext";
 
 const sidebarItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/admin" },
+  { label: "Homepage", icon: Home, path: "/admin/homepage" },
   { label: "Products", icon: Package, path: "/admin/products" },
   { label: "Categories", icon: FolderOpen, path: "/admin/categories" },
   { label: "Orders", icon: ShoppingCart, path: "/admin/orders" },

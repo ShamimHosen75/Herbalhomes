@@ -101,6 +101,7 @@ const App = () => {
                   <Route path="/admin/users" element={<ProtectedAdmin><AdminUsers /></ProtectedAdmin>} />
                   <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
                   <Route path="/admin/landing-pages" element={<ProtectedAdmin><AdminLandingPages /></ProtectedAdmin>} />
+                  <Route path="/admin/homepage" element={<ProtectedAdmin><AdminHomepage /></ProtectedAdmin>} />
 
                   <Route path="/lp/:slug" element={<LandingPage />} />
                   <Route path="*" element={<NotFound />} />
