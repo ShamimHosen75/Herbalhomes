@@ -263,6 +263,7 @@ export type Database = {
       }
       product_reviews: {
         Row: {
+          approved: boolean
           author: string
           comment: string
           created_at: string
@@ -273,6 +274,7 @@ export type Database = {
           verified: boolean
         }
         Insert: {
+          approved?: boolean
           author?: string
           comment?: string
           created_at?: string
@@ -283,6 +285,7 @@ export type Database = {
           verified?: boolean
         }
         Update: {
+          approved?: boolean
           author?: string
           comment?: string
           created_at?: string

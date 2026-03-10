@@ -1,47 +1,214 @@
+import { useState, useEffect } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
-import { products } from "@/data/products";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Star, Trash2, X, Plus, Check } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+type Review = {
+  id: string;
+  product_id: string;
+  author: string;
+  rating: number;
+  comment: string;
+  date: string;
+  verified: boolean;
+  approved: boolean;
+  created_at: string;
+};
+
+type Product = { id: string; name: string };
 
 export default function AdminReviews() {
-  const allReviews = products.flatMap((p) =>
-    p.reviews.map((r) => ({ ...r, productName: p.name, productId: p.id }))
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"all" | "pending" | "approved">("all");
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ product_id: "", author: "", rating: 5, comment: "", verified: true });
+
+  const fetchReviews = async () => {
+    const { data, error } = await supabase.from("product_reviews").select("*").order("created_at", { ascending: false });
+    if (error) { toast.error("Failed to load reviews"); return; }
+    setReviews((data || []) as Review[]);
+    setLoading(false);
+  };
+
+  const fetchProducts = async () => {
+    const { data } = await supabase.from("products").select("id, name").order("name");
+    setProducts((data || []) as Product[]);
+  };
+
+  useEffect(() => { fetchReviews(); fetchProducts(); }, []);
+
+  const filtered = reviews.filter((r) => {
+    if (filter === "pending") return !r.approved;
+    if (filter === "approved") return r.approved;
+    return true;
+  });
+
+  const toggleApproval = async (review: Review) => {
+    const { error } = await supabase.from("product_reviews").update({ approved: !review.approved } as any).eq("id", review.id);
+    if (error) { toast.error("Update failed"); return; }
+    toast.success(review.approved ? "Review unapproved" : "Review approved");
+    fetchReviews();
+  };
+
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    const { error } = await supabase.from("product_reviews").delete().eq("id", deleteId);
+    if (error) { toast.error("Delete failed"); return; }
+    toast.success("Review deleted");
+    setDeleteId(null);
+    fetchReviews();
+  };
+
+  const handleCreate = async () => {
+    if (!form.product_id || !form.author || !form.comment) { toast.error("Product, author and comment are required"); return; }
+    const { error } = await supabase.from("product_reviews").insert({
+      product_id: form.product_id,
+      author: form.author,
+      rating: form.rating,
+      comment: form.comment,
+      date: new Date().toISOString().split("T")[0],
+      verified: form.verified,
+      approved: true,
+    } as any);
+    if (error) { toast.error("Create failed"); return; }
+    toast.success("Review created");
+    setOpen(false);
+    setForm({ product_id: "", author: "", rating: 5, comment: "", verified: true });
+    fetchReviews();
+  };
+
+  const getProductName = (id: string) => products.find((p) => p.id === id)?.name || id;
+
+  const renderStars = (rating: number) => (
+    <span className="flex items-center gap-0.5">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <Star key={s} className={`h-4 w-4 ${s <= rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground/30"}`} />
+      ))}
+    </span>
   );
 
   return (
     <AdminLayout>
-      <h1 className="text-2xl font-bold text-foreground mb-6">Reviews</h1>
-      <div className="bg-card rounded-xl border border-border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>PRODUCT</TableHead>
-              <TableHead>AUTHOR</TableHead>
-              <TableHead>RATING</TableHead>
-              <TableHead>COMMENT</TableHead>
-              <TableHead>DATE</TableHead>
-              <TableHead>VERIFIED</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {allReviews.slice(0, 50).map((r, i) => (
-              <TableRow key={`${r.productId}-${r.id}-${i}`}>
-                <TableCell className="font-medium max-w-[150px] truncate">{r.productName}</TableCell>
-                <TableCell>{r.author}</TableCell>
-                <TableCell>
-                  <span className="flex items-center gap-1">
-                    <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                    {r.rating}
-                  </span>
-                </TableCell>
-                <TableCell className="max-w-[250px] truncate text-muted-foreground">{r.comment}</TableCell>
-                <TableCell className="text-muted-foreground">{r.date}</TableCell>
-                <TableCell>{r.verified ? "✅" : "❌"}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-foreground">Reviews</h1>
+        <Button size="sm" onClick={() => setOpen(true)}><Plus className="h-4 w-4 mr-1" /> Add Review</Button>
       </div>
+
+      {/* Filter Tabs */}
+      <div className="flex gap-2 mb-6">
+        {(["all", "pending", "approved"] as const).map((f) => (
+          <Button
+            key={f}
+            size="sm"
+            variant={filter === f ? "default" : "outline"}
+            onClick={() => setFilter(f)}
+            className="capitalize"
+          >
+            {f}
+          </Button>
+        ))}
+      </div>
+
+      {/* Reviews List */}
+      <div className="bg-card rounded-xl border border-border divide-y divide-border">
+        {loading ? (
+          <p className="text-muted-foreground text-center py-8">Loading...</p>
+        ) : filtered.length === 0 ? (
+          <p className="text-muted-foreground text-center py-8">No reviews found</p>
+        ) : filtered.map((r) => (
+          <div key={r.id} className="p-5 flex items-start justify-between gap-4">
+            <div className="space-y-1 flex-1">
+              <div className="flex items-center gap-3 flex-wrap">
+                <span className="font-bold text-foreground">{r.author}</span>
+                {renderStars(r.rating)}
+                <Badge variant={r.approved ? "default" : "secondary"} className={r.approved ? "bg-green-100 text-green-700 hover:bg-green-100" : ""}>
+                  {r.approved ? "Approved" : "Pending"}
+                </Badge>
+              </div>
+              <p className="text-muted-foreground">{r.comment}</p>
+              <div className="flex gap-3 text-xs text-muted-foreground">
+                <span>{r.date}</span>
+                <span>•</span>
+                <span>{getProductName(r.product_id)}</span>
+              </div>
+            </div>
+            <div className="flex gap-2 shrink-0">
+              <Button variant="outline" size="sm" onClick={() => toggleApproval(r)}>
+                {r.approved ? <><X className="h-4 w-4 mr-1" /> Unapprove</> : <><Check className="h-4 w-4 mr-1" /> Approve</>}
+              </Button>
+              <Button variant="outline" size="icon" onClick={() => setDeleteId(r.id)}>
+                <Trash2 className="h-4 w-4 text-destructive" />
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Add Review Dialog */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Add Custom Review</DialogTitle></DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label className="font-semibold">Product *</Label>
+              <Select value={form.product_id} onValueChange={(v) => setForm({ ...form, product_id: v })}>
+                <SelectTrigger className="mt-1"><SelectValue placeholder="Select product" /></SelectTrigger>
+                <SelectContent>
+                  {products.map((p) => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="font-semibold">Author Name *</Label>
+              <Input className="mt-1" placeholder="Customer name" value={form.author} onChange={(e) => setForm({ ...form, author: e.target.value })} />
+            </div>
+            <div>
+              <Label className="font-semibold">Rating *</Label>
+              <div className="flex gap-1 mt-1">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <button key={s} type="button" onClick={() => setForm({ ...form, rating: s })}>
+                    <Star className={`h-6 w-6 cursor-pointer ${s <= form.rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground/30"}`} />
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <Label className="font-semibold">Comment *</Label>
+              <Textarea className="mt-1" placeholder="Review comment..." value={form.comment} onChange={(e) => setForm({ ...form, comment: e.target.value })} />
+            </div>
+            <div className="flex gap-2 justify-end">
+              <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+              <Button onClick={handleCreate}>Create Review</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation */}
+      <AlertDialog open={!!deleteId} onOpenChange={(v) => { if (!v) setDeleteId(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Review?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminLayout>
   );
 }
