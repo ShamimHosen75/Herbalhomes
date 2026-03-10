@@ -61,6 +61,7 @@ const App = () => {
 
   return (
   <QueryClientProvider client={queryClient}>
+    <DynamicThemeProvider>
     <TooltipProvider>
       <CartProvider>
         <WishlistProvider>
