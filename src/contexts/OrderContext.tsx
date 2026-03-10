@@ -117,6 +117,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
         coupon_code: params.couponCode,
         status: "pending",
         payment_method: params.paymentMethod || "cod",
+        transaction_id: params.transactionId || null,
         shipping_method: params.shippingMethod,
         address: params.address as any,
         customer_name: params.customerName,
