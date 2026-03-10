@@ -46,7 +46,7 @@ export default function LandingPage() {
   const [products, setProducts] = useState<ProductWithVariant[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
   const { toast } = useToast();
 
   useEffect(() => {
