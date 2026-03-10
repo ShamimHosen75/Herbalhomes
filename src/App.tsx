@@ -40,6 +40,7 @@ import AdminCheckoutLeads from "./pages/admin/AdminCheckoutLeads";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminLandingPages from "./pages/admin/AdminLandingPages";
+import AdminHomepage from "./pages/admin/AdminHomepage";
 import LandingPage from "./pages/LandingPage";
 import type { ReactNode } from "react";
 
