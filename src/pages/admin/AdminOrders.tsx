@@ -100,6 +100,14 @@ export default function AdminOrders() {
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>{order.customerName}</TableCell>
                   <TableCell>{order.customerPhone}</TableCell>
+                  <TableCell>
+                    <div>
+                      <Badge variant="outline" className="text-xs">{order.paymentMethod.toUpperCase()}</Badge>
+                      {order.transactionId && (
+                        <p className="text-[10px] text-muted-foreground mt-0.5 font-mono">{order.transactionId}</p>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell>৳{order.total.toLocaleString("bn-BD")}</TableCell>
                   <TableCell>
                     <Select
