@@ -105,8 +105,6 @@ export default function LandingPage() {
     addItem(product.id, variant.id, 1);
     toast({ title: "কার্টে যোগ হয়েছে" });
   };
-    toast({ title: "কার্টে যোগ হয়েছে" });
-  };
 
   return (
     <div className="min-h-screen">
