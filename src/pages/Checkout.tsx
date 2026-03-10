@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowRight, MapPin, Truck, CreditCard, Shield, Loader2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
@@ -8,6 +8,18 @@ import { shippingMethods, type ShippingAddress, type OrderItem } from "@/data/pr
 import { toast } from "@/hooks/use-toast";
 import PageLayout from "@/components/PageLayout";
 import Breadcrumb from "@/components/Breadcrumb";
+
+type PaymentMethod = {
+  id: string;
+  name: string;
+  code: string;
+  description: string;
+  instructions: string;
+  enabled: boolean;
+  require_transaction_id: boolean;
+  sort_order: number;
+  partial_delivery: boolean;
+};
 
 const Checkout = () => {
   const { getCartProducts, getSubtotal, getDiscount, appliedCoupon, clearCart, getItemCount } = useCart();
