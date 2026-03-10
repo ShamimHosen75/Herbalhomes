@@ -31,10 +31,28 @@ const Checkout = () => {
   const discount = getDiscount();
 
   const [shipping, setShipping] = useState(shippingMethods[0]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [selectedPayment, setSelectedPayment] = useState<PaymentMethod | null>(null);
+  const [transactionId, setTransactionId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const idempotencyRef = useRef<string | null>(null);
 
-  const codFee = 20;
+  // Load payment methods from database
+  useEffect(() => {
+    const loadPaymentMethods = async () => {
+      const { data } = await supabase
+        .from("payment_methods")
+        .select("*")
+        .eq("enabled", true)
+        .order("sort_order");
+      const methods = (data || []) as PaymentMethod[];
+      setPaymentMethods(methods);
+      if (methods.length > 0) setSelectedPayment(methods[0]);
+    };
+    loadPaymentMethods();
+  }, []);
+
+  const codFee = selectedPayment?.code === "cod" ? 20 : 0;
   const total = subtotal - discount + shipping.cost + codFee;
 
   const [name, setName] = useState("");
