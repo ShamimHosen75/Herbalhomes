@@ -86,9 +86,11 @@ export default function AdminOrders() {
                 <TableHead>ORDER NUMBER</TableHead>
                 <TableHead>CUSTOMER</TableHead>
                 <TableHead>PHONE</TableHead>
+                <TableHead>PAYMENT</TableHead>
                 <TableHead>TOTAL</TableHead>
                 <TableHead>STATUS</TableHead>
                 <TableHead>DATE</TableHead>
+                <TableHead className="text-right">ACTIONS</TableHead>
                 <TableHead className="text-right">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
