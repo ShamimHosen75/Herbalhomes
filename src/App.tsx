@@ -118,6 +118,7 @@ const App = () => {
         </WishlistProvider>
       </CartProvider>
     </TooltipProvider>
+    </DynamicThemeProvider>
   </QueryClientProvider>
   );
 };
