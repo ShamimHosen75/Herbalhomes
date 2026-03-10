@@ -122,6 +122,51 @@ export type Database = {
         }
         Relationships: []
       }
+      courier_settings: {
+        Row: {
+          api_base_url: string
+          api_key: string
+          api_secret: string
+          created_at: string
+          default_weight: number
+          enable_cod: boolean
+          enabled: boolean
+          id: string
+          merchant_id: string
+          pickup_address: string
+          pickup_phone: string
+          show_tracking: boolean
+        }
+        Insert: {
+          api_base_url?: string
+          api_key?: string
+          api_secret?: string
+          created_at?: string
+          default_weight?: number
+          enable_cod?: boolean
+          enabled?: boolean
+          id?: string
+          merchant_id?: string
+          pickup_address?: string
+          pickup_phone?: string
+          show_tracking?: boolean
+        }
+        Update: {
+          api_base_url?: string
+          api_key?: string
+          api_secret?: string
+          created_at?: string
+          default_weight?: number
+          enable_cod?: boolean
+          enabled?: boolean
+          id?: string
+          merchant_id?: string
+          pickup_address?: string
+          pickup_phone?: string
+          show_tracking?: boolean
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           id: string
