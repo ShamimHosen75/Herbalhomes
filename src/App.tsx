@@ -52,6 +52,7 @@ const App = () => (
       <CartProvider>
         <WishlistProvider>
           <OrderProvider>
+            <ProductsProvider>
             <AdminProvider>
               <Toaster />
               <Sonner />
