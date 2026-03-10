@@ -415,6 +415,39 @@ export type Database = {
         }
         Relationships: []
       }
+      shipping_methods: {
+        Row: {
+          active: boolean
+          base_rate: number
+          created_at: string
+          description: string
+          estimated_days: string
+          id: string
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          active?: boolean
+          base_rate?: number
+          created_at?: string
+          description?: string
+          estimated_days?: string
+          id: string
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          active?: boolean
+          base_rate?: number
+          created_at?: string
+          description?: string
+          estimated_days?: string
+          id?: string
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       shipping_zones: {
         Row: {
           active: boolean
