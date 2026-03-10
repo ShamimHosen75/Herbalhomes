@@ -39,6 +39,8 @@ import AdminPaymentMethods from "./pages/admin/AdminPaymentMethods";
 import AdminCheckoutLeads from "./pages/admin/AdminCheckoutLeads";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminLandingPages from "./pages/admin/AdminLandingPages";
+import LandingPage from "./pages/LandingPage";
 import type { ReactNode } from "react";
 
 const queryClient = new QueryClient();
