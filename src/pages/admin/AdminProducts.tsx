@@ -248,14 +248,14 @@ export default function AdminProducts() {
     setDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    deleteProduct(id);
+  const handleDelete = async (id: string) => {
+    await deleteProduct(id);
     setSelected((prev) => { const n = new Set(prev); n.delete(id); return n; });
     toast({ title: "প্রোডাক্ট ডিলিট হয়েছে!", variant: "destructive" });
   };
 
-  const handleBulkDelete = () => {
-    selected.forEach((id) => deleteProduct(id));
+  const handleBulkDelete = async () => {
+    for (const id of selected) await deleteProduct(id);
     toast({ title: `${selected.size}টি প্রোডাক্ট ডিলিট হয়েছে!`, variant: "destructive" });
     setSelected(new Set());
   };
