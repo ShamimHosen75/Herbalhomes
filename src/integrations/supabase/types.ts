@@ -415,6 +415,39 @@ export type Database = {
         }
         Relationships: []
       }
+      shipping_zones: {
+        Row: {
+          active: boolean
+          cities: string
+          created_at: string
+          delivery_time: string
+          id: string
+          name: string
+          rate: number
+          sort_order: number
+        }
+        Insert: {
+          active?: boolean
+          cities?: string
+          created_at?: string
+          delivery_time?: string
+          id: string
+          name: string
+          rate?: number
+          sort_order?: number
+        }
+        Update: {
+          active?: boolean
+          cities?: string
+          created_at?: string
+          delivery_time?: string
+          id?: string
+          name?: string
+          rate?: number
+          sort_order?: number
+        }
+        Relationships: []
+      }
       sliders: {
         Row: {
           active: boolean
