@@ -383,10 +383,12 @@ const Checkout = () => {
                       <span className="text-muted-foreground">ডেলিভারি</span>
                       <span className="text-foreground">৳{shipping.cost}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">COD ফি</span>
-                      <span className="text-foreground">৳{codFee}</span>
-                    </div>
+                    {codFee > 0 && (
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">COD ফি</span>
+                        <span className="text-foreground">৳{codFee}</span>
+                      </div>
+                    )}
                     <div className="border-t border-border pt-2 flex justify-between">
                       <span className="font-bold text-foreground">সর্বমোট</span>
                       <span className="font-bold text-foreground text-lg">৳{total}</span>
