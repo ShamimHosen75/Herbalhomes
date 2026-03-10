@@ -86,9 +86,11 @@ export default function AdminOrders() {
                 <TableHead>ORDER NUMBER</TableHead>
                 <TableHead>CUSTOMER</TableHead>
                 <TableHead>PHONE</TableHead>
+                <TableHead>PAYMENT</TableHead>
                 <TableHead>TOTAL</TableHead>
                 <TableHead>STATUS</TableHead>
                 <TableHead>DATE</TableHead>
+                <TableHead className="text-right">ACTIONS</TableHead>
                 <TableHead className="text-right">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
@@ -98,6 +100,14 @@ export default function AdminOrders() {
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>{order.customerName}</TableCell>
                   <TableCell>{order.customerPhone}</TableCell>
+                  <TableCell>
+                    <div>
+                      <Badge variant="outline" className="text-xs">{order.paymentMethod.toUpperCase()}</Badge>
+                      {order.transactionId && (
+                        <p className="text-[10px] text-muted-foreground mt-0.5 font-mono">{order.transactionId}</p>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell>৳{order.total.toLocaleString("bn-BD")}</TableCell>
                   <TableCell>
                     <Select
@@ -159,8 +169,11 @@ export default function AdminOrders() {
                 <div><span className="text-muted-foreground">Phone:</span> {viewOrder.customerPhone}</div>
                 {viewOrder.customerEmail && <div className="col-span-2"><span className="text-muted-foreground">Email:</span> {viewOrder.customerEmail}</div>}
                 <div className="col-span-2"><span className="text-muted-foreground">Address:</span> {typeof viewOrder.address === "string" ? viewOrder.address : viewOrder.address?.address || "—"}</div>
-                <div><span className="text-muted-foreground">Payment:</span> {viewOrder.paymentMethod}</div>
+                <div><span className="text-muted-foreground">Payment:</span> <Badge variant="outline" className="text-xs">{viewOrder.paymentMethod.toUpperCase()}</Badge></div>
                 <div><span className="text-muted-foreground">Shipping:</span> {viewOrder.shippingMethod}</div>
+                {viewOrder.transactionId && (
+                  <div className="col-span-2"><span className="text-muted-foreground">Transaction ID:</span> <span className="font-mono font-medium">{viewOrder.transactionId}</span></div>
+                )}
               </div>
               <div className="border-t border-border pt-3">
                 <p className="font-medium mb-2">Items</p>

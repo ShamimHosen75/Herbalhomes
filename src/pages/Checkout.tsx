@@ -167,6 +167,7 @@ const Checkout = () => {
         couponCode: appliedCoupon?.code,
         shippingMethod: shipping.name,
         paymentMethod: selectedPayment?.code || "cod",
+        transactionId: transactionId || undefined,
         address: shippingAddress,
         customerName: name,
         customerPhone: phone,

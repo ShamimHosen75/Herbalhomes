@@ -15,6 +15,7 @@ type OrderContextType = {
     couponCode?: string;
     shippingMethod: string;
     paymentMethod?: string;
+    transactionId?: string;
     address: ShippingAddress;
     customerName: string;
     customerPhone: string;
@@ -59,7 +60,8 @@ function dbOrderToApp(row: any, items: any[], history: any[]): Order {
       date: h.date,
       note: h.note,
     })),
-    paymentMethod: row.payment_method as "cod",
+    paymentMethod: row.payment_method,
+    transactionId: row.transaction_id,
     shippingMethod: row.shipping_method,
     trackingNumber: row.tracking_number,
     courierName: row.courier_name,
@@ -115,6 +117,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
         coupon_code: params.couponCode,
         status: "pending",
         payment_method: params.paymentMethod || "cod",
+        transaction_id: params.transactionId || null,
         shipping_method: params.shippingMethod,
         address: params.address as any,
         customer_name: params.customerName,

@@ -265,6 +265,7 @@ export type Database = {
           subtotal: number
           total: number
           tracking_number: string | null
+          transaction_id: string | null
         }
         Insert: {
           address?: Json
@@ -284,6 +285,7 @@ export type Database = {
           subtotal?: number
           total?: number
           tracking_number?: string | null
+          transaction_id?: string | null
         }
         Update: {
           address?: Json
@@ -303,6 +305,7 @@ export type Database = {
           subtotal?: number
           total?: number
           tracking_number?: string | null
+          transaction_id?: string | null
         }
         Relationships: []
       }
