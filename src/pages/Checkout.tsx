@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowRight, MapPin, Truck, CreditCard, Shield, Loader2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useOrders } from "@/contexts/OrderContext";
+import { supabase } from "@/integrations/supabase/client";
 import { shippingMethods, type ShippingAddress, type OrderItem } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
 import PageLayout from "@/components/PageLayout";
