@@ -1,7 +1,30 @@
-import { Instagram, Facebook, Twitter } from "lucide-react";
+import { Instagram, Facebook, Twitter, Youtube } from "lucide-react";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
+  const { settings } = useSiteSettings();
+
+  const storeName = settings.store_name || "Herbal Homes";
+  const storeLogo = settings.logo || logo;
+  const email = settings.email || "hello@herbalhomes.com";
+  const phone = settings.phone || "+৮৮০ ১৭১২-৩৪৫৬৭৮";
+
+  const socialLinks = [
+    { icon: Facebook, url: settings.facebook },
+    { icon: Instagram, url: settings.instagram },
+    { icon: Youtube, url: settings.youtube },
+  ].filter((s) => s.url);
+
+  // Fallback if no social links configured
+  const socialIcons = socialLinks.length > 0
+    ? socialLinks
+    : [
+        { icon: Instagram, url: "#" },
+        { icon: Facebook, url: "#" },
+        { icon: Twitter, url: "#" },
+      ];
+
   return (
     <footer className="bg-foreground text-primary-foreground/80">
       <div className="container mx-auto px-4 py-12 md:py-16">
@@ -9,16 +32,16 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src={logo} alt="হার্বাল হোমস লোগো" className="h-9 w-auto brightness-0 invert" />
-              <span className="font-bold text-lg text-primary-foreground uppercase">Herbal Homes</span>
+              <img src={storeLogo} alt={`${storeName} লোগো`} className="h-9 w-auto brightness-0 invert" />
+              <span className="font-bold text-lg text-primary-foreground uppercase">{storeName}</span>
             </div>
             <p className="text-sm leading-relaxed text-primary-foreground/50 mb-5">
               সুস্থ ও টেকসই জীবনযাপনের জন্য হাতে তৈরি জৈব পণ্য।
             </p>
             <div className="flex gap-2">
-              {[Instagram, Facebook, Twitter].map((Icon, i) => (
-                <a key={i} href="#" className="h-9 w-9 rounded-xl bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors">
-                  <Icon className="h-4 w-4" />
+              {socialIcons.map((item, i) => (
+                <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" className="h-9 w-9 rounded-xl bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors">
+                  <item.icon className="h-4 w-4" />
                 </a>
               ))}
             </div>
@@ -45,15 +68,15 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-primary-foreground mb-4 text-sm">যোগাযোগ</h4>
             <ul className="space-y-2.5 text-sm text-primary-foreground/50">
-              <li>hello@herbalhomes.com</li>
-              <li>+৮৮০ ১৭১২-৩৪৫৬৭৮</li>
-              <li>শনি - বৃহস্পতি, সকাল ৯টা - সন্ধ্যা ৬টা</li>
+              <li>{email}</li>
+              <li>{phone}</li>
+              <li>{settings.address || "শনি - বৃহস্পতি, সকাল ৯টা - সন্ধ্যা ৬টা"}</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-primary-foreground/10 mt-10 pt-6 text-center text-xs text-primary-foreground/30">
-          © ২০২৬ হার্বাল হোমস। সর্বস্বত্ব সংরক্ষিত।
+          © ২০২৬ {storeName}। সর্বস্বত্ব সংরক্ষিত।
         </div>
       </div>
     </footer>
