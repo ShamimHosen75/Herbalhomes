@@ -109,6 +109,7 @@ const App = () => {
       </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
