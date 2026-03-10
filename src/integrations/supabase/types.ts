@@ -167,6 +167,48 @@ export type Database = {
         }
         Relationships: []
       }
+      landing_pages: {
+        Row: {
+          active: boolean
+          cards: Json
+          created_at: string
+          cta_text: string
+          hero_image: string
+          hero_subtitle: string
+          hero_title: string
+          id: string
+          product_ids: string[]
+          slug: string
+          title: string
+        }
+        Insert: {
+          active?: boolean
+          cards?: Json
+          created_at?: string
+          cta_text?: string
+          hero_image?: string
+          hero_subtitle?: string
+          hero_title?: string
+          id?: string
+          product_ids?: string[]
+          slug: string
+          title: string
+        }
+        Update: {
+          active?: boolean
+          cards?: Json
+          created_at?: string
+          cta_text?: string
+          hero_image?: string
+          hero_subtitle?: string
+          hero_title?: string
+          id?: string
+          product_ids?: string[]
+          slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           id: string

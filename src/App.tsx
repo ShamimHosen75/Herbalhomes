@@ -39,6 +39,8 @@ import AdminPaymentMethods from "./pages/admin/AdminPaymentMethods";
 import AdminCheckoutLeads from "./pages/admin/AdminCheckoutLeads";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminLandingPages from "./pages/admin/AdminLandingPages";
+import LandingPage from "./pages/LandingPage";
 import type { ReactNode } from "react";
 
 const queryClient = new QueryClient();
@@ -97,7 +99,9 @@ const App = () => {
                   <Route path="/admin/payment-methods" element={<ProtectedAdmin><AdminPaymentMethods /></ProtectedAdmin>} />
                   <Route path="/admin/users" element={<ProtectedAdmin><AdminUsers /></ProtectedAdmin>} />
                   <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
+                  <Route path="/admin/landing-pages" element={<ProtectedAdmin><AdminLandingPages /></ProtectedAdmin>} />
 
+                  <Route path="/lp/:slug" element={<LandingPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </BrowserRouter>
