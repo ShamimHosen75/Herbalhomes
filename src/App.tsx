@@ -10,6 +10,7 @@ import { OrderProvider } from "@/contexts/OrderContext";
 import { AdminProvider, useAdmin } from "@/contexts/AdminContext";
 import { ProductsProvider } from "@/contexts/ProductsContext";
 import { CategoriesProvider } from "@/contexts/CategoriesContext";
+import { seedDatabaseIfEmpty } from "@/lib/supabase-helpers";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import Categories from "./pages/Categories";
