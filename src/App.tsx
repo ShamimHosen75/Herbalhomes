@@ -100,6 +100,7 @@ const App = () => {
                   <Route path="/admin/courier" element={<ProtectedAdmin><AdminCourier /></ProtectedAdmin>} />
                   <Route path="/admin/payment-methods" element={<ProtectedAdmin><AdminPaymentMethods /></ProtectedAdmin>} />
                   <Route path="/admin/users" element={<ProtectedAdmin><AdminUsers /></ProtectedAdmin>} />
+                  <Route path="/admin/customers" element={<ProtectedAdmin><AdminCustomers /></ProtectedAdmin>} />
                   <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
                   <Route path="/admin/landing-pages" element={<ProtectedAdmin><AdminLandingPages /></ProtectedAdmin>} />
                   <Route path="/admin/homepage" element={<ProtectedAdmin><AdminHomepage /></ProtectedAdmin>} />
