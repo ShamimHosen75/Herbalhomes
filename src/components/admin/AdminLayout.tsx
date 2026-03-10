@@ -37,6 +37,7 @@ const sidebarItems = [
   { label: "Reviews", icon: MessageSquare, path: "/admin/reviews" },
   { label: "Courier", icon: Truck, path: "/admin/courier" },
   { label: "Payment Methods", icon: CreditCard, path: "/admin/payment-methods" },
+  { label: "Landing Pages", icon: FileText, path: "/admin/landing-pages" },
   { label: "Users", icon: Users, path: "/admin/users" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },
 ];
