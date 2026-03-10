@@ -60,20 +60,20 @@ export default function AdminCategories() {
   const [editItem, setEditItem] = useState<Category | null>(null);
   const { toast } = useToast();
 
-  const handleSave = (cat: Category) => {
+  const handleSave = async (cat: Category) => {
     if (editItem) {
-      updateCategory(editItem.id, cat);
+      await updateCategory(editItem.id, cat);
       toast({ title: "ক্যাটেগরি আপডেট হয়েছে!" });
     } else {
-      addCategory(cat);
+      await addCategory(cat);
       toast({ title: "নতুন ক্যাটেগরি যোগ হয়েছে!" });
     }
     setDialogOpen(false);
     setEditItem(null);
   };
 
-  const handleDelete = (id: string) => {
-    deleteCategory(id);
+  const handleDelete = async (id: string) => {
+    await deleteCategory(id);
     toast({ title: "ক্যাটেগরি ডিলিট হয়েছে!", variant: "destructive" });
   };
 
