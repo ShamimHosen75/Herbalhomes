@@ -100,7 +100,7 @@ const Checkout = () => {
         notes: "",
       };
 
-      const order = createOrder({
+      const order = await createOrder({
         items: orderItems,
         subtotal,
         discount,
