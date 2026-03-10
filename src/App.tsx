@@ -93,6 +93,7 @@ const App = () => (
                 </Routes>
               </BrowserRouter>
             </AdminProvider>
+            </ProductsProvider>
           </OrderProvider>
         </WishlistProvider>
       </CartProvider>
