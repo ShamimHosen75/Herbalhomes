@@ -3,6 +3,7 @@ import { ShoppingCart, Menu, X, Search, User, Heart, Phone } from "lucide-react"
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
@@ -11,8 +12,13 @@ const Navbar = () => {
   const location = useLocation();
   const { getItemCount } = useCart();
   const { getCount: getWishlistCount } = useWishlist();
+  const { settings } = useSiteSettings();
   const cartCount = getItemCount();
   const wishlistCount = getWishlistCount();
+
+  const storeName = settings.store_name || "Herbal Homes";
+  const storeLogo = settings.logo || logo;
+  const phoneNumber = settings.phone || "+8801712345678";
 
   const navLinks = [
     { label: "হোমপেজ", href: "/" },
@@ -27,9 +33,9 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-[72px] gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={logo} alt="হার্বাল হোমস লোগো" className="h-9 md:h-11 w-auto" />
+            <img src={storeLogo} alt={`${storeName} লোগো`} className="h-9 md:h-11 w-auto" />
             <span className="hidden sm:block font-bold text-lg md:text-xl text-foreground uppercase tracking-wide">
-              Herbal Homes
+              {storeName}
             </span>
           </Link>
 
@@ -76,7 +82,7 @@ const Navbar = () => {
             </Link>
 
             <a
-              href="tel:+8801712345678"
+              href={`tel:${phoneNumber}`}
               className="hidden lg:flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
               <Phone className="h-4 w-4" />
@@ -117,7 +123,7 @@ const Navbar = () => {
               </Link>
             ))}
             <a
-              href="tel:+8801712345678"
+              href={`tel:${phoneNumber}`}
               className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl text-sm font-semibold mt-2"
             >
               <Phone className="h-4 w-4" />

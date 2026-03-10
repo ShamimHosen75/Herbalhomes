@@ -1,10 +1,11 @@
 import { MessageCircle } from "lucide-react";
-
-const WHATSAPP_NUMBER = "8801XXXXXXXXX"; // আপনার নম্বর দিন
-const WHATSAPP_MESSAGE = "আসসালামু আলাইকুম! আমি আপনাদের পণ্য সম্পর্কে জানতে চাই।";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export default function WhatsAppButton() {
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+  const { settings } = useSiteSettings();
+  const whatsappNumber = settings.whatsapp || "8801XXXXXXXXX";
+  const message = "আসসালামু আলাইকুম! আমি আপনাদের পণ্য সম্পর্কে জানতে চাই।";
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
     <a
