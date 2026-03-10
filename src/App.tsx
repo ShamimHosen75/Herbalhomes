@@ -38,6 +38,7 @@ import AdminCourier from "./pages/admin/AdminCourier";
 import AdminPaymentMethods from "./pages/admin/AdminPaymentMethods";
 import AdminCheckoutLeads from "./pages/admin/AdminCheckoutLeads";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminLandingPages from "./pages/admin/AdminLandingPages";
 import AdminHomepage from "./pages/admin/AdminHomepage";
