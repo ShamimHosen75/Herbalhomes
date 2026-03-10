@@ -62,7 +62,7 @@ export default function LandingPage() {
 
       const pageData: LandingPageData = {
         ...data,
-        cards: Array.isArray(data.cards) ? data.cards as HowToCard[] : JSON.parse(data.cards as string || "[]"),
+        cards: Array.isArray(data.cards) ? (data.cards as unknown as HowToCard[]) : JSON.parse(data.cards as string || "[]"),
       };
       setPage(pageData);
 
