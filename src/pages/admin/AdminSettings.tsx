@@ -48,6 +48,7 @@ export default function AdminSettings() {
         .upsert({ key, value, updated_at: new Date().toISOString() } as any, { onConflict: "key" });
     }
     toast.success("সেটিংস সেভ হয়েছে!");
+    invalidateSiteSettings();
     setSaving(false);
   };
 
