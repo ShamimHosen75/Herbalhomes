@@ -140,6 +140,11 @@ const Checkout = () => {
         customerPhone: phone,
       });
 
+      // Mark lead as converted
+      if (leadIdRef.current) {
+        await supabase.from("checkout_leads").update({ status: "converted" } as any).eq("id", leadIdRef.current);
+      }
+
       clearCart();
       navigate(`/order-success/${order.id}`);
     } catch {
