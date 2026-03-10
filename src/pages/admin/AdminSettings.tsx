@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { invalidateSiteSettings } from "@/hooks/useSiteSettings";
 
 type SettingsMap = Record<string, string>;
 
@@ -47,6 +48,7 @@ export default function AdminSettings() {
         .upsert({ key, value, updated_at: new Date().toISOString() } as any, { onConflict: "key" });
     }
     toast.success("সেটিংস সেভ হয়েছে!");
+    invalidateSiteSettings();
     setSaving(false);
   };
 
