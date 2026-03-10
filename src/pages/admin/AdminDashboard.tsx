@@ -19,6 +19,7 @@ const statusColors: Record<string, string> = {
 
 export default function AdminDashboard() {
   const { orders } = useOrders();
+  const { products } = useProducts();
   const pendingOrders = orders.filter((o) => o.status === "pending");
   const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
   const uniqueCustomers = new Set(orders.map((o) => o.customerPhone)).size;
