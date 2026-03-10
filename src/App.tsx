@@ -49,7 +49,12 @@ function ProtectedAdmin({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-const App = () => (
+const App = () => {
+  useEffect(() => {
+    seedDatabaseIfEmpty();
+  }, []);
+
+  return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <CartProvider>
