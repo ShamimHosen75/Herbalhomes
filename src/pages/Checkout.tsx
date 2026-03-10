@@ -104,6 +104,7 @@ const Checkout = () => {
     if (!phone.trim()) e.phone = "ফোন নম্বর প্রয়োজন";
     else if (!/^01[3-9]\d{8}$/.test(phone.replace(/\s|-/g, ""))) e.phone = "সঠিক ফোন নম্বর দিন (01xxxxxxxxx)";
     if (!deliveryAddress.trim()) e.deliveryAddress = "ঠিকানা প্রয়োজন";
+    if (selectedPayment?.require_transaction_id && !transactionId.trim()) e.transactionId = "ট্রানজেকশন আইডি প্রয়োজন";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
