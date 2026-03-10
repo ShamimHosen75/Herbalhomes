@@ -25,7 +25,16 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminCategories from "./pages/admin/AdminCategories";
-import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
+import AdminCoupons from "./pages/admin/AdminCoupons";
+import AdminShippingMethods from "./pages/admin/AdminShippingMethods";
+import AdminShippingZones from "./pages/admin/AdminShippingZones";
+import AdminSlider from "./pages/admin/AdminSlider";
+import AdminReviews from "./pages/admin/AdminReviews";
+import AdminCourier from "./pages/admin/AdminCourier";
+import AdminPaymentMethods from "./pages/admin/AdminPaymentMethods";
+import AdminCheckoutLeads from "./pages/admin/AdminCheckoutLeads";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminSettings from "./pages/admin/AdminSettings";
 import type { ReactNode } from "react";
 
 const queryClient = new QueryClient();
@@ -67,16 +76,16 @@ const App = () => (
                   <Route path="/admin/products" element={<ProtectedAdmin><AdminProducts /></ProtectedAdmin>} />
                   <Route path="/admin/categories" element={<ProtectedAdmin><AdminCategories /></ProtectedAdmin>} />
                   <Route path="/admin/orders" element={<ProtectedAdmin><AdminOrders /></ProtectedAdmin>} />
-                  <Route path="/admin/checkout-leads" element={<ProtectedAdmin><AdminPlaceholder title="Checkout Leads" /></ProtectedAdmin>} />
-                  <Route path="/admin/slider" element={<ProtectedAdmin><AdminPlaceholder title="Slider" /></ProtectedAdmin>} />
-                  <Route path="/admin/coupons" element={<ProtectedAdmin><AdminPlaceholder title="Coupons" /></ProtectedAdmin>} />
-                  <Route path="/admin/shipping-zones" element={<ProtectedAdmin><AdminPlaceholder title="Shipping Zones" /></ProtectedAdmin>} />
-                  <Route path="/admin/shipping-methods" element={<ProtectedAdmin><AdminPlaceholder title="Shipping Methods" /></ProtectedAdmin>} />
-                  <Route path="/admin/reviews" element={<ProtectedAdmin><AdminPlaceholder title="Reviews" /></ProtectedAdmin>} />
-                  <Route path="/admin/courier" element={<ProtectedAdmin><AdminPlaceholder title="Courier" /></ProtectedAdmin>} />
-                  <Route path="/admin/payment-methods" element={<ProtectedAdmin><AdminPlaceholder title="Payment Methods" /></ProtectedAdmin>} />
-                  <Route path="/admin/users" element={<ProtectedAdmin><AdminPlaceholder title="Users" /></ProtectedAdmin>} />
-                  <Route path="/admin/settings" element={<ProtectedAdmin><AdminPlaceholder title="Settings" /></ProtectedAdmin>} />
+                  <Route path="/admin/checkout-leads" element={<ProtectedAdmin><AdminCheckoutLeads /></ProtectedAdmin>} />
+                  <Route path="/admin/slider" element={<ProtectedAdmin><AdminSlider /></ProtectedAdmin>} />
+                  <Route path="/admin/coupons" element={<ProtectedAdmin><AdminCoupons /></ProtectedAdmin>} />
+                  <Route path="/admin/shipping-zones" element={<ProtectedAdmin><AdminShippingZones /></ProtectedAdmin>} />
+                  <Route path="/admin/shipping-methods" element={<ProtectedAdmin><AdminShippingMethods /></ProtectedAdmin>} />
+                  <Route path="/admin/reviews" element={<ProtectedAdmin><AdminReviews /></ProtectedAdmin>} />
+                  <Route path="/admin/courier" element={<ProtectedAdmin><AdminCourier /></ProtectedAdmin>} />
+                  <Route path="/admin/payment-methods" element={<ProtectedAdmin><AdminPaymentMethods /></ProtectedAdmin>} />
+                  <Route path="/admin/users" element={<ProtectedAdmin><AdminUsers /></ProtectedAdmin>} />
+                  <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
 
                   <Route path="*" element={<NotFound />} />
                 </Routes>
