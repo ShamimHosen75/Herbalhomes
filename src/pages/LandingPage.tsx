@@ -102,15 +102,9 @@ export default function LandingPage() {
   const handleBuyNow = (product: ProductWithVariant) => {
     const variant = product.variants[0];
     if (!variant) return;
-    addToCart({
-      productId: product.id,
-      variantId: variant.id,
-      name: product.name,
-      variantLabel: variant.label,
-      price: variant.price,
-      image: product.images?.[0] || "",
-      quantity: 1,
-    });
+    addItem(product.id, variant.id, 1);
+    toast({ title: "কার্টে যোগ হয়েছে" });
+  };
     toast({ title: "কার্টে যোগ হয়েছে" });
   };
 
