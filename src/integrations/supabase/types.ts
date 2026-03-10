@@ -167,6 +167,39 @@ export type Database = {
         }
         Relationships: []
       }
+      homepage_sections: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          layout: string
+          section_type: string
+          sort_order: number
+          subtitle: string
+          title: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id: string
+          layout?: string
+          section_type: string
+          sort_order?: number
+          subtitle?: string
+          title?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          layout?: string
+          section_type?: string
+          sort_order?: number
+          subtitle?: string
+          title?: string
+        }
+        Relationships: []
+      }
       landing_pages: {
         Row: {
           active: boolean
