@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const PageLayout = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen flex flex-col">
     <Navbar />
     <main className="flex-1">{children}</main>
     <Footer />
+    <WhatsAppButton />
   </div>
 );
 
