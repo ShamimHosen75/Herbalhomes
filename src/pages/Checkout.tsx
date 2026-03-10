@@ -166,6 +166,7 @@ const Checkout = () => {
         total,
         couponCode: appliedCoupon?.code,
         shippingMethod: shipping.name,
+        paymentMethod: selectedPayment?.code || "cod",
         address: shippingAddress,
         customerName: name,
         customerPhone: phone,
