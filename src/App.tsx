@@ -7,6 +7,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { OrderProvider } from "@/contexts/OrderContext";
 import { AdminProvider, useAdmin } from "@/contexts/AdminContext";
+import { ProductsProvider } from "@/contexts/ProductsContext";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import Categories from "./pages/Categories";
@@ -51,6 +52,7 @@ const App = () => (
       <CartProvider>
         <WishlistProvider>
           <OrderProvider>
+            <ProductsProvider>
             <AdminProvider>
               <Toaster />
               <Sonner />
@@ -91,6 +93,7 @@ const App = () => (
                 </Routes>
               </BrowserRouter>
             </AdminProvider>
+            </ProductsProvider>
           </OrderProvider>
         </WishlistProvider>
       </CartProvider>
