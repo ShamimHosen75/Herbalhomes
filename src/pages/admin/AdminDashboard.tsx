@@ -2,7 +2,7 @@ import { Package, FolderOpen, ShoppingCart, TrendingUp, DollarSign, Users } from
 import { Link } from "react-router-dom";
 import { useOrders } from "@/contexts/OrderContext";
 import { useProducts } from "@/contexts/ProductsContext";
-import { categories } from "@/data/products";
+import { useCategories } from "@/contexts/CategoriesContext";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +20,7 @@ const statusColors: Record<string, string> = {
 export default function AdminDashboard() {
   const { orders } = useOrders();
   const { products } = useProducts();
+  const { categories } = useCategories();
   const pendingOrders = orders.filter((o) => o.status === "pending");
   const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
   const uniqueCustomers = new Set(orders.map((o) => o.customerPhone)).size;
