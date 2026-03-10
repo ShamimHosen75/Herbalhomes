@@ -231,12 +231,12 @@ export default function AdminProducts() {
     setSelected(next);
   };
 
-  const handleSave = (product: Product) => {
+  const handleSave = async (product: Product) => {
     if (editProduct) {
-      updateProduct(editProduct.id, product);
+      await updateProduct(editProduct.id, product);
       toast({ title: "প্রোডাক্ট আপডেট হয়েছে!" });
     } else {
-      addProduct(product);
+      await addProduct(product);
       toast({ title: "নতুন প্রোডাক্ট যোগ হয়েছে!" });
     }
     setDialogOpen(false);
