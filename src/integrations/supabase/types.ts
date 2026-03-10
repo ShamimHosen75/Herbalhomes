@@ -373,6 +373,42 @@ export type Database = {
         }
         Relationships: []
       }
+      sliders: {
+        Row: {
+          active: boolean
+          created_at: string
+          cta_link: string
+          cta_text: string
+          heading: string
+          id: string
+          image_url: string
+          sort_order: number
+          text: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          cta_link?: string
+          cta_text?: string
+          heading?: string
+          id: string
+          image_url?: string
+          sort_order?: number
+          text?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          cta_link?: string
+          cta_text?: string
+          heading?: string
+          id?: string
+          image_url?: string
+          sort_order?: number
+          text?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
