@@ -106,7 +106,8 @@ export type Order = {
   couponCode?: string;
   status: OrderStatus;
   statusHistory: { status: OrderStatus; date: string; note?: string }[];
-  paymentMethod: "cod";
+  paymentMethod: string;
+  transactionId?: string;
   shippingMethod: string;
   trackingNumber?: string;
   courierName?: string;
