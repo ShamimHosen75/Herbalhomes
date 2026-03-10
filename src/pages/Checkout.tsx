@@ -193,6 +193,7 @@ const Checkout = () => {
                         type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        onBlur={saveCheckoutLead}
                         placeholder="01XXXXXXXXX"
                         className={`w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 ${
                           errors.phone ? "ring-2 ring-discount/50" : "focus:ring-primary/30"
