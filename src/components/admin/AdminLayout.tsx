@@ -20,6 +20,7 @@ import {
   X,
   UserCheck,
   FileText,
+  Home,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAdmin } from "@/contexts/AdminContext";
