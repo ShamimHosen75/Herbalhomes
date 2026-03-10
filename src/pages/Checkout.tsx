@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowRight, MapPin, Truck, CreditCard, Shield, Loader2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
@@ -8,6 +8,18 @@ import { shippingMethods, type ShippingAddress, type OrderItem } from "@/data/pr
 import { toast } from "@/hooks/use-toast";
 import PageLayout from "@/components/PageLayout";
 import Breadcrumb from "@/components/Breadcrumb";
+
+type PaymentMethod = {
+  id: string;
+  name: string;
+  code: string;
+  description: string;
+  instructions: string;
+  enabled: boolean;
+  require_transaction_id: boolean;
+  sort_order: number;
+  partial_delivery: boolean;
+};
 
 const Checkout = () => {
   const { getCartProducts, getSubtotal, getDiscount, appliedCoupon, clearCart, getItemCount } = useCart();
@@ -19,10 +31,28 @@ const Checkout = () => {
   const discount = getDiscount();
 
   const [shipping, setShipping] = useState(shippingMethods[0]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [selectedPayment, setSelectedPayment] = useState<PaymentMethod | null>(null);
+  const [transactionId, setTransactionId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const idempotencyRef = useRef<string | null>(null);
 
-  const codFee = 20;
+  // Load payment methods from database
+  useEffect(() => {
+    const loadPaymentMethods = async () => {
+      const { data } = await supabase
+        .from("payment_methods")
+        .select("*")
+        .eq("enabled", true)
+        .order("sort_order");
+      const methods = (data || []) as PaymentMethod[];
+      setPaymentMethods(methods);
+      if (methods.length > 0) setSelectedPayment(methods[0]);
+    };
+    loadPaymentMethods();
+  }, []);
+
+  const codFee = selectedPayment?.code === "cod" ? 20 : 0;
   const total = subtotal - discount + shipping.cost + codFee;
 
   const [name, setName] = useState("");
@@ -74,6 +104,7 @@ const Checkout = () => {
     if (!phone.trim()) e.phone = "ফোন নম্বর প্রয়োজন";
     else if (!/^01[3-9]\d{8}$/.test(phone.replace(/\s|-/g, ""))) e.phone = "সঠিক ফোন নম্বর দিন (01xxxxxxxxx)";
     if (!deliveryAddress.trim()) e.deliveryAddress = "ঠিকানা প্রয়োজন";
+    if (selectedPayment?.require_transaction_id && !transactionId.trim()) e.transactionId = "ট্রানজেকশন আইডি প্রয়োজন";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -135,6 +166,7 @@ const Checkout = () => {
         total,
         couponCode: appliedCoupon?.code,
         shippingMethod: shipping.name,
+        paymentMethod: selectedPayment?.code || "cod",
         address: shippingAddress,
         customerName: name,
         customerPhone: phone,
@@ -263,16 +295,57 @@ const Checkout = () => {
                     <CreditCard className="h-5 w-5 text-primary" />
                     <h3 className="font-bold text-foreground">পেমেন্ট পদ্ধতি</h3>
                   </div>
-                  <label className="flex items-center justify-between p-4 rounded-xl border border-primary bg-accent cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <input type="radio" checked readOnly className="h-4 w-4 text-primary" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">ক্যাশ অন ডেলিভারি (COD)</p>
-                        <p className="text-xs text-muted-foreground">পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন</p>
-                      </div>
+                  <div className="space-y-2">
+                    {paymentMethods.length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-4">কোনো পেমেন্ট পদ্ধতি পাওয়া যায়নি</p>
+                    ) : paymentMethods.map((method) => (
+                      <label
+                        key={method.id}
+                        className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-colors ${
+                          selectedPayment?.id === method.id ? "border-primary bg-accent" : "border-border hover:border-primary/50"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="radio"
+                            name="payment"
+                            checked={selectedPayment?.id === method.id}
+                            onChange={() => { setSelectedPayment(method); setTransactionId(""); }}
+                            className="h-4 w-4 text-primary focus:ring-primary/30"
+                          />
+                          <div>
+                            <p className="text-sm font-medium text-foreground">{method.name}</p>
+                            <p className="text-xs text-muted-foreground">{method.description}</p>
+                          </div>
+                        </div>
+                        {method.code === "cod" && <span className="text-xs text-muted-foreground">+৳20 ফি</span>}
+                      </label>
+                    ))}
+                  </div>
+
+                  {/* Instructions & Transaction ID */}
+                  {selectedPayment && selectedPayment.instructions && (
+                    <div className="mt-3 p-3 rounded-lg bg-muted text-xs text-muted-foreground">
+                      {selectedPayment.instructions}
                     </div>
-                    <span className="text-xs text-muted-foreground">+৳{codFee} ফি</span>
-                  </label>
+                  )}
+                  {selectedPayment?.require_transaction_id && (
+                    <div className="mt-3">
+                      <label className="block text-sm font-medium text-foreground mb-1.5">
+                        ট্রানজেকশন আইডি <span className="text-discount">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={transactionId}
+                        onChange={(e) => setTransactionId(e.target.value)}
+                        placeholder="আপনার ট্রানজেকশন আইডি দিন"
+                        className={`w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 ${
+                          errors.transactionId ? "ring-2 ring-discount/50" : "focus:ring-primary/30"
+                        }`}
+                      />
+                      {errors.transactionId && <p className="text-xs text-discount mt-1">{errors.transactionId}</p>}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -310,10 +383,12 @@ const Checkout = () => {
                       <span className="text-muted-foreground">ডেলিভারি</span>
                       <span className="text-foreground">৳{shipping.cost}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">COD ফি</span>
-                      <span className="text-foreground">৳{codFee}</span>
-                    </div>
+                    {codFee > 0 && (
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">COD ফি</span>
+                        <span className="text-foreground">৳{codFee}</span>
+                      </div>
+                    )}
                     <div className="border-t border-border pt-2 flex justify-between">
                       <span className="font-bold text-foreground">সর্বমোট</span>
                       <span className="font-bold text-foreground text-lg">৳{total}</span>
