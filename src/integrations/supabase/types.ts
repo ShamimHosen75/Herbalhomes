@@ -306,6 +306,45 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_methods: {
+        Row: {
+          code: string
+          created_at: string
+          description: string
+          enabled: boolean
+          id: string
+          instructions: string
+          name: string
+          partial_delivery: boolean
+          require_transaction_id: boolean
+          sort_order: number
+        }
+        Insert: {
+          code?: string
+          created_at?: string
+          description?: string
+          enabled?: boolean
+          id: string
+          instructions?: string
+          name: string
+          partial_delivery?: boolean
+          require_transaction_id?: boolean
+          sort_order?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string
+          enabled?: boolean
+          id?: string
+          instructions?: string
+          name?: string
+          partial_delivery?: boolean
+          require_transaction_id?: boolean
+          sort_order?: number
+        }
+        Relationships: []
+      }
       product_reviews: {
         Row: {
           approved: boolean
