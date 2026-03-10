@@ -293,16 +293,57 @@ const Checkout = () => {
                     <CreditCard className="h-5 w-5 text-primary" />
                     <h3 className="font-bold text-foreground">পেমেন্ট পদ্ধতি</h3>
                   </div>
-                  <label className="flex items-center justify-between p-4 rounded-xl border border-primary bg-accent cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <input type="radio" checked readOnly className="h-4 w-4 text-primary" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">ক্যাশ অন ডেলিভারি (COD)</p>
-                        <p className="text-xs text-muted-foreground">পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন</p>
-                      </div>
+                  <div className="space-y-2">
+                    {paymentMethods.length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-4">কোনো পেমেন্ট পদ্ধতি পাওয়া যায়নি</p>
+                    ) : paymentMethods.map((method) => (
+                      <label
+                        key={method.id}
+                        className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-colors ${
+                          selectedPayment?.id === method.id ? "border-primary bg-accent" : "border-border hover:border-primary/50"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="radio"
+                            name="payment"
+                            checked={selectedPayment?.id === method.id}
+                            onChange={() => { setSelectedPayment(method); setTransactionId(""); }}
+                            className="h-4 w-4 text-primary focus:ring-primary/30"
+                          />
+                          <div>
+                            <p className="text-sm font-medium text-foreground">{method.name}</p>
+                            <p className="text-xs text-muted-foreground">{method.description}</p>
+                          </div>
+                        </div>
+                        {method.code === "cod" && <span className="text-xs text-muted-foreground">+৳20 ফি</span>}
+                      </label>
+                    ))}
+                  </div>
+
+                  {/* Instructions & Transaction ID */}
+                  {selectedPayment && selectedPayment.instructions && (
+                    <div className="mt-3 p-3 rounded-lg bg-muted text-xs text-muted-foreground">
+                      {selectedPayment.instructions}
                     </div>
-                    <span className="text-xs text-muted-foreground">+৳{codFee} ফি</span>
-                  </label>
+                  )}
+                  {selectedPayment?.require_transaction_id && (
+                    <div className="mt-3">
+                      <label className="block text-sm font-medium text-foreground mb-1.5">
+                        ট্রানজেকশন আইডি <span className="text-discount">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={transactionId}
+                        onChange={(e) => setTransactionId(e.target.value)}
+                        placeholder="আপনার ট্রানজেকশন আইডি দিন"
+                        className={`w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 ${
+                          errors.transactionId ? "ring-2 ring-discount/50" : "focus:ring-primary/30"
+                        }`}
+                      />
+                      {errors.transactionId && <p className="text-xs text-discount mt-1">{errors.transactionId}</p>}
+                    </div>
+                  )}
                 </div>
               </div>
 
