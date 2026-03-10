@@ -1,13 +1,21 @@
+import { useState } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useOrders } from "@/contexts/OrderContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { OrderStatus } from "@/data/products";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Search, RefreshCw, MoreHorizontal, Eye, Trash2 } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import type { OrderStatus, Order } from "@/data/products";
 
 const statusColors: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
   confirmed: "bg-blue-100 text-blue-800",
+  processing: "bg-orange-100 text-orange-800",
   packed: "bg-purple-100 text-purple-800",
   shipped: "bg-indigo-100 text-indigo-800",
   delivered: "bg-green-100 text-green-800",
@@ -19,44 +27,87 @@ const allStatuses: OrderStatus[] = ["pending", "confirmed", "packed", "shipped",
 
 export default function AdminOrders() {
   const { orders, updateOrderStatus } = useOrders();
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [viewOrder, setViewOrder] = useState<Order | null>(null);
+
+  const filtered = orders.filter((o) => {
+    const matchesSearch =
+      !search ||
+      o.id.toLowerCase().includes(search.toLowerCase()) ||
+      o.customerName.toLowerCase().includes(search.toLowerCase()) ||
+      o.customerPhone.includes(search);
+    const matchesStatus = statusFilter === "all" || o.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <AdminLayout>
-      <h1 className="text-2xl font-bold text-foreground mb-6">Orders</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-foreground">Orders</h1>
+        <Button variant="outline" size="sm" onClick={() => window.location.reload()}>
+          <RefreshCw className="w-4 h-4 mr-2" /> Refresh
+        </Button>
+      </div>
+
+      {/* Search & Filter */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            placeholder="Search by order ID, customer, or phone..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder="All Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            {allStatuses.map((s) => (
+              <SelectItem key={s} value={s}>
+                {s.charAt(0).toUpperCase() + s.slice(1)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       <div className="bg-card rounded-xl border border-border">
-        {orders.length === 0 ? (
-          <p className="p-8 text-center text-muted-foreground">No orders yet</p>
+        {filtered.length === 0 ? (
+          <p className="p-8 text-center text-muted-foreground">No orders found</p>
         ) : (
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ORDER ID</TableHead>
+                <TableHead>ORDER NUMBER</TableHead>
                 <TableHead>CUSTOMER</TableHead>
                 <TableHead>PHONE</TableHead>
-                <TableHead>ADDRESS</TableHead>
-                <TableHead>AMOUNT</TableHead>
+                <TableHead>TOTAL</TableHead>
                 <TableHead>STATUS</TableHead>
                 <TableHead>DATE</TableHead>
+                <TableHead className="text-right">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {orders.map((order) => (
+              {filtered.map((order) => (
                 <TableRow key={order.id}>
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>{order.customerName}</TableCell>
                   <TableCell>{order.customerPhone}</TableCell>
-                  <TableCell className="max-w-[200px] truncate">
-                    {typeof order.address === "string" ? order.address : order.address?.address || "—"}
-                  </TableCell>
                   <TableCell>৳{order.total.toLocaleString("bn-BD")}</TableCell>
                   <TableCell>
                     <Select
                       value={order.status}
                       onValueChange={(val) => updateOrderStatus(order.id, val as OrderStatus)}
                     >
-                      <SelectTrigger className="w-32 h-8 text-xs">
-                        <SelectValue />
+                      <SelectTrigger className="w-32 h-8 text-xs border-0 p-0">
+                        <Badge variant="secondary" className={`${statusColors[order.status]} text-xs cursor-pointer`}>
+                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        </Badge>
                       </SelectTrigger>
                       <SelectContent>
                         {allStatuses.map((s) => (
@@ -74,12 +125,75 @@ export default function AdminOrders() {
                       year: "numeric", month: "short", day: "numeric",
                     })}
                   </TableCell>
+                  <TableCell className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal className="w-4 h-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => setViewOrder(order)}>
+                          <Eye className="w-4 h-4 mr-2" /> View Details
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         )}
       </div>
+
+      {/* Order Detail Dialog */}
+      <Dialog open={!!viewOrder} onOpenChange={(open) => !open && setViewOrder(null)}>
+        <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Order {viewOrder?.id}</DialogTitle>
+          </DialogHeader>
+          {viewOrder && (
+            <div className="space-y-4 text-sm">
+              <div className="grid grid-cols-2 gap-2">
+                <div><span className="text-muted-foreground">Customer:</span> {viewOrder.customerName}</div>
+                <div><span className="text-muted-foreground">Phone:</span> {viewOrder.customerPhone}</div>
+                {viewOrder.customerEmail && <div className="col-span-2"><span className="text-muted-foreground">Email:</span> {viewOrder.customerEmail}</div>}
+                <div className="col-span-2"><span className="text-muted-foreground">Address:</span> {typeof viewOrder.address === "string" ? viewOrder.address : viewOrder.address?.address || "—"}</div>
+                <div><span className="text-muted-foreground">Payment:</span> {viewOrder.paymentMethod}</div>
+                <div><span className="text-muted-foreground">Shipping:</span> {viewOrder.shippingMethod}</div>
+              </div>
+              <div className="border-t border-border pt-3">
+                <p className="font-medium mb-2">Items</p>
+                {viewOrder.items.map((item, i) => (
+                  <div key={i} className="flex justify-between py-1">
+                    <span>{item.name} {item.variantLabel && `(${item.variantLabel})`} × {item.quantity}</span>
+                    <span>৳{(item.price * item.quantity).toLocaleString("bn-BD")}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="border-t border-border pt-3 space-y-1">
+                <div className="flex justify-between"><span>Subtotal</span><span>৳{viewOrder.subtotal.toLocaleString("bn-BD")}</span></div>
+                {viewOrder.discount > 0 && <div className="flex justify-between text-green-600"><span>Discount</span><span>-৳{viewOrder.discount.toLocaleString("bn-BD")}</span></div>}
+                <div className="flex justify-between"><span>Shipping</span><span>৳{viewOrder.shippingCost.toLocaleString("bn-BD")}</span></div>
+                {viewOrder.codFee > 0 && <div className="flex justify-between"><span>COD Fee</span><span>৳{viewOrder.codFee.toLocaleString("bn-BD")}</span></div>}
+                <div className="flex justify-between font-bold text-base border-t border-border pt-2"><span>Total</span><span>৳{viewOrder.total.toLocaleString("bn-BD")}</span></div>
+              </div>
+              <div className="border-t border-border pt-3">
+                <p className="font-medium mb-2">Status History</p>
+                {viewOrder.statusHistory.map((h, i) => (
+                  <div key={i} className="flex items-center gap-2 py-1 text-xs">
+                    <Badge variant="secondary" className={`${statusColors[h.status]} text-xs`}>
+                      {h.status.charAt(0).toUpperCase() + h.status.slice(1)}
+                    </Badge>
+                    <span className="text-muted-foreground">{new Date(h.date).toLocaleString()}</span>
+                    {h.note && <span>— {h.note}</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 }
