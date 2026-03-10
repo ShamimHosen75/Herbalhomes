@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowRight, MapPin, Truck, CreditCard, Shield, Loader2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useOrders } from "@/contexts/OrderContext";
+import { supabase } from "@/integrations/supabase/client";
 import { shippingMethods, type ShippingAddress, type OrderItem } from "@/data/products";
 import { toast } from "@/hooks/use-toast";
 import PageLayout from "@/components/PageLayout";
@@ -29,6 +30,31 @@ const Checkout = () => {
   const [deliveryAddress, setDeliveryAddress] = useState("");
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const leadIdRef = useRef<string | null>(null);
+
+  // Save checkout lead when user fills phone
+  const saveCheckoutLead = useCallback(async () => {
+    if (!phone.trim() || !name.trim()) return;
+    if (leadIdRef.current) return; // already saved
+    const leadId = `LEAD-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 10000)).padStart(4, "0")}`;
+    leadIdRef.current = leadId;
+    const cartItems = items.map((item) => ({
+      name: item.product.name,
+      variantLabel: item.variantLabel,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+    await supabase.from("checkout_leads").insert({
+      id: leadId,
+      customer_name: name,
+      customer_phone: phone,
+      items: cartItems as any,
+      items_count: items.length,
+      total,
+      address: deliveryAddress,
+      status: "new",
+    } as any);
+  }, [name, phone, deliveryAddress, items, total]);
 
   if (items.length === 0) {
     return (
@@ -114,6 +140,11 @@ const Checkout = () => {
         customerPhone: phone,
       });
 
+      // Mark lead as converted
+      if (leadIdRef.current) {
+        await supabase.from("checkout_leads").update({ status: "converted" } as any).eq("id", leadIdRef.current);
+      }
+
       clearCart();
       navigate(`/order-success/${order.id}`);
     } catch {
@@ -167,6 +198,7 @@ const Checkout = () => {
                         type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        onBlur={saveCheckoutLead}
                         placeholder="01XXXXXXXXX"
                         className={`w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 ${
                           errors.phone ? "ring-2 ring-discount/50" : "focus:ring-primary/30"

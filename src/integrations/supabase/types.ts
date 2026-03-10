@@ -44,6 +44,42 @@ export type Database = {
         }
         Relationships: []
       }
+      checkout_leads: {
+        Row: {
+          address: string
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          id: string
+          items: Json
+          items_count: number
+          status: string
+          total: number
+        }
+        Insert: {
+          address?: string
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          id: string
+          items?: Json
+          items_count?: number
+          status?: string
+          total?: number
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          items?: Json
+          items_count?: number
+          status?: string
+          total?: number
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           id: string
