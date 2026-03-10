@@ -30,6 +30,31 @@ const Checkout = () => {
   const [deliveryAddress, setDeliveryAddress] = useState("");
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const leadIdRef = useRef<string | null>(null);
+
+  // Save checkout lead when user fills phone
+  const saveCheckoutLead = useCallback(async () => {
+    if (!phone.trim() || !name.trim()) return;
+    if (leadIdRef.current) return; // already saved
+    const leadId = `LEAD-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 10000)).padStart(4, "0")}`;
+    leadIdRef.current = leadId;
+    const cartItems = items.map((item) => ({
+      name: item.product.name,
+      variantLabel: item.variantLabel,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+    await supabase.from("checkout_leads").insert({
+      id: leadId,
+      customer_name: name,
+      customer_phone: phone,
+      items: cartItems as any,
+      items_count: items.length,
+      total,
+      address: deliveryAddress,
+      status: "new",
+    } as any);
+  }, [name, phone, deliveryAddress, items, total]);
 
   if (items.length === 0) {
     return (
