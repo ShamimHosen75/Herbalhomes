@@ -38,6 +38,7 @@ import AdminCourier from "./pages/admin/AdminCourier";
 import AdminPaymentMethods from "./pages/admin/AdminPaymentMethods";
 import AdminCheckoutLeads from "./pages/admin/AdminCheckoutLeads";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminLandingPages from "./pages/admin/AdminLandingPages";
 import AdminHomepage from "./pages/admin/AdminHomepage";
@@ -99,6 +100,7 @@ const App = () => {
                   <Route path="/admin/courier" element={<ProtectedAdmin><AdminCourier /></ProtectedAdmin>} />
                   <Route path="/admin/payment-methods" element={<ProtectedAdmin><AdminPaymentMethods /></ProtectedAdmin>} />
                   <Route path="/admin/users" element={<ProtectedAdmin><AdminUsers /></ProtectedAdmin>} />
+                  <Route path="/admin/customers" element={<ProtectedAdmin><AdminCustomers /></ProtectedAdmin>} />
                   <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
                   <Route path="/admin/landing-pages" element={<ProtectedAdmin><AdminLandingPages /></ProtectedAdmin>} />
                   <Route path="/admin/homepage" element={<ProtectedAdmin><AdminHomepage /></ProtectedAdmin>} />

@@ -12,10 +12,15 @@ export default function AdminLogin() {
   const { login } = useAdmin();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (login(email, password)) {
+    setLoading(true);
+    const success = await login(email, password);
+    setLoading(false);
+    if (success) {
       navigate("/admin");
     } else {
       setError("Invalid email or password");
@@ -55,7 +60,7 @@ export default function AdminLogin() {
             />
           </div>
           {error && <p className="text-sm text-destructive">{error}</p>}
-          <Button type="submit" className="w-full">Sign In</Button>
+          <Button type="submit" className="w-full" disabled={loading}>{loading ? "Signing in..." : "Sign In"}</Button>
         </form>
       </div>
     </div>
