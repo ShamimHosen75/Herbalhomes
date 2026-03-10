@@ -2,7 +2,7 @@ import { Package, FolderOpen, ShoppingCart, TrendingUp, DollarSign, Users } from
 import { Link } from "react-router-dom";
 import { useOrders } from "@/contexts/OrderContext";
 import { useProducts } from "@/contexts/ProductsContext";
-import { categories } from "@/data/products";
+import { useCategories } from "@/contexts/CategoriesContext";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
