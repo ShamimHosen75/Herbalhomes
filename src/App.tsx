@@ -95,6 +95,7 @@ const App = () => (
                 </Routes>
               </BrowserRouter>
             </AdminProvider>
+            </CategoriesProvider>
             </ProductsProvider>
           </OrderProvider>
         </WishlistProvider>
