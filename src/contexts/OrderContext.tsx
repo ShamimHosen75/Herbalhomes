@@ -15,6 +15,7 @@ type OrderContextType = {
     couponCode?: string;
     shippingMethod: string;
     paymentMethod?: string;
+    transactionId?: string;
     address: ShippingAddress;
     customerName: string;
     customerPhone: string;
