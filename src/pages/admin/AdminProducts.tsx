@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useProducts } from "@/contexts/ProductsContext";
 import { categories, type Product, type ProductVariant } from "@/data/products";
@@ -7,10 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, X } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Upload, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const badgeOptions = ["", "নতুন", "সেরা", "ছাড়", "জনপ্রিয়"] as const;
@@ -203,7 +204,32 @@ export default function AdminProducts() {
   const { products, addProduct, updateProduct, deleteProduct } = useProducts();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
+  const [search, setSearch] = useState("");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const fileRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  const filtered = products.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase()) ||
+    p.category.toLowerCase().includes(search.toLowerCase()) ||
+    p.variants.some((v) => v.sku.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  const allSelected = filtered.length > 0 && filtered.every((p) => selected.has(p.id));
+
+  const toggleAll = () => {
+    if (allSelected) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(filtered.map((p) => p.id)));
+    }
+  };
+
+  const toggleOne = (id: string) => {
+    const next = new Set(selected);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    setSelected(next);
+  };
 
   const handleSave = (product: Product) => {
     if (editProduct) {
@@ -224,62 +250,172 @@ export default function AdminProducts() {
 
   const handleDelete = (id: string) => {
     deleteProduct(id);
+    setSelected((prev) => { const n = new Set(prev); n.delete(id); return n; });
     toast({ title: "প্রোডাক্ট ডিলিট হয়েছে!", variant: "destructive" });
+  };
+
+  const handleBulkDelete = () => {
+    selected.forEach((id) => deleteProduct(id));
+    toast({ title: `${selected.size}টি প্রোডাক্ট ডিলিট হয়েছে!`, variant: "destructive" });
+    setSelected(new Set());
+  };
+
+  const handleCsvImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const text = evt.target?.result as string;
+        const lines = text.split("\n").filter(Boolean);
+        if (lines.length < 2) return;
+        const headers = lines[0].split(",").map((h) => h.trim().toLowerCase());
+        let count = 0;
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].split(",").map((c) => c.trim());
+          const get = (key: string) => cols[headers.indexOf(key)] || "";
+          const name = get("name");
+          if (!name) continue;
+          const product: Product = {
+            id: `p-csv-${Date.now()}-${i}`,
+            slug: get("slug") || name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""),
+            name,
+            shortDesc: get("short_desc") || get("shortdesc") || "",
+            description: get("description") || "",
+            ingredients: get("ingredients") || "",
+            benefits: [],
+            usage: get("usage") || "",
+            images: get("image") ? [get("image")] : [],
+            category: get("category") || "",
+            brand: get("brand") || "Herbal Homes",
+            tags: [],
+            variants: [{
+              id: `v-csv-${Date.now()}-${i}`,
+              label: get("variant") || "Default",
+              price: parseFloat(get("price")) || 0,
+              oldPrice: parseFloat(get("old_price")) || null,
+              stock: parseInt(get("stock")) || 0,
+              sku: get("sku") || "",
+            }],
+            reviews: [],
+            rating: 0,
+            reviewCount: 0,
+            relatedIds: [],
+            faq: [],
+            metaTitle: name,
+            metaDesc: get("short_desc") || "",
+          };
+          addProduct(product);
+          count++;
+        }
+        toast({ title: `${count}টি প্রোডাক্ট ইমপোর্ট হয়েছে!` });
+      } catch {
+        toast({ title: "CSV ইমপোর্ট ব্যর্থ হয়েছে", variant: "destructive" });
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
   };
 
   return (
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Products ({products.length})</h1>
-        <Dialog open={dialogOpen} onOpenChange={(v) => { setDialogOpen(v); if (!v) setEditProduct(null); }}>
-          <DialogTrigger asChild>
-            <Button size="sm"><Plus className="h-4 w-4 mr-1" /> Add Product</Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>{editProduct ? "প্রোডাক্ট এডিট করুন" : "নতুন প্রোডাক্ট যোগ করুন"}</DialogTitle>
-            </DialogHeader>
-            <ProductForm
-              initial={editProduct || undefined}
-              onSave={handleSave}
-              onClose={() => { setDialogOpen(false); setEditProduct(null); }}
-            />
-          </DialogContent>
-        </Dialog>
+        <h1 className="text-2xl font-bold text-foreground">Products</h1>
+        <div className="flex gap-2">
+          <input type="file" accept=".csv" ref={fileRef} className="hidden" onChange={handleCsvImport} />
+          <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()}>
+            <Upload className="h-4 w-4 mr-1" /> Import CSV
+          </Button>
+          <Dialog open={dialogOpen} onOpenChange={(v) => { setDialogOpen(v); if (!v) setEditProduct(null); }}>
+            <DialogTrigger asChild>
+              <Button size="sm"><Plus className="h-4 w-4 mr-1" /> Add Product</Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>{editProduct ? "প্রোডাক্ট এডিট করুন" : "নতুন প্রোডাক্ট যোগ করুন"}</DialogTitle>
+              </DialogHeader>
+              <ProductForm
+                initial={editProduct || undefined}
+                onSave={handleSave}
+                onClose={() => { setDialogOpen(false); setEditProduct(null); }}
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+
+      {/* Search + bulk actions */}
+      <div className="flex items-center gap-3 mb-4">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        {selected.size > 0 && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm">
+                <Trash2 className="h-4 w-4 mr-1" /> Delete ({selected.size})
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>{selected.size}টি প্রোডাক্ট ডিলিট করবেন?</AlertDialogTitle>
+                <AlertDialogDescription>এই অ্যাকশন পূর্বাবস্থায় ফেরানো যাবে না।</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>বাতিল</AlertDialogCancel>
+                <AlertDialogAction onClick={handleBulkDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">ডিলিট</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
       </div>
 
       <div className="bg-card rounded-xl border border-border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>IMAGE</TableHead>
-              <TableHead>NAME</TableHead>
-              <TableHead>CATEGORY</TableHead>
+              <TableHead className="w-10">
+                <Checkbox checked={allSelected} onCheckedChange={toggleAll} />
+              </TableHead>
+              <TableHead>PRODUCT</TableHead>
+              <TableHead>SKU</TableHead>
               <TableHead>PRICE</TableHead>
               <TableHead>STOCK</TableHead>
-              <TableHead>BADGE</TableHead>
-              <TableHead></TableHead>
+              <TableHead>CATEGORY</TableHead>
+              <TableHead>ACTIONS</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((p) => (
-              <TableRow key={p.id}>
+            {filtered.map((p) => (
+              <TableRow key={p.id} data-state={selected.has(p.id) ? "selected" : undefined}>
                 <TableCell>
-                  {p.images[0] ? (
-                    <img src={p.images[0]} alt={p.name} className="h-10 w-10 rounded object-cover" />
-                  ) : (
-                    <div className="h-10 w-10 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">N/A</div>
-                  )}
+                  <Checkbox checked={selected.has(p.id)} onCheckedChange={() => toggleOne(p.id)} />
                 </TableCell>
-                <TableCell className="font-medium max-w-[200px] truncate">{p.name}</TableCell>
-                <TableCell className="text-muted-foreground">{p.category}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    {p.images[0] ? (
+                      <img src={p.images[0]} alt={p.name} className="h-10 w-10 rounded object-cover shrink-0" />
+                    ) : (
+                      <div className="h-10 w-10 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground shrink-0">N/A</div>
+                    )}
+                    <div className="min-w-0">
+                      <p className="font-medium truncate">{p.name}</p>
+                      {p.badge && <Badge variant="secondary" className="text-xs mt-0.5">{p.badge}</Badge>}
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="text-muted-foreground">{p.variants[0]?.sku || "—"}</TableCell>
                 <TableCell>৳{p.variants[0]?.price || 0}</TableCell>
                 <TableCell>{p.variants.reduce((s, v) => s + v.stock, 0)}</TableCell>
+                <TableCell className="text-muted-foreground">{p.category}</TableCell>
                 <TableCell>
-                  {p.badge && <Badge variant="secondary">{p.badge}</Badge>}
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-1 justify-end">
+                  <div className="flex gap-1">
                     <Button variant="ghost" size="icon" onClick={() => handleEdit(p)}>
                       <Pencil className="h-4 w-4" />
                     </Button>
@@ -292,15 +428,11 @@ export default function AdminProducts() {
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>প্রোডাক্ট ডিলিট করবেন?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            "{p.name}" ডিলিট করলে আর ফিরিয়ে আনা যাবে না।
-                          </AlertDialogDescription>
+                          <AlertDialogDescription>"{p.name}" ডিলিট করলে আর ফিরিয়ে আনা যাবে না।</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>বাতিল</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleDelete(p.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                            ডিলিট
-                          </AlertDialogAction>
+                          <AlertDialogAction onClick={() => handleDelete(p.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">ডিলিট</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -308,6 +440,13 @@ export default function AdminProducts() {
                 </TableCell>
               </TableRow>
             ))}
+            {filtered.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                  {search ? "কোনো প্রোডাক্ট পাওয়া যায়নি" : "কোনো প্রোডাক্ট নেই"}
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
