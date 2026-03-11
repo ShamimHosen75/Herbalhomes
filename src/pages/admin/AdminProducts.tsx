@@ -13,8 +13,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, X, Upload, Search, ImagePlus, Loader2 } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Upload, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import DragDropImageUpload from "@/components/admin/DragDropImageUpload";
 
 const badgeOptions = ["", "নতুন", "সেরা", "ছাড়", "জনপ্রিয়"] as const;
 
