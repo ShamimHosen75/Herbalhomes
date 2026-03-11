@@ -1,16 +1,89 @@
-import { ArrowRight, Truck, ShieldCheck, Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, Truck, ShieldCheck, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import heroPerson from "@/assets/hero-person.png";
+
+interface Slide {
+  id: string;
+  heading: string;
+  text: string;
+  image_url: string;
+  cta_text: string;
+  cta_link: string;
+  active: boolean;
+  sort_order: number;
+}
 
 interface Props {
   title?: string;
   subtitle?: string;
+  content?: any;
 }
 
 const HeroSection = (_props: Props) => {
+  const [slides, setSlides] = useState<Slide[]>([]);
+  const [current, setCurrent] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSlides = async () => {
+      const { data } = await supabase
+        .from("sliders")
+        .select("*")
+        .eq("active", true)
+        .order("sort_order");
+      setSlides((data as Slide[]) || []);
+      setLoading(false);
+    };
+    fetchSlides();
+  }, []);
+
+  // Auto-advance slides
+  useEffect(() => {
+    if (slides.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrent(prev => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  const slide = slides[current];
+
+  // Fallback to hardcoded content if no slides
+  if (loading || slides.length === 0) {
+    return (
+      <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
+        <div className="container mx-auto px-4 py-12 md:py-20">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            <div className="flex-1 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 bg-accent text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+                <Star className="h-3.5 w-3.5 fill-primary text-primary" />
+                বাংলাদেশের বিশ্বস্ত অর্গানিক শপ
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-foreground leading-tight mb-5">
+                আপনার পছন্দের{" "}<span className="text-primary">অর্গানিক পণ্য</span>{" "}এখন আপনার হাতের নাগালে
+              </h1>
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
+                জৈব সাবান, প্রাকৃতিক তেল, ভেষজ স্কিনকেয়ার ও স্বাস্থ্যকর খাবার — সবকিছু এক জায়গায়।
+              </p>
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                <Link to="/shop" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                  <ShoppingCartIcon /> শপিং শুরু করুন <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+            <div className="flex-1 relative flex justify-center">
+              <img src={heroPerson} alt="হার্বাল হোমস" className="w-72 md:w-80 lg:w-96 h-auto object-contain" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
-    
       <div className="container mx-auto px-4 py-12 md:py-20">
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
           {/* Left Content */}
@@ -21,22 +94,20 @@ const HeroSection = (_props: Props) => {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-foreground leading-tight mb-5">
-              আপনার পছন্দের{" "}
-              <span className="text-primary">অর্গানিক পণ্য</span>{" "}
-              এখন আপনার হাতের নাগালে
+              {slide.heading}
             </h1>
 
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
-              জৈব সাবান, প্রাকৃতিক তেল, ভেষজ স্কিনকেয়ার ও স্বাস্থ্যকর খাবার — সবকিছু এক জায়গায়। ক্যাশ অন ডেলিভারি ও দ্রুত হোম ডেলিভারি সুবিধা।
+              {slide.text}
             </p>
 
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
               <Link
-                to="/shop"
+                to={slide.cta_link || "/shop"}
                 className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
               >
                 <ShoppingCartIcon />
-                শপিং শুরু করুন
+                {slide.cta_text || "শপিং শুরু করুন"}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
@@ -46,16 +117,43 @@ const HeroSection = (_props: Props) => {
                 ক্যাটাগরি দেখুন
               </Link>
             </div>
+
+            {/* Slide indicators */}
+            {slides.length > 1 && (
+              <div className="flex items-center gap-3 mt-8 justify-center lg:justify-start">
+                <button onClick={() => setCurrent((current - 1 + slides.length) % slides.length)} className="p-1.5 rounded-full border border-border hover:bg-muted transition-colors">
+                  <ChevronLeft className="h-4 w-4 text-foreground" />
+                </button>
+                <div className="flex gap-2">
+                  {slides.map((_, i) => (
+                    <button key={i} onClick={() => setCurrent(i)}
+                      className={`h-2 rounded-full transition-all ${i === current ? "w-6 bg-primary" : "w-2 bg-muted-foreground/30"}`}
+                    />
+                  ))}
+                </div>
+                <button onClick={() => setCurrent((current + 1) % slides.length)} className="p-1.5 rounded-full border border-border hover:bg-muted transition-colors">
+                  <ChevronRight className="h-4 w-4 text-foreground" />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Right Image */}
           <div className="flex-1 relative flex justify-center">
             <div className="relative">
-              <img
-                src={heroPerson}
-                alt="হার্বাল হোমস প্রতিনিধি"
-                className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10"
-              />
+              {slide.image_url ? (
+                <img
+                  src={slide.image_url}
+                  alt={slide.heading}
+                  className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10 rounded-2xl"
+                />
+              ) : (
+                <img
+                  src={heroPerson}
+                  alt="হার্বাল হোমস"
+                  className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10"
+                />
+              )}
 
               {/* Floating badges */}
               <div className="absolute top-8 -right-2 md:right-0 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20">
