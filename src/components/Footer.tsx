@@ -32,7 +32,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src={storeLogo} alt={`${storeName} লোগো`} className="h-9 w-auto brightness-0 invert" />
+              <img src={storeLogo} alt={`${storeName} লোগো`} className="h-9 w-auto" />
               <span className="font-bold text-lg text-primary-foreground uppercase">{storeName}</span>
             </div>
             <p className="text-sm leading-relaxed text-primary-foreground/50 mb-5">
