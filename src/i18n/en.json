@@ -324,6 +324,10 @@
     "subtitle": "Use code {{code}} at checkout. Free delivery on orders above ৳500.",
     "cta": "View Offers"
   },
+  "bsti": {
+    "title": "BSTI Certificates",
+    "description": "All our products are BSTI certified by the Government of Bangladesh. This ensures you get 100% authentic products. Avoid counterfeit products in the market — choose BSTI certified products. Thank you."
+  },
   "common": {
     "home": "Home",
     "loading": "Loading...",
