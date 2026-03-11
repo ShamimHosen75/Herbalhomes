@@ -72,7 +72,7 @@ function ProductForm({
       ingredients: form.ingredients || "",
       benefits: benefitsInput.split(",").map((s) => s.trim()).filter(Boolean),
       usage: form.usage || "",
-      images: imagesInput.split(",").map((s) => s.trim()).filter(Boolean),
+      images,
       category: form.category || "",
       subcategory: form.subcategory,
       brand: form.brand || "Herbal Homes",
