@@ -43,7 +43,7 @@ const BestSellers = ({ title, subtitle }: Props) => {
                   </div>
                 </div>
                 <Link to={`/shop?category=${cat.slug}`} className="hidden sm:flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
-                  সব দেখুন <ArrowRight className="h-4 w-4" />
+                  {t("best_sellers.view_all")} <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-5">
