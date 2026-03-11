@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProducts } from "@/contexts/ProductsContext";
 import { useCategories } from "@/contexts/CategoriesContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import ProductCard from "@/components/ProductCard";
 
 interface Props {
