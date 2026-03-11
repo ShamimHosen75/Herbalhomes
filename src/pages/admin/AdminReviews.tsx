@@ -82,24 +82,12 @@ export default function AdminReviews() {
   const handleCreate = async () => {
     if (!form.product_id || !form.author) { toast.error("Product and author are required"); return; }
 
-    let imageUrl = "";
-    if (imageFile) {
-      setUploading(true);
-      const ext = imageFile.name.split(".").pop();
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error: upErr } = await supabase.storage.from("review-images").upload(path, imageFile);
-      if (upErr) { toast.error("Image upload failed"); setUploading(false); return; }
-      const { data: urlData } = supabase.storage.from("review-images").getPublicUrl(path);
-      imageUrl = urlData.publicUrl;
-      setUploading(false);
-    }
-
     const { error } = await supabase.from("product_reviews").insert({
       product_id: form.product_id,
       author: form.author,
       rating: form.rating,
       comment: form.comment,
-      image: imageUrl,
+      image: reviewImage,
       date: new Date().toISOString().split("T")[0],
       verified: form.verified,
       approved: true,
@@ -108,8 +96,7 @@ export default function AdminReviews() {
     toast.success("Review created");
     setOpen(false);
     setForm({ product_id: "", author: "", rating: 5, comment: "", verified: true });
-    setImageFile(null);
-    setImagePreview("");
+    setReviewImage("");
     fetchReviews();
   };
 
