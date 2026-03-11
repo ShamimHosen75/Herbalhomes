@@ -21,7 +21,7 @@ interface HomepageSection {
   active: boolean;
 }
 
-const sectionComponents: Record<string, React.ComponentType> = {
+const sectionComponents: Record<string, React.ComponentType<{ title?: string; subtitle?: string }>> = {
   hero_slider: HeroSection,
   featured_categories: CategoriesSection,
   best_sellers: BestSellers,
