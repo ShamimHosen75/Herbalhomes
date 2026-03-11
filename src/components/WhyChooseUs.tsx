@@ -27,13 +27,22 @@ const features = [
   },
 ];
 
-const WhyChooseUs = () => {
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const WhyChooseUs = ({ title, subtitle }: Props) => {
   return (
     <section id="why-us" className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-10">
-          কেন আমাদের বেছে নেবেন
+        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-2">
+          {title || "কেন আমাদের বেছে নেবেন"}
         </h2>
+        {subtitle && (
+          <p className="text-sm text-muted-foreground text-center mb-10">{subtitle}</p>
+        )}
+        {!subtitle && <div className="mb-10" />}
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {features.map((feature) => (

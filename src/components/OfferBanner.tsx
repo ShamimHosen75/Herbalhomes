@@ -1,6 +1,11 @@
 import { Gift } from "lucide-react";
 
-const OfferBanner = () => {
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const OfferBanner = ({ title, subtitle }: Props) => {
   return (
     <section className="py-14 md:py-20 bg-gradient-to-r from-primary to-[hsl(142,64%,28%)] relative overflow-hidden">
       <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-primary-foreground/5 -translate-y-1/2 translate-x-1/3" />
@@ -12,11 +17,10 @@ const OfferBanner = () => {
             <Gift className="h-7 w-7 text-primary-foreground" />
           </div>
           <h2 className="text-2xl md:text-4xl font-bold text-primary-foreground mb-3">
-            প্রথম অর্ডারে ২৫% ছাড় পান
+            {title || "প্রথম অর্ডারে ২৫% ছাড় পান"}
           </h2>
           <p className="text-primary-foreground/80 text-sm md:text-base mb-7">
-            চেকআউটে কোড <span className="font-bold text-primary-foreground bg-primary-foreground/10 px-2 py-0.5 rounded">PURENATURE25</span> ব্যবহার করুন।
-            ৫০০৳ এর উপরে অর্ডারে ফ্রি ডেলিভারি।
+            {subtitle || 'চেকআউটে কোড PURENATURE25 ব্যবহার করুন। ৫০০৳ এর উপরে অর্ডারে ফ্রি ডেলিভারি।'}
           </p>
           <a
             href="#best-sellers"

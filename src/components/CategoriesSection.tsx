@@ -8,13 +8,22 @@ const categories = [
   { name: "স্বাস্থ্যকর খাবার", slug: "food", subtitle: "খাদ্য সামগ্রী", icon: UtensilsCrossed, bg: "bg-badge-blue", color: "text-blue-500" },
 ];
 
-const CategoriesSection = () => {
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const CategoriesSection = ({ title, subtitle }: Props) => {
   return (
     <section id="categories" className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-10">
-          প্রোডাক্ট বাছাই করুন
+        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-2">
+          {title || "প্রোডাক্ট বাছাই করুন"}
         </h2>
+        {subtitle && (
+          <p className="text-sm text-muted-foreground text-center mb-10">{subtitle}</p>
+        )}
+        {!subtitle && <div className="mb-10" />}
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
           {categories.map((cat) => (
