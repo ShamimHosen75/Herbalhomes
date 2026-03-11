@@ -736,34 +736,40 @@ export type Database = {
       sliders: {
         Row: {
           active: boolean
+          banner_url: string
           created_at: string
           cta_link: string
           cta_text: string
           heading: string
           id: string
           image_url: string
+          layout: string
           sort_order: number
           text: string
         }
         Insert: {
           active?: boolean
+          banner_url?: string
           created_at?: string
           cta_link?: string
           cta_text?: string
           heading?: string
           id: string
           image_url?: string
+          layout?: string
           sort_order?: number
           text?: string
         }
         Update: {
           active?: boolean
+          banner_url?: string
           created_at?: string
           cta_link?: string
           cta_text?: string
           heading?: string
           id?: string
           image_url?: string
+          layout?: string
           sort_order?: number
           text?: string
         }
