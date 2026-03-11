@@ -47,8 +47,6 @@ function ProductForm({
   const [tagsInput, setTagsInput] = useState(initial?.tags?.join(", ") || "");
   const [benefitsInput, setBenefitsInput] = useState(initial?.benefits?.join(", ") || "");
   const [images, setImages] = useState<string[]>(initial?.images || []);
-  const [uploading, setUploading] = useState(false);
-  const imgInputRef = useRef<HTMLInputElement>(null);
 
   const update = (key: keyof Product, value: any) => setForm(prev => ({ ...prev, [key]: value }));
 
