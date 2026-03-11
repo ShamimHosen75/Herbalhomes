@@ -13,6 +13,7 @@ import { AdminProvider, useAdmin } from "@/contexts/AdminContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProductsProvider } from "@/contexts/ProductsContext";
 import { CategoriesProvider } from "@/contexts/CategoriesContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { seedDatabaseIfEmpty } from "@/lib/supabase-helpers";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
