@@ -12,6 +12,8 @@ const ITEMS_PER_PAGE = 8;
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
+  const { products } = useProducts();
+  const { categories } = useCategories();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
