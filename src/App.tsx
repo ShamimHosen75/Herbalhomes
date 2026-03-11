@@ -9,6 +9,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { OrderProvider } from "@/contexts/OrderContext";
 import { AdminProvider, useAdmin } from "@/contexts/AdminContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { ProductsProvider } from "@/contexts/ProductsContext";
 import { CategoriesProvider } from "@/contexts/CategoriesContext";
 import { seedDatabaseIfEmpty } from "@/lib/supabase-helpers";
@@ -24,6 +25,8 @@ import OrderSuccess from "./pages/OrderSuccess";
 import TrackOrder from "./pages/TrackOrder";
 import Wishlist from "./pages/Wishlist";
 import Account from "./pages/Account";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -63,6 +66,7 @@ const App = () => {
   <QueryClientProvider client={queryClient}>
     <DynamicThemeProvider>
     <TooltipProvider>
+      <AuthProvider>
       <CartProvider>
         <WishlistProvider>
           <OrderProvider>
@@ -86,6 +90,8 @@ const App = () => {
                   <Route path="/track-order" element={<TrackOrder />} />
                   <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="/account" element={<Account />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
 
                   {/* Admin routes */}
                   <Route path="/admin/login" element={<AdminLogin />} />
@@ -117,6 +123,7 @@ const App = () => {
           </OrderProvider>
         </WishlistProvider>
       </CartProvider>
+      </AuthProvider>
     </TooltipProvider>
     </DynamicThemeProvider>
   </QueryClientProvider>
