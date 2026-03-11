@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Package, User, MapPin, ShoppingCart, Clock, ChevronRight, LogOut, Save, KeyRound } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useOrders } from "@/contexts/OrderContext";
 import { Button } from "@/components/ui/button";
@@ -10,14 +11,9 @@ import PageLayout from "@/components/PageLayout";
 import Breadcrumb from "@/components/Breadcrumb";
 import { toast } from "@/hooks/use-toast";
 
-const statusLabels: Record<string, string> = {
-  pending: "অপেক্ষমাণ",
-  confirmed: "নিশ্চিত",
-  packed: "প্যাকেজড",
-  shipped: "শিপড",
-  delivered: "ডেলিভারড",
-  cancelled: "বাতিল",
-  refunded: "রিফান্ড",
+const statusLabels: Record<string, Record<string, string>> = {
+  bn: { pending: "অপেক্ষমাণ", confirmed: "নিশ্চিত", packed: "প্যাকেজড", shipped: "শিপড", delivered: "ডেলিভারড", cancelled: "বাতিল", refunded: "রিফান্ড" },
+  en: { pending: "Pending", confirmed: "Confirmed", packed: "Packed", shipped: "Shipped", delivered: "Delivered", cancelled: "Cancelled", refunded: "Refunded" },
 };
 
 const statusColors: Record<string, string> = {
@@ -33,6 +29,7 @@ const statusColors: Record<string, string> = {
 const Account = () => {
   const { user, profile, loading, signOut, updateProfile } = useAuth();
   const { orders } = useOrders();
+  const { t, language } = useLanguage();
 
   const [fullName, setFullName] = useState(profile?.full_name || "");
   const [phone, setPhone] = useState(profile?.phone || "");
@@ -43,7 +40,6 @@ const Account = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [changingPassword, setChangingPassword] = useState(false);
 
-  // Sync state when profile loads
   useState(() => {
     if (profile) {
       setFullName(profile.full_name);
@@ -69,26 +65,26 @@ const Account = () => {
     const { error } = await updateProfile({ full_name: fullName, phone, address });
     setSaving(false);
     if (error) {
-      toast({ title: "আপডেট ব্যর্থ", description: error, variant: "destructive" });
+      toast({ title: t("account.update_failed"), description: error, variant: "destructive" });
     } else {
-      toast({ title: "প্রোফাইল আপডেট হয়েছে!" });
+      toast({ title: t("account.update_success") });
     }
   };
 
   const handleSignOut = async () => {
     await signOut();
-    toast({ title: "লগআউট সফল!" });
+    toast({ title: t("account.logout_success") });
   };
 
   return (
     <PageLayout>
       <section className="bg-accent py-6">
         <div className="container mx-auto px-4">
-          <Breadcrumb items={[{ label: "আমার অ্যাকাউন্ট" }]} />
+          <Breadcrumb items={[{ label: t("account.title") }]} />
           <div className="flex items-center justify-between mt-3">
-            <h1 className="text-2xl font-bold text-foreground">আমার অ্যাকাউন্ট</h1>
+            <h1 className="text-2xl font-bold text-foreground">{t("account.title")}</h1>
             <Button variant="outline" size="sm" onClick={handleSignOut}>
-              <LogOut className="h-4 w-4 mr-1.5" /> লগআউট
+              <LogOut className="h-4 w-4 mr-1.5" /> {t("account.logout")}
             </Button>
           </div>
         </div>
@@ -96,13 +92,12 @@ const Account = () => {
 
       <section className="py-8">
         <div className="container mx-auto px-4">
-          {/* Quick Links */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
             {[
-              { icon: Package, label: "অর্ডার", href: "#orders", count: orders.length },
-              { icon: User, label: "প্রোফাইল", href: "#profile" },
-              { icon: MapPin, label: "ঠিকানা", href: "#profile" },
-              { icon: ShoppingCart, label: "ট্র্যাক অর্ডার", href: "/track-order" },
+              { icon: Package, label: t("account.orders"), href: "#orders", count: orders.length },
+              { icon: User, label: t("account.profile"), href: "#profile" },
+              { icon: MapPin, label: t("account.address"), href: "#profile" },
+              { icon: ShoppingCart, label: t("account.track_order"), href: "/track-order" },
             ].map((item) => (
               <Link
                 key={item.label}
@@ -115,87 +110,81 @@ const Account = () => {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-foreground">{item.label}</p>
-                  {item.count !== undefined && <p className="text-xs text-muted-foreground">{item.count}টি</p>}
+                  {item.count !== undefined && <p className="text-xs text-muted-foreground">{t("account.items", { count: String(item.count) })}</p>}
                 </div>
               </Link>
             ))}
           </div>
 
-          {/* Profile */}
           <div id="profile" className="bg-card rounded-2xl border border-border p-6 mb-6">
-            <h3 className="font-bold text-foreground mb-1">প্রোফাইল তথ্য</h3>
+            <h3 className="font-bold text-foreground mb-1">{t("account.profile_info")}</h3>
             <p className="text-sm text-muted-foreground mb-5">{user.email}</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">পুরো নাম</label>
-                <Input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="আপনার নাম" />
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("account.full_name")}</label>
+                <Input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder={t("account.name_placeholder")} />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">ফোন নম্বর</label>
-                <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="০১XXXXXXXXX" />
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("account.phone")}</label>
+                <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t("account.phone_placeholder")} />
               </div>
               <div className="md:col-span-2">
-                <label className="text-sm font-medium text-foreground mb-1.5 block">ঠিকানা</label>
-                <Input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="আপনার সম্পূর্ণ ঠিকানা" />
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("account.address")}</label>
+                <Input value={address} onChange={(e) => setAddress(e.target.value)} placeholder={t("account.address_placeholder")} />
               </div>
             </div>
             <Button onClick={handleSaveProfile} className="mt-4" disabled={saving}>
-              <Save className="h-4 w-4 mr-1.5" /> {saving ? "সংরক্ষণ হচ্ছে..." : "সংরক্ষণ করুন"}
+              <Save className="h-4 w-4 mr-1.5" /> {saving ? t("account.saving") : t("account.save")}
             </Button>
           </div>
 
-          {/* Change Password */}
           <div className="bg-card rounded-2xl border border-border p-6 mb-6">
             <div className="flex items-center gap-2 mb-5">
               <KeyRound className="h-5 w-5 text-primary" />
-              <h3 className="font-bold text-foreground">পাসওয়ার্ড পরিবর্তন</h3>
+              <h3 className="font-bold text-foreground">{t("account.change_password")}</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">বর্তমান পাসওয়ার্ড</label>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("account.current_password")}</label>
                 <Input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="••••••••" />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">নতুন পাসওয়ার্ড</label>
-                <Input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="কমপক্ষে ৬ অক্ষর" />
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("account.new_password")}</label>
+                <Input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder={t("signup.password_placeholder")} />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">নতুন পাসওয়ার্ড নিশ্চিত করুন</label>
-                <Input type="password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} placeholder="পাসওয়ার্ড আবার লিখুন" />
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("account.confirm_new_password")}</label>
+                <Input type="password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} placeholder={t("signup.confirm_placeholder")} />
               </div>
             </div>
             <Button
               onClick={async () => {
                 if (!currentPassword || !newPassword) {
-                  toast({ title: "সব ফিল্ড পূরণ করুন", variant: "destructive" });
+                  toast({ title: t("account.fill_all_fields"), variant: "destructive" });
                   return;
                 }
                 if (newPassword.length < 6) {
-                  toast({ title: "নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে", variant: "destructive" });
+                  toast({ title: t("account.password_min"), variant: "destructive" });
                   return;
                 }
                 if (newPassword !== confirmNewPassword) {
-                  toast({ title: "নতুন পাসওয়ার্ড মিলছে না", variant: "destructive" });
+                  toast({ title: t("account.password_mismatch"), variant: "destructive" });
                   return;
                 }
                 setChangingPassword(true);
-                // Verify current password by re-signing in
-                const { error: signInError } = await supabase.auth.signInWithPassword({
-                  email: user!.email!,
-                  password: currentPassword,
-                });
+                const { error: signInError } = await supabase.auth.signInWithPassword({ email: user!.email!, password: currentPassword });
                 if (signInError) {
                   setChangingPassword(false);
-                  toast({ title: "বর্তমান পাসওয়ার্ড সঠিক নয়", variant: "destructive" });
+                  toast({ title: t("account.wrong_password"), variant: "destructive" });
                   return;
                 }
                 const { error } = await supabase.auth.updateUser({ password: newPassword });
                 setChangingPassword(false);
                 if (error) {
-                  toast({ title: "পাসওয়ার্ড পরিবর্তন ব্যর্থ", description: error.message, variant: "destructive" });
+                  toast({ title: t("account.password_change_failed"), description: error.message, variant: "destructive" });
                 } else {
-                  toast({ title: "পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে!" });
+                  toast({ title: t("account.password_changed") });
                   setCurrentPassword("");
                   setNewPassword("");
                   setConfirmNewPassword("");
@@ -205,26 +194,21 @@ const Account = () => {
               variant="outline"
               disabled={changingPassword}
             >
-              <KeyRound className="h-4 w-4 mr-1.5" /> {changingPassword ? "পরিবর্তন হচ্ছে..." : "পাসওয়ার্ড পরিবর্তন করুন"}
+              <KeyRound className="h-4 w-4 mr-1.5" /> {changingPassword ? t("account.changing_password") : t("account.change_password_btn")}
             </Button>
           </div>
 
-          {/* Orders */}
           <div id="orders" className="bg-card rounded-2xl border border-border p-5">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-foreground">অর্ডার ইতিহাস</h3>
-              <Link to="/track-order" className="text-sm text-primary font-semibold hover:underline">
-                ট্র্যাক করুন
-              </Link>
+              <h3 className="font-bold text-foreground">{t("account.order_history")}</h3>
+              <Link to="/track-order" className="text-sm text-primary font-semibold hover:underline">{t("account.track")}</Link>
             </div>
 
             {orders.length === 0 ? (
               <div className="text-center py-8">
                 <Clock className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
-                <p className="text-sm text-muted-foreground">এখনো কোনো অর্ডার করা হয়নি।</p>
-                <Link to="/shop" className="text-sm text-primary font-semibold hover:underline mt-2 inline-block">
-                  শপিং শুরু করুন
-                </Link>
+                <p className="text-sm text-muted-foreground">{t("account.no_orders")}</p>
+                <Link to="/shop" className="text-sm text-primary font-semibold hover:underline mt-2 inline-block">{t("account.start_shopping")}</Link>
               </div>
             ) : (
               <div className="space-y-3">
@@ -242,14 +226,14 @@ const Account = () => {
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-foreground">{order.id}</p>
-                        <p className="text-xs text-muted-foreground">{new Date(order.createdAt).toLocaleDateString("bn-BD")} • {order.items.length}টি পণ্য</p>
+                        <p className="text-xs text-muted-foreground">{new Date(order.createdAt).toLocaleDateString("bn-BD")} • {t("account.items", { count: String(order.items.length) })}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="text-right">
                         <p className="text-sm font-bold text-foreground">৳{order.total}</p>
                         <span className={`text-[10px] font-medium px-2 py-0.5 rounded ${statusColors[order.status]}`}>
-                          {statusLabels[order.status]}
+                          {(statusLabels[language] || statusLabels.bn)[order.status]}
                         </span>
                       </div>
                       <ChevronRight className="h-4 w-4 text-muted-foreground" />

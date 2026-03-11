@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Leaf, ShieldCheck, Recycle, Users, Heart, Award, Star, Truck, type LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,6 +12,7 @@ const bgColors = ["bg-badge-green", "bg-badge-blue", "bg-badge-orange", "bg-badg
 
 const About = () => {
   const [pageData, setPageData] = useState<any>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     supabase.from("page_contents").select("*").eq("page_key", "about").single().then(({ data }) => {
@@ -19,15 +21,15 @@ const About = () => {
   }, []);
 
   const c = pageData?.content || {};
-  const title = pageData?.title || "আমাদের সম্পর্কে";
-  const subtitle = pageData?.subtitle || "হার্বাল হোমসের গল্প";
-  const storyTitle = c.story_title || "আমাদের যাত্রা";
+  const title = pageData?.title || t("about.title");
+  const subtitle = pageData?.subtitle || t("about.subtitle");
+  const storyTitle = c.story_title || t("about.story_title");
   const storyParagraphs = c.story_paragraphs || [
     "হার্বাল হোমস বাংলাদেশের একটি বিশ্বস্ত অর্গানিক ব্র্যান্ড যেখানে আমরা ১০০% প্রাকৃতিক ও রাসায়নিকমুক্ত পণ্য সরবরাহ করি।",
     "আমরা বিশ্বাস করি যে প্রকৃতির কাছেই সেরা সমাধান লুকিয়ে আছে।",
     "আমাদের পণ্যগুলো শুধু আপনার জন্য নয়, পরিবেশের জন্যও নিরাপদ।",
   ];
-  const valuesTitle = c.values_title || "আমাদের মূল্যবোধ";
+  const valuesTitle = c.values_title || t("about.values_title");
   const values = c.values || [
     { icon: "Leaf", title: "১০০% প্রাকৃতিক", desc: "সকল পণ্য প্রত্যয়িত জৈব উপাদান দিয়ে তৈরি।" },
     { icon: "ShieldCheck", title: "নিরাপদ ও বিশ্বস্ত", desc: "প্যারাবেন, সালফেট ও কৃত্রিম রং মুক্ত।" },
@@ -50,7 +52,7 @@ const About = () => {
         <section className="bg-accent py-10 md:py-14">
           <div className="container mx-auto px-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-              <Link to="/" className="hover:text-primary">হোম</Link>
+              <Link to="/" className="hover:text-primary">{t("about.home")}</Link>
               <ArrowRight className="h-3 w-3" />
               <span className="text-foreground font-medium">{title}</span>
             </div>
@@ -59,7 +61,6 @@ const About = () => {
           </div>
         </section>
 
-        {/* Story */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="flex flex-col lg:flex-row gap-10 items-center">
@@ -76,7 +77,6 @@ const About = () => {
           </div>
         </section>
 
-        {/* Values */}
         <section className="py-12 md:py-16 bg-muted/50">
           <div className="container mx-auto px-4">
             <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-10">{valuesTitle}</h2>
@@ -97,7 +97,6 @@ const About = () => {
           </div>
         </section>
 
-        {/* Stats */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Instagram, Facebook, Twitter, Youtube } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
 
@@ -11,6 +12,7 @@ interface FooterLink {
 
 const Footer = () => {
   const { settings } = useSiteSettings();
+  const { t } = useLanguage();
   const [footerData, setFooterData] = useState<any>(null);
 
   useEffect(() => {
@@ -44,39 +46,36 @@ const Footer = () => {
       ];
 
   const c = footerData || {};
-  const tagline = c.tagline || "সুস্থ ও টেকসই জীবনযাপনের জন্য হাতে তৈরি জৈব পণ্য।";
-  const copyright = c.copyright || `© ২০২৬ ${storeName}। সর্বস্বত্ব সংরক্ষিত।`;
+  const tagline = c.tagline || t("footer.tagline");
+  const copyright = c.copyright || t("footer.copyright", { storeName });
   const quickLinks: FooterLink[] = c.quick_links || [
-    { label: "সকল পণ্য", href: "/shop" },
-    { label: "সেরা বিক্রিত", href: "/shop" },
-    { label: "নতুন পণ্য", href: "/shop" },
-    { label: "গিফট সেট", href: "/shop" },
-    { label: "ছাড়", href: "/shop" },
+    { label: t("footer.all_products"), href: "/shop" },
+    { label: t("footer.best_selling"), href: "/shop" },
+    { label: t("footer.new_products"), href: "/shop" },
+    { label: t("footer.gift_sets"), href: "/shop" },
+    { label: t("footer.discounts"), href: "/shop" },
   ];
   const helpLinks: FooterLink[] = c.help_links || [
-    { label: "সচরাচর জিজ্ঞাসা", href: "/contact" },
-    { label: "শিপিং ও রিটার্ন", href: "/contact" },
-    { label: "অর্ডার ট্র্যাক করুন", href: "/track-order" },
-    { label: "যোগাযোগ করুন", href: "/contact" },
-    { label: "গোপনীয়তা নীতি", href: "/about" },
+    { label: t("footer.faq"), href: "/contact" },
+    { label: t("footer.shipping_returns"), href: "/contact" },
+    { label: t("footer.track_order"), href: "/track-order" },
+    { label: t("footer.contact_us"), href: "/contact" },
+    { label: t("footer.privacy_policy"), href: "/about" },
   ];
-  const quickLinksTitle = c.quick_links_title || "দ্রুত লিংক";
-  const helpLinksTitle = c.help_links_title || "সাহায্য";
-  const contactTitle = c.contact_title || "যোগাযোগ";
+  const quickLinksTitle = c.quick_links_title || t("footer.quick_links");
+  const helpLinksTitle = c.help_links_title || t("footer.help");
+  const contactTitle = c.contact_title || t("footer.contact_title");
 
   return (
     <footer className="bg-foreground text-primary-foreground/80">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
-          {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src={storeLogo} alt={`${storeName} লোগো`} className="h-9 w-auto" />
+              <img src={storeLogo} alt={`${storeName} logo`} className="h-9 w-auto" />
               <span className="font-bold text-lg text-primary-foreground uppercase">{storeName}</span>
             </div>
-            <p className="text-sm leading-relaxed text-primary-foreground/50 mb-5">
-              {tagline}
-            </p>
+            <p className="text-sm leading-relaxed text-primary-foreground/50 mb-5">{tagline}</p>
             <div className="flex gap-2">
               {socialIcons.map((item, i) => (
                 <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" className="h-9 w-9 rounded-xl bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors">

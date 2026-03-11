@@ -2,6 +2,7 @@ import { ShoppingCart, Heart, Star, Zap } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import type { Product } from "@/data/products";
 import { useState } from "react";
 
@@ -13,6 +14,7 @@ type Props = {
 const ProductCard = ({ product, showRating = true }: Props) => {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const defaultVariant = product.variants[0];
   const [selectedVariant, setSelectedVariant] = useState(defaultVariant);
@@ -64,7 +66,7 @@ const ProductCard = ({ product, showRating = true }: Props) => {
         <button
           onClick={handleWishlist}
           className="absolute bottom-3 right-3 h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center hover:bg-background transition-colors"
-          aria-label={inWishlist ? "উইশলিস্ট থেকে সরান" : "উইশলিস্টে যোগ করুন"}
+          aria-label={inWishlist ? t("common.remove_from_wishlist") : t("common.add_to_wishlist")}
         >
           <Heart className={`h-4 w-4 ${inWishlist ? "fill-discount text-discount" : "text-muted-foreground"}`} />
         </button>
@@ -90,7 +92,6 @@ const ProductCard = ({ product, showRating = true }: Props) => {
           </div>
         )}
 
-        {/* Variant selector if multiple */}
         {product.variants.length > 1 && (
           <div className="flex flex-wrap gap-1 mb-2">
             {product.variants.map((v) => (
@@ -126,14 +127,14 @@ const ProductCard = ({ product, showRating = true }: Props) => {
               className="w-full flex items-center justify-center gap-1.5 bg-primary text-primary-foreground py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
               <Zap className="h-4 w-4" />
-              এখনই কিনুন
+              {t("product.buy_now")}
             </button>
             <button
               onClick={handleAddToCart}
               className="w-full flex items-center justify-center gap-1.5 bg-accent text-primary py-2 rounded-xl text-xs font-semibold hover:bg-accent/80 border border-primary/20 transition-colors"
             >
               <ShoppingCart className="h-3.5 w-3.5" />
-              কার্টে যোগ করুন
+              {t("product.add_to_cart")}
             </button>
           </div>
         ) : (
@@ -141,7 +142,7 @@ const ProductCard = ({ product, showRating = true }: Props) => {
             disabled
             className="w-full flex items-center justify-center gap-2 bg-muted text-muted-foreground py-2.5 rounded-xl text-sm font-semibold cursor-not-allowed"
           >
-            স্টক শেষ
+            {t("product.out_of_stock")}
           </button>
         )}
       </div>

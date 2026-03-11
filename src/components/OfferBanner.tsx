@@ -1,4 +1,5 @@
 import { Gift } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
   title?: string;
@@ -7,7 +8,8 @@ interface Props {
 }
 
 const OfferBanner = ({ title, subtitle, content }: Props) => {
-  const ctaText = content?.cta_text || "অফার দেখুন";
+  const { t } = useLanguage();
+  const ctaText = content?.cta_text || t("offer.cta");
   const ctaLink = content?.cta_link || "#best-sellers";
   const couponCode = content?.coupon_code || "PURENATURE25";
 
@@ -22,10 +24,10 @@ const OfferBanner = ({ title, subtitle, content }: Props) => {
             <Gift className="h-7 w-7 text-primary-foreground" />
           </div>
           <h2 className="text-2xl md:text-4xl font-bold text-primary-foreground mb-3">
-            {title || "প্রথম অর্ডারে ২৫% ছাড় পান"}
+            {title || t("offer.title")}
           </h2>
           <p className="text-primary-foreground/80 text-sm md:text-base mb-7">
-            {subtitle || `চেকআউটে কোড ${couponCode} ব্যবহার করুন। ৫০০৳ এর উপরে অর্ডারে ফ্রি ডেলিভারি।`}
+            {subtitle || t("offer.subtitle", { code: couponCode })}
           </p>
           <a
             href={ctaLink}
