@@ -39,13 +39,14 @@ function ProductForm({
   onSave: (product: Product) => void;
   onClose: () => void;
 }) {
+  const { categories } = useCategories();
   const [form, setForm] = useState<Partial<Product>>(initial ? { ...initial } : emptyProduct());
   const [variants, setVariants] = useState<ProductVariant[]>(initial?.variants || [emptyVariant()]);
   const [tagsInput, setTagsInput] = useState(initial?.tags?.join(", ") || "");
   const [benefitsInput, setBenefitsInput] = useState(initial?.benefits?.join(", ") || "");
   const [imagesInput, setImagesInput] = useState(initial?.images?.join(", ") || "");
 
-  const update = (key: keyof Product, value: any) => setForm({ ...form, [key]: value });
+  const update = (key: keyof Product, value: any) => setForm(prev => ({ ...prev, [key]: value }));
 
   const updateVariant = (index: number, key: keyof ProductVariant, value: any) => {
     const next = [...variants];
