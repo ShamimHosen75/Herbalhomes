@@ -170,6 +170,7 @@ export type Database = {
       homepage_sections: {
         Row: {
           active: boolean
+          content: Json
           created_at: string
           id: string
           layout: string
@@ -180,6 +181,7 @@ export type Database = {
         }
         Insert: {
           active?: boolean
+          content?: Json
           created_at?: string
           id: string
           layout?: string
@@ -190,6 +192,7 @@ export type Database = {
         }
         Update: {
           active?: boolean
+          content?: Json
           created_at?: string
           id?: string
           layout?: string
