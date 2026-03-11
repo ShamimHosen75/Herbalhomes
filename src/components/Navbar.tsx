@@ -14,6 +14,7 @@ const Navbar = () => {
   const { getItemCount } = useCart();
   const { getCount: getWishlistCount } = useWishlist();
   const { settings } = useSiteSettings();
+  const { user } = useAuth();
   const cartCount = getItemCount();
   const wishlistCount = getWishlistCount();
 
