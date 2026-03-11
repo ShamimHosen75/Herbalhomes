@@ -207,6 +207,7 @@ const Account = () => {
             >
               <KeyRound className="h-4 w-4 mr-1.5" /> {changingPassword ? "পরিবর্তন হচ্ছে..." : "পাসওয়ার্ড পরিবর্তন করুন"}
             </Button>
+          </div>
 
           {/* Orders */}
           <div id="orders" className="bg-card rounded-2xl border border-border p-5">
