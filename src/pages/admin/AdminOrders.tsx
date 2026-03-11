@@ -91,7 +91,6 @@ export default function AdminOrders() {
                 <TableHead>STATUS</TableHead>
                 <TableHead>DATE</TableHead>
                 <TableHead className="text-right">ACTIONS</TableHead>
-                <TableHead className="text-right">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
