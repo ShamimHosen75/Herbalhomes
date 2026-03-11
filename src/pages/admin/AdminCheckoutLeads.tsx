@@ -159,7 +159,9 @@ export default function AdminCheckoutLeads() {
                 <TableRow key={lead.id}>
                   <TableCell className="font-medium">{lead.id}</TableCell>
                   <TableCell>{lead.customer_name}</TableCell>
-                  <TableCell>{lead.customer_phone}</TableCell>
+                  <TableCell>
+                    <a href={`tel:${lead.customer_phone}`} className="text-primary underline hover:text-primary/80">{lead.customer_phone}</a>
+                  </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="text-xs">{lead.items_count} items</Badge>
                   </TableCell>
