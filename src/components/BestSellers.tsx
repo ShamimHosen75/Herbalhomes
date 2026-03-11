@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { products } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
 import ProductCard from "@/components/ProductCard";
 
 const productGroups = [
@@ -11,6 +11,7 @@ const productGroups = [
 ];
 
 const BestSellers = () => {
+  const { products } = useProducts();
   return (
     <section id="best-sellers" className="bg-muted/50">
       {productGroups.map((group) => {
