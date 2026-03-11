@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,9 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Trash2, X, Plus, Check, ImageIcon } from "lucide-react";
+import { Star, Trash2, X, Plus, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import DragDropImageUpload from "@/components/admin/DragDropImageUpload";
 
 type Review = {
   id: string;
@@ -35,10 +36,8 @@ export default function AdminReviews() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ product_id: "", author: "", rating: 5, comment: "", verified: true });
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [reviewImage, setReviewImage] = useState("");
   const [uploading, setUploading] = useState(false);
-  const imgRef = useRef<HTMLInputElement>(null);
 
   const fetchReviews = async () => {
     const { data, error } = await supabase.from("product_reviews").select("*").order("created_at", { ascending: false });
@@ -77,33 +76,18 @@ export default function AdminReviews() {
   };
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
+    // no longer needed - handled by DragDropImageUpload
   };
 
   const handleCreate = async () => {
     if (!form.product_id || !form.author) { toast.error("Product and author are required"); return; }
-
-    let imageUrl = "";
-    if (imageFile) {
-      setUploading(true);
-      const ext = imageFile.name.split(".").pop();
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error: upErr } = await supabase.storage.from("review-images").upload(path, imageFile);
-      if (upErr) { toast.error("Image upload failed"); setUploading(false); return; }
-      const { data: urlData } = supabase.storage.from("review-images").getPublicUrl(path);
-      imageUrl = urlData.publicUrl;
-      setUploading(false);
-    }
 
     const { error } = await supabase.from("product_reviews").insert({
       product_id: form.product_id,
       author: form.author,
       rating: form.rating,
       comment: form.comment,
-      image: imageUrl,
+      image: reviewImage,
       date: new Date().toISOString().split("T")[0],
       verified: form.verified,
       approved: true,
@@ -112,8 +96,7 @@ export default function AdminReviews() {
     toast.success("Review created");
     setOpen(false);
     setForm({ product_id: "", author: "", rating: 5, comment: "", verified: true });
-    setImageFile(null);
-    setImagePreview("");
+    setReviewImage("");
     fetchReviews();
   };
 
@@ -211,28 +194,12 @@ export default function AdminReviews() {
             </div>
             <div>
               <Label className="font-semibold">Image</Label>
-              <input type="file" accept="image/*" ref={imgRef} className="hidden" onChange={handleImageSelect} />
-              {imagePreview ? (
-                <div className="mt-1 relative inline-block">
-                  <img src={imagePreview} alt="Preview" className="h-24 w-24 rounded-lg object-cover" />
-                  <button
-                    type="button"
-                    className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full h-5 w-5 flex items-center justify-center"
-                    onClick={() => { setImageFile(null); setImagePreview(""); }}
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => imgRef.current?.click()}
-                  className="mt-1 h-24 w-24 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 text-muted-foreground hover:border-primary/50 transition-colors"
-                >
-                  <ImageIcon className="h-5 w-5" />
-                  <span className="text-xs">Upload</span>
-                </button>
-              )}
+              <DragDropImageUpload
+                value={reviewImage}
+                onChange={(v) => setReviewImage(v as string)}
+                bucket="review-images"
+                previewSize="sm"
+              />
             </div>
             <div>
               <Label className="font-semibold">Comment</Label>

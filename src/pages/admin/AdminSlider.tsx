@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -10,9 +10,10 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Pencil, Trash2, Upload, Image as ImageIcon, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import DragDropImageUpload from "@/components/admin/DragDropImageUpload";
 
 type Slide = {
   id: string;
@@ -46,9 +47,6 @@ export default function AdminSlider() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<Partial<Slide>>(emptyForm());
-  const [uploading, setUploading] = useState(false);
-  const cardFileRef = useRef<HTMLInputElement>(null);
-  const bannerFileRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const fetchSlides = useCallback(async () => {
@@ -59,21 +57,6 @@ export default function AdminSlider() {
   }, []);
 
   useEffect(() => { fetchSlides(); }, [fetchSlides]);
-
-  const uploadImage = async (file: File, field: "image_url" | "banner_url") => {
-    setUploading(true);
-    const ext = file.name.split(".").pop();
-    const path = `slide-${field}-${Date.now()}.${ext}`;
-    const { error } = await supabase.storage.from("slider-images").upload(path, file);
-    if (error) {
-      toast({ title: "আপলোড ব্যর্থ", variant: "destructive" });
-      setUploading(false);
-      return;
-    }
-    const { data: urlData } = supabase.storage.from("slider-images").getPublicUrl(path);
-    setForm(prev => ({ ...prev, [field]: urlData.publicUrl }));
-    setUploading(false);
-  };
 
   const handleSave = async () => {
     if (!form.heading?.trim()) {
@@ -124,38 +107,7 @@ export default function AdminSlider() {
     setSlides((prev) => prev.map((s) => s.id === id ? { ...s, active: !current } : s));
   };
 
-  const ImageUploadBox = ({ value, field, fileRef }: { value: string; field: "image_url" | "banner_url"; fileRef: React.RefObject<HTMLInputElement> }) => (
-    <div>
-      <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadImage(f, field); }} />
-      <div className="flex items-start gap-3 mt-2">
-        <button
-          type="button"
-          onClick={() => fileRef.current?.click()}
-          className="w-32 h-24 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center gap-1 hover:border-primary/50 transition-colors overflow-hidden shrink-0"
-        >
-          {value ? (
-            <img src={value} alt="" className="w-full h-full object-cover rounded-lg" />
-          ) : (
-            <>
-              <Upload className="w-5 h-5 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">{uploading ? "Uploading..." : "Upload"}</span>
-            </>
-          )}
-        </button>
-        {value && (
-          <button type="button" onClick={() => setForm(prev => ({ ...prev, [field]: "" }))} className="text-muted-foreground hover:text-destructive mt-1">
-            <X className="h-4 w-4" />
-          </button>
-        )}
-      </div>
-      <Input
-        placeholder="Or paste image URL"
-        value={value || ""}
-        onChange={(e) => setForm(prev => ({ ...prev, [field]: e.target.value }))}
-        className="mt-2"
-      />
-    </div>
-  );
+  // Removed old ImageUploadBox - now using DragDropImageUpload directly
 
   return (
     <AdminLayout>
@@ -264,7 +216,12 @@ export default function AdminSlider() {
             {form.layout === "card" && (
               <div>
                 <Label className="text-sm font-medium">Card Image (ডান পাশে) *</Label>
-                <ImageUploadBox value={form.image_url || ""} field="image_url" fileRef={cardFileRef} />
+                <DragDropImageUpload
+                  value={form.image_url || ""}
+                  onChange={(v) => setForm(prev => ({ ...prev, image_url: v as string }))}
+                  bucket="slider-images"
+                  previewSize="lg"
+                />
               </div>
             )}
 
@@ -272,7 +229,12 @@ export default function AdminSlider() {
             {form.layout === "banner" && (
               <div>
                 <Label className="text-sm font-medium">Banner Image (Full Width) *</Label>
-                <ImageUploadBox value={form.banner_url || ""} field="banner_url" fileRef={bannerFileRef} />
+                <DragDropImageUpload
+                  value={form.banner_url || ""}
+                  onChange={(v) => setForm(prev => ({ ...prev, banner_url: v as string }))}
+                  bucket="slider-images"
+                  previewSize="lg"
+                />
               </div>
             )}
 
@@ -340,8 +302,8 @@ export default function AdminSlider() {
 
             {/* Actions */}
             <div className="flex gap-2 pt-2">
-              <Button onClick={handleSave} className="flex-1" disabled={uploading}>
-                {uploading ? "Uploading..." : editId ? "Update Slide" : "Create Slide"}
+              <Button onClick={handleSave} className="flex-1">
+                {editId ? "Update Slide" : "Create Slide"}
               </Button>
               <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
             </div>

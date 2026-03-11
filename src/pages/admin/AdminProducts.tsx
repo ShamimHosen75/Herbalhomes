@@ -13,8 +13,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, X, Upload, Search, ImagePlus, Loader2 } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Upload, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import DragDropImageUpload from "@/components/admin/DragDropImageUpload";
 
 const badgeOptions = ["", "নতুন", "সেরা", "ছাড়", "জনপ্রিয়"] as const;
 
@@ -46,8 +47,6 @@ function ProductForm({
   const [tagsInput, setTagsInput] = useState(initial?.tags?.join(", ") || "");
   const [benefitsInput, setBenefitsInput] = useState(initial?.benefits?.join(", ") || "");
   const [images, setImages] = useState<string[]>(initial?.images || []);
-  const [uploading, setUploading] = useState(false);
-  const imgInputRef = useRef<HTMLInputElement>(null);
 
   const update = (key: keyof Product, value: any) => setForm(prev => ({ ...prev, [key]: value }));
 
@@ -161,36 +160,13 @@ function ProductForm({
 
       <div>
         <label className="text-sm font-medium text-foreground">ছবি</label>
-        <input type="file" accept="image/*" multiple ref={imgInputRef} className="hidden" onChange={async (e) => {
-          const files = e.target.files;
-          if (!files?.length) return;
-          setUploading(true);
-          const newUrls: string[] = [];
-          for (const file of Array.from(files)) {
-            const ext = file.name.split(".").pop();
-            const path = `${Date.now()}-${Math.random().toString(36).slice(2, 6)}.${ext}`;
-            const { error } = await supabase.storage.from("product-images").upload(path, file);
-            if (!error) {
-              const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(path);
-              newUrls.push(urlData.publicUrl);
-            }
-          }
-          setImages(prev => [...prev, ...newUrls]);
-          setUploading(false);
-          e.target.value = "";
-        }} />
-        <div className="flex flex-wrap gap-2 mt-1">
-          {images.map((url, i) => (
-            <div key={i} className="relative group">
-              <img src={url} alt="" className="h-16 w-16 rounded-lg object-cover border border-border" />
-              <button type="button" className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full h-5 w-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => setImages(prev => prev.filter((_, idx) => idx !== i))}>×</button>
-            </div>
-          ))}
-          <button type="button" onClick={() => imgInputRef.current?.click()} disabled={uploading}
-            className="h-16 w-16 rounded-lg border-2 border-dashed border-border hover:border-primary flex items-center justify-center text-muted-foreground hover:text-primary transition-colors">
-            {uploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <ImagePlus className="h-5 w-5" />}
-          </button>
-        </div>
+        <DragDropImageUpload
+          value={images}
+          onChange={(v) => setImages(v as string[])}
+          bucket="product-images"
+          multiple
+          previewSize="sm"
+        />
       </div>
 
       {/* Variants */}
