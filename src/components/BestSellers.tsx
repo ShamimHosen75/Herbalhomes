@@ -14,6 +14,7 @@ interface Props {
 const BestSellers = ({ title, subtitle }: Props) => {
   const { products } = useProducts();
   const { categories } = useCategories();
+  const { t } = useLanguage();
 
   return (
     <section id="best-sellers" className="bg-muted/50">
