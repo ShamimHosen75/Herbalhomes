@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      bsti_certificates: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          image_url: string
+          product_name: string
+          sort_order: number
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          image_url?: string
+          product_name?: string
+          sort_order?: number
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          image_url?: string
+          product_name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           count: number
