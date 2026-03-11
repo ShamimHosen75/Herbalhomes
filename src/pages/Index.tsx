@@ -21,7 +21,7 @@ interface HomepageSection {
   active: boolean;
 }
 
-const sectionComponents: Record<string, React.ComponentType> = {
+const sectionComponents: Record<string, React.ComponentType<{ title?: string; subtitle?: string }>> = {
   hero_slider: HeroSection,
   featured_categories: CategoriesSection,
   best_sellers: BestSellers,
@@ -75,7 +75,7 @@ const Index = () => {
         {sections.map(section => {
           const Component = sectionComponents[section.section_type];
           if (!Component) return null;
-          return <Component key={section.id} />;
+          return <Component key={section.id} title={section.title} subtitle={section.subtitle} />;
         })}
       </main>
       <Footer />

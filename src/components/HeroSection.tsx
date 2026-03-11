@@ -2,7 +2,12 @@ import { ArrowRight, Truck, ShieldCheck, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroPerson from "@/assets/hero-person.png";
 
-const HeroSection = () => {
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const HeroSection = (_props: Props) => {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
     

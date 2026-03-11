@@ -21,13 +21,22 @@ const testimonials = [
   },
 ];
 
-const Testimonials = () => {
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const Testimonials = ({ title, subtitle }: Props) => {
   return (
     <section className="py-14 md:py-20 bg-muted/50">
       <div className="container mx-auto px-4">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-10">
-          আমাদের গ্রাহকরা কী বলছেন
+        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-2">
+          {title || "আমাদের গ্রাহকরা কী বলছেন"}
         </h2>
+        {subtitle && (
+          <p className="text-sm text-muted-foreground text-center mb-10">{subtitle}</p>
+        )}
+        {!subtitle && <div className="mb-10" />}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
           {testimonials.map((t) => (

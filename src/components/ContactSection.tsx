@@ -1,15 +1,20 @@
 import { Phone, MessageCircle } from "lucide-react";
 
-const ContactSection = () => {
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const ContactSection = ({ title, subtitle }: Props) => {
   return (
     <section id="contact" className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-xl md:text-2xl font-bold text-foreground mb-3">
-            প্রশ্ন আছে? আমাদের সাথে যোগাযোগ করুন
+            {title || "প্রশ্ন আছে? আমাদের সাথে যোগাযোগ করুন"}
           </h2>
           <p className="text-sm md:text-base text-muted-foreground mb-8">
-            যেকোনো প্রোডাক্ট সম্পর্কে জানতে বা অর্ডার করতে আমাদের সাথে যোগাযোগ করুন। আমরা সবসময় আপনার পাশে আছি।
+            {subtitle || "যেকোনো প্রোডাক্ট সম্পর্কে জানতে বা অর্ডার করতে আমাদের সাথে যোগাযোগ করুন। আমরা সবসময় আপনার পাশে আছি।"}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
