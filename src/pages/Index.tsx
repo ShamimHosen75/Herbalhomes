@@ -22,7 +22,7 @@ interface HomepageSection {
   content: any;
 }
 
-const sectionComponents: Record<string, React.ComponentType<{ title?: string; subtitle?: string }>> = {
+const sectionComponents: Record<string, React.ComponentType<{ title?: string; subtitle?: string; content?: any }>> = {
   hero_slider: HeroSection,
   featured_categories: CategoriesSection,
   best_sellers: BestSellers,
