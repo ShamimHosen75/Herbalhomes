@@ -77,6 +77,7 @@ const App = () => {
               <Toaster />
               <Sonner />
               <BrowserRouter>
+                <ScrollToTop />
                 <Routes>
                   {/* Store routes */}
                   <Route path="/" element={<Index />} />
