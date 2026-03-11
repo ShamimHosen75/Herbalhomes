@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { products } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
 import ProductCard from "@/components/ProductCard";
 
 const productGroups = [
