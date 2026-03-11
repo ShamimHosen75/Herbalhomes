@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { Package, User, MapPin, ShoppingCart, Clock, ChevronRight, LogOut, Save } from "lucide-react";
+import { Package, User, MapPin, ShoppingCart, Clock, ChevronRight, LogOut, Save, KeyRound } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { useOrders } from "@/contexts/OrderContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,6 +38,10 @@ const Account = () => {
   const [phone, setPhone] = useState(profile?.phone || "");
   const [address, setAddress] = useState(profile?.address || "");
   const [saving, setSaving] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [changingPassword, setChangingPassword] = useState(false);
 
   // Sync state when profile loads
   useState(() => {
@@ -137,6 +142,70 @@ const Account = () => {
             </div>
             <Button onClick={handleSaveProfile} className="mt-4" disabled={saving}>
               <Save className="h-4 w-4 mr-1.5" /> {saving ? "সংরক্ষণ হচ্ছে..." : "সংরক্ষণ করুন"}
+            </Button>
+          </div>
+
+          {/* Change Password */}
+          <div className="bg-card rounded-2xl border border-border p-6 mb-6">
+            <div className="flex items-center gap-2 mb-5">
+              <KeyRound className="h-5 w-5 text-primary" />
+              <h3 className="font-bold text-foreground">পাসওয়ার্ড পরিবর্তন</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">বর্তমান পাসওয়ার্ড</label>
+                <Input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="••••••••" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">নতুন পাসওয়ার্ড</label>
+                <Input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="কমপক্ষে ৬ অক্ষর" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">নতুন পাসওয়ার্ড নিশ্চিত করুন</label>
+                <Input type="password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} placeholder="পাসওয়ার্ড আবার লিখুন" />
+              </div>
+            </div>
+            <Button
+              onClick={async () => {
+                if (!currentPassword || !newPassword) {
+                  toast({ title: "সব ফিল্ড পূরণ করুন", variant: "destructive" });
+                  return;
+                }
+                if (newPassword.length < 6) {
+                  toast({ title: "নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে", variant: "destructive" });
+                  return;
+                }
+                if (newPassword !== confirmNewPassword) {
+                  toast({ title: "নতুন পাসওয়ার্ড মিলছে না", variant: "destructive" });
+                  return;
+                }
+                setChangingPassword(true);
+                // Verify current password by re-signing in
+                const { error: signInError } = await supabase.auth.signInWithPassword({
+                  email: user!.email!,
+                  password: currentPassword,
+                });
+                if (signInError) {
+                  setChangingPassword(false);
+                  toast({ title: "বর্তমান পাসওয়ার্ড সঠিক নয়", variant: "destructive" });
+                  return;
+                }
+                const { error } = await supabase.auth.updateUser({ password: newPassword });
+                setChangingPassword(false);
+                if (error) {
+                  toast({ title: "পাসওয়ার্ড পরিবর্তন ব্যর্থ", description: error.message, variant: "destructive" });
+                } else {
+                  toast({ title: "পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে!" });
+                  setCurrentPassword("");
+                  setNewPassword("");
+                  setConfirmNewPassword("");
+                }
+              }}
+              className="mt-4"
+              variant="outline"
+              disabled={changingPassword}
+            >
+              <KeyRound className="h-4 w-4 mr-1.5" /> {changingPassword ? "পরিবর্তন হচ্ছে..." : "পাসওয়ার্ড পরিবর্তন করুন"}
             </Button>
           </div>
 
