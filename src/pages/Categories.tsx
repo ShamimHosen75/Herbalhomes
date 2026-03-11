@@ -38,7 +38,7 @@ const Categories = () => {
               {categories.map((cat) => (
                 <Link
                   key={cat.name}
-                  to="/shop"
+                  to={`/shop?category=${encodeURIComponent(cat.name)}`}
                   className="group flex overflow-hidden rounded-2xl border border-border bg-card hover:shadow-lg hover:border-primary/20 transition-all duration-300"
                 >
                   <div className="w-1/3 aspect-square overflow-hidden">

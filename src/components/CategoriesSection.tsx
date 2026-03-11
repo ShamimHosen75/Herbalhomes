@@ -20,7 +20,7 @@ const CategoriesSection = () => {
           {categories.map((cat) => (
             <Link
               key={cat.name}
-              to="/shop"
+              to={`/shop?category=${encodeURIComponent(cat.name)}`}
               className="group flex flex-col items-center text-center p-6 md:p-8 rounded-2xl border border-border bg-card hover:shadow-lg hover:border-primary/20 transition-all duration-300"
             >
               <div className={`h-14 w-14 md:h-16 md:w-16 rounded-2xl ${cat.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>

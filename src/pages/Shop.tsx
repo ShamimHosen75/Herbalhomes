@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, X, ChevronDown } from "lucide-react";
 import { products, categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
@@ -9,8 +10,14 @@ type SortOption = "newest" | "price-asc" | "price-desc" | "popular" | "rating";
 const ITEMS_PER_PAGE = 8;
 
 const Shop = () => {
+  const [searchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  useEffect(() => {
+    const cat = searchParams.get("category");
+    setSelectedCategory(cat || null);
+  }, [searchParams]);
   const [sort, setSort] = useState<SortOption>("popular");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
