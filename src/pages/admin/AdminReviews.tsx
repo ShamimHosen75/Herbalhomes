@@ -194,28 +194,12 @@ export default function AdminReviews() {
             </div>
             <div>
               <Label className="font-semibold">Image</Label>
-              <input type="file" accept="image/*" ref={imgRef} className="hidden" onChange={handleImageSelect} />
-              {imagePreview ? (
-                <div className="mt-1 relative inline-block">
-                  <img src={imagePreview} alt="Preview" className="h-24 w-24 rounded-lg object-cover" />
-                  <button
-                    type="button"
-                    className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full h-5 w-5 flex items-center justify-center"
-                    onClick={() => { setImageFile(null); setImagePreview(""); }}
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => imgRef.current?.click()}
-                  className="mt-1 h-24 w-24 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 text-muted-foreground hover:border-primary/50 transition-colors"
-                >
-                  <ImageIcon className="h-5 w-5" />
-                  <span className="text-xs">Upload</span>
-                </button>
-              )}
+              <DragDropImageUpload
+                value={reviewImage}
+                onChange={(v) => setReviewImage(v as string)}
+                bucket="review-images"
+                previewSize="sm"
+              />
             </div>
             <div>
               <Label className="font-semibold">Comment</Label>
