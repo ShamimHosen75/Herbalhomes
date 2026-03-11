@@ -2,10 +2,10 @@ import { Baby, Sparkles, UtensilsCrossed, Package } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const categories = [
-  { name: "জৈব সাবান", subtitle: "প্রাকৃতিক ও হাতে তৈরি", icon: Sparkles, bg: "bg-badge-pink", color: "text-pink-500" },
-  { name: "প্রাকৃতিক তেল", subtitle: "কালোজিরা, নারকেল তেল", icon: Package, bg: "bg-badge-green", color: "text-primary" },
-  { name: "ভেষজ স্কিনকেয়ার", subtitle: "ত্বকের যত্ন", icon: Baby, bg: "bg-badge-orange", color: "text-orange-500" },
-  { name: "স্বাস্থ্যকর খাবার", subtitle: "খাদ্য সামগ্রী", icon: UtensilsCrossed, bg: "bg-badge-blue", color: "text-blue-500" },
+  { name: "জৈব সাবান", slug: "soap", subtitle: "প্রাকৃতিক ও হাতে তৈরি", icon: Sparkles, bg: "bg-badge-pink", color: "text-pink-500" },
+  { name: "প্রাকৃতিক তেল", slug: "oil", subtitle: "কালোজিরা, নারকেল তেল", icon: Package, bg: "bg-badge-green", color: "text-primary" },
+  { name: "ভেষজ স্কিনকেয়ার", slug: "skincare", subtitle: "ত্বকের যত্ন", icon: Baby, bg: "bg-badge-orange", color: "text-orange-500" },
+  { name: "স্বাস্থ্যকর খাবার", slug: "food", subtitle: "খাদ্য সামগ্রী", icon: UtensilsCrossed, bg: "bg-badge-blue", color: "text-blue-500" },
 ];
 
 const CategoriesSection = () => {
@@ -20,7 +20,7 @@ const CategoriesSection = () => {
           {categories.map((cat) => (
             <Link
               key={cat.name}
-              to={`/shop?category=${encodeURIComponent(cat.name)}`}
+              to={`/shop?category=${cat.slug}`}
               className="group flex flex-col items-center text-center p-6 md:p-8 rounded-2xl border border-border bg-card hover:shadow-lg hover:border-primary/20 transition-all duration-300"
             >
               <div className={`h-14 w-14 md:h-16 md:w-16 rounded-2xl ${cat.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
