@@ -61,10 +61,10 @@ const Index = () => {
           <CategoriesSection />
           <BestSellers />
           <WhyChooseUs />
-          <BSTICertificates />
           <OfferBanner />
           <Testimonials />
           <ContactSection />
+          <BSTICertificates />
         </main>
         <Footer />
         <WhatsAppButton />
