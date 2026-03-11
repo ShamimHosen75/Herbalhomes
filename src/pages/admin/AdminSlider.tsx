@@ -47,9 +47,6 @@ export default function AdminSlider() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<Partial<Slide>>(emptyForm());
-  const [uploading, setUploading] = useState(false);
-  const cardFileRef = useRef<HTMLInputElement>(null);
-  const bannerFileRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const fetchSlides = useCallback(async () => {
@@ -60,21 +57,6 @@ export default function AdminSlider() {
   }, []);
 
   useEffect(() => { fetchSlides(); }, [fetchSlides]);
-
-  const uploadImage = async (file: File, field: "image_url" | "banner_url") => {
-    setUploading(true);
-    const ext = file.name.split(".").pop();
-    const path = `slide-${field}-${Date.now()}.${ext}`;
-    const { error } = await supabase.storage.from("slider-images").upload(path, file);
-    if (error) {
-      toast({ title: "আপলোড ব্যর্থ", variant: "destructive" });
-      setUploading(false);
-      return;
-    }
-    const { data: urlData } = supabase.storage.from("slider-images").getPublicUrl(path);
-    setForm(prev => ({ ...prev, [field]: urlData.publicUrl }));
-    setUploading(false);
-  };
 
   const handleSave = async () => {
     if (!form.heading?.trim()) {
