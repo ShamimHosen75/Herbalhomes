@@ -19,6 +19,7 @@ interface HomepageSection {
   layout: string;
   sort_order: number;
   active: boolean;
+  content: any;
 }
 
 const sectionComponents: Record<string, React.ComponentType<{ title?: string; subtitle?: string }>> = {
