@@ -229,7 +229,12 @@ export default function AdminSlider() {
             {form.layout === "banner" && (
               <div>
                 <Label className="text-sm font-medium">Banner Image (Full Width) *</Label>
-                <ImageUploadBox value={form.banner_url || ""} field="banner_url" fileRef={bannerFileRef} />
+                <DragDropImageUpload
+                  value={form.banner_url || ""}
+                  onChange={(v) => setForm(prev => ({ ...prev, banner_url: v as string }))}
+                  bucket="slider-images"
+                  previewSize="lg"
+                />
               </div>
             )}
 
