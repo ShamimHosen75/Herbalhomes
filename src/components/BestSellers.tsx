@@ -11,6 +11,7 @@ const productGroups = [
 ];
 
 const BestSellers = () => {
+  const { products } = useProducts();
   return (
     <section id="best-sellers" className="bg-muted/50">
       {productGroups.map((group) => {
