@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { ShoppingCart, Menu, X, Search, User, Heart, Phone } from "lucide-react";
+import { ShoppingCart, Menu, X, Search, User, Heart, Phone, LogIn } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
