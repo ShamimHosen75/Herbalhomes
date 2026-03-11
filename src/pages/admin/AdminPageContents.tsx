@@ -22,6 +22,7 @@ const pageLabels: Record<string, string> = {
   about: "About Us / আমাদের সম্পর্কে",
   contact: "Contact / যোগাযোগ",
   navbar: "Navigation Menu",
+  footer: "Footer / ফুটার",
 };
 
 export default function AdminPageContents() {
