@@ -45,7 +45,9 @@ function ProductForm({
   const [variants, setVariants] = useState<ProductVariant[]>(initial?.variants || [emptyVariant()]);
   const [tagsInput, setTagsInput] = useState(initial?.tags?.join(", ") || "");
   const [benefitsInput, setBenefitsInput] = useState(initial?.benefits?.join(", ") || "");
-  const [imagesInput, setImagesInput] = useState(initial?.images?.join(", ") || "");
+  const [images, setImages] = useState<string[]>(initial?.images || []);
+  const [uploading, setUploading] = useState(false);
+  const imgInputRef = useRef<HTMLInputElement>(null);
 
   const update = (key: keyof Product, value: any) => setForm(prev => ({ ...prev, [key]: value }));
 
