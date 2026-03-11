@@ -79,9 +79,15 @@ const Navbar = () => {
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && <span className="absolute top-0.5 right-0.5 h-4 w-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">{cartCount}</span>}
             </Link>
-            <Link to="/account" className="hidden md:flex p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
-              <User className="h-5 w-5" />
-            </Link>
+            {user ? (
+              <Link to="/account" className="hidden md:flex p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
+                <User className="h-5 w-5" />
+              </Link>
+            ) : (
+              <Link to="/login" className="hidden md:flex items-center gap-1.5 p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent text-sm font-medium">
+                <LogIn className="h-5 w-5" />
+              </Link>
+            )}
 
             <a
               href={`tel:${phoneNumber}`}
