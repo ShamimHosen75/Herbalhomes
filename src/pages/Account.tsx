@@ -1,8 +1,13 @@
-import { Link } from "react-router-dom";
-import { Package, User, MapPin, ShoppingCart, Clock, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { Package, User, MapPin, ShoppingCart, Clock, ChevronRight, LogOut, Save } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { useOrders } from "@/contexts/OrderContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import PageLayout from "@/components/PageLayout";
 import Breadcrumb from "@/components/Breadcrumb";
+import { toast } from "@/hooks/use-toast";
 
 const statusLabels: Record<string, string> = {
   pending: "অপেক্ষমাণ",
@@ -25,14 +30,62 @@ const statusColors: Record<string, string> = {
 };
 
 const Account = () => {
+  const { user, profile, loading, signOut, updateProfile } = useAuth();
   const { orders } = useOrders();
+
+  const [fullName, setFullName] = useState(profile?.full_name || "");
+  const [phone, setPhone] = useState(profile?.phone || "");
+  const [address, setAddress] = useState(profile?.address || "");
+  const [saving, setSaving] = useState(false);
+
+  // Sync state when profile loads
+  useState(() => {
+    if (profile) {
+      setFullName(profile.full_name);
+      setPhone(profile.phone);
+      setAddress(profile.address);
+    }
+  });
+
+  if (loading) {
+    return (
+      <PageLayout>
+        <div className="min-h-[50vh] flex items-center justify-center">
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
+        </div>
+      </PageLayout>
+    );
+  }
+
+  if (!user) return <Navigate to="/login" replace />;
+
+  const handleSaveProfile = async () => {
+    setSaving(true);
+    const { error } = await updateProfile({ full_name: fullName, phone, address });
+    setSaving(false);
+    if (error) {
+      toast({ title: "আপডেট ব্যর্থ", description: error, variant: "destructive" });
+    } else {
+      toast({ title: "প্রোফাইল আপডেট হয়েছে!" });
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast({ title: "লগআউট সফল!" });
+  };
 
   return (
     <PageLayout>
       <section className="bg-accent py-6">
         <div className="container mx-auto px-4">
           <Breadcrumb items={[{ label: "আমার অ্যাকাউন্ট" }]} />
-          <h1 className="text-2xl font-bold text-foreground mt-3">আমার অ্যাকাউন্ট</h1>
+          <div className="flex items-center justify-between mt-3">
+            <h1 className="text-2xl font-bold text-foreground">আমার অ্যাকাউন্ট</h1>
+            <Button variant="outline" size="sm" onClick={handleSignOut}>
+              <LogOut className="h-4 w-4 mr-1.5" /> লগআউট
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -43,7 +96,7 @@ const Account = () => {
             {[
               { icon: Package, label: "অর্ডার", href: "#orders", count: orders.length },
               { icon: User, label: "প্রোফাইল", href: "#profile" },
-              { icon: MapPin, label: "ঠিকানা", href: "#address" },
+              { icon: MapPin, label: "ঠিকানা", href: "#profile" },
               { icon: ShoppingCart, label: "ট্র্যাক অর্ডার", href: "/track-order" },
             ].map((item) => (
               <Link
@@ -63,12 +116,28 @@ const Account = () => {
             ))}
           </div>
 
-          {/* Profile placeholder */}
-          <div id="profile" className="bg-card rounded-2xl border border-border p-5 mb-6">
-            <h3 className="font-bold text-foreground mb-4">প্রোফাইল</h3>
-            <p className="text-sm text-muted-foreground">
-              লগইন ফিচার Lovable Cloud সক্রিয় করার পর ব্যবহারযোগ্য হবে। বর্তমানে আপনার সকল অর্ডার এই ডিভাইসে সংরক্ষিত আছে।
-            </p>
+          {/* Profile */}
+          <div id="profile" className="bg-card rounded-2xl border border-border p-6 mb-6">
+            <h3 className="font-bold text-foreground mb-1">প্রোফাইল তথ্য</h3>
+            <p className="text-sm text-muted-foreground mb-5">{user.email}</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">পুরো নাম</label>
+                <Input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="আপনার নাম" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">ফোন নম্বর</label>
+                <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="০১XXXXXXXXX" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="text-sm font-medium text-foreground mb-1.5 block">ঠিকানা</label>
+                <Input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="আপনার সম্পূর্ণ ঠিকানা" />
+              </div>
+            </div>
+            <Button onClick={handleSaveProfile} className="mt-4" disabled={saving}>
+              <Save className="h-4 w-4 mr-1.5" /> {saving ? "সংরক্ষণ হচ্ছে..." : "সংরক্ষণ করুন"}
+            </Button>
           </div>
 
           {/* Orders */}
@@ -99,12 +168,7 @@ const Account = () => {
                     <div className="flex items-center gap-3">
                       <div className="flex -space-x-2">
                         {order.items.slice(0, 3).map((item, i) => (
-                          <img
-                            key={i}
-                            src={item.image}
-                            alt={item.name}
-                            className="h-10 w-10 rounded-lg object-cover border-2 border-background bg-muted"
-                          />
+                          <img key={i} src={item.image} alt={item.name} className="h-10 w-10 rounded-lg object-cover border-2 border-background bg-muted" />
                         ))}
                       </div>
                       <div>

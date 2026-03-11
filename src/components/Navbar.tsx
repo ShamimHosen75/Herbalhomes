@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { ShoppingCart, Menu, X, Search, User, Heart, Phone } from "lucide-react";
+import { ShoppingCart, Menu, X, Search, User, Heart, Phone, LogIn } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
@@ -13,6 +14,7 @@ const Navbar = () => {
   const { getItemCount } = useCart();
   const { getCount: getWishlistCount } = useWishlist();
   const { settings } = useSiteSettings();
+  const { user } = useAuth();
   const cartCount = getItemCount();
   const wishlistCount = getWishlistCount();
 
@@ -77,9 +79,15 @@ const Navbar = () => {
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && <span className="absolute top-0.5 right-0.5 h-4 w-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">{cartCount}</span>}
             </Link>
-            <Link to="/account" className="hidden md:flex p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
-              <User className="h-5 w-5" />
-            </Link>
+            {user ? (
+              <Link to="/account" className="hidden md:flex p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
+                <User className="h-5 w-5" />
+              </Link>
+            ) : (
+              <Link to="/login" className="hidden md:flex items-center gap-1.5 p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent text-sm font-medium">
+                <LogIn className="h-5 w-5" />
+              </Link>
+            )}
 
             <a
               href={`tel:${phoneNumber}`}
