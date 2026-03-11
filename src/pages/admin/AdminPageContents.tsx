@@ -22,6 +22,7 @@ const pageLabels: Record<string, string> = {
   about: "About Us / আমাদের সম্পর্কে",
   contact: "Contact / যোগাযোগ",
   navbar: "Navigation Menu",
+  footer: "Footer / ফুটার",
 };
 
 export default function AdminPageContents() {
@@ -241,11 +242,89 @@ export default function AdminPageContents() {
     );
   };
 
+  const renderFooterEditor = (page: PageContent) => {
+    const c = page.content || {};
+    const quickLinks = c.quick_links || [];
+    const helpLinks = c.help_links || [];
+    return (
+      <div className="space-y-6">
+        {/* Tagline & Copyright */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="text-xs font-medium text-muted-foreground">Tagline / ট্যাগলাইন</label>
+            <Input value={c.tagline || ""} onChange={e => updateContent(page.id, { ...c, tagline: e.target.value })} />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted-foreground">Copyright Text</label>
+            <Input value={c.copyright || ""} onChange={e => updateContent(page.id, { ...c, copyright: e.target.value })} />
+          </div>
+        </div>
+
+        {/* Quick Links */}
+        <div>
+          <h4 className="text-sm font-semibold text-foreground mb-2">দ্রুত লিংক (Quick Links)</h4>
+          <Input value={c.quick_links_title || ""} placeholder="Section Title" className="mb-2 max-w-xs"
+            onChange={e => updateContent(page.id, { ...c, quick_links_title: e.target.value })} />
+          {quickLinks.map((link: any, i: number) => (
+            <div key={i} className="grid grid-cols-3 gap-2 mb-2">
+              <Input value={link.label} placeholder="Label" onChange={e => {
+                const updated = [...quickLinks]; updated[i] = { ...updated[i], label: e.target.value };
+                updateContent(page.id, { ...c, quick_links: updated });
+              }} />
+              <Input value={link.href} placeholder="/shop" onChange={e => {
+                const updated = [...quickLinks]; updated[i] = { ...updated[i], href: e.target.value };
+                updateContent(page.id, { ...c, quick_links: updated });
+              }} />
+              <Button size="icon" variant="ghost" className="text-destructive" onClick={() => {
+                updateContent(page.id, { ...c, quick_links: quickLinks.filter((_: any, idx: number) => idx !== i) });
+              }}><Trash2 className="h-4 w-4" /></Button>
+            </div>
+          ))}
+          <Button variant="outline" size="sm" onClick={() => {
+            updateContent(page.id, { ...c, quick_links: [...quickLinks, { label: "", href: "/" }] });
+          }}><Plus className="h-4 w-4 mr-1" /> Add Link</Button>
+        </div>
+
+        {/* Help Links */}
+        <div>
+          <h4 className="text-sm font-semibold text-foreground mb-2">সাহায্য (Help Links)</h4>
+          <Input value={c.help_links_title || ""} placeholder="Section Title" className="mb-2 max-w-xs"
+            onChange={e => updateContent(page.id, { ...c, help_links_title: e.target.value })} />
+          {helpLinks.map((link: any, i: number) => (
+            <div key={i} className="grid grid-cols-3 gap-2 mb-2">
+              <Input value={link.label} placeholder="Label" onChange={e => {
+                const updated = [...helpLinks]; updated[i] = { ...updated[i], label: e.target.value };
+                updateContent(page.id, { ...c, help_links: updated });
+              }} />
+              <Input value={link.href} placeholder="/contact" onChange={e => {
+                const updated = [...helpLinks]; updated[i] = { ...updated[i], href: e.target.value };
+                updateContent(page.id, { ...c, help_links: updated });
+              }} />
+              <Button size="icon" variant="ghost" className="text-destructive" onClick={() => {
+                updateContent(page.id, { ...c, help_links: helpLinks.filter((_: any, idx: number) => idx !== i) });
+              }}><Trash2 className="h-4 w-4" /></Button>
+            </div>
+          ))}
+          <Button variant="outline" size="sm" onClick={() => {
+            updateContent(page.id, { ...c, help_links: [...helpLinks, { label: "", href: "/" }] });
+          }}><Plus className="h-4 w-4 mr-1" /> Add Link</Button>
+        </div>
+
+        {/* Contact column title */}
+        <div className="max-w-xs">
+          <label className="text-xs font-medium text-muted-foreground">Contact Column Title</label>
+          <Input value={c.contact_title || ""} onChange={e => updateContent(page.id, { ...c, contact_title: e.target.value })} />
+        </div>
+      </div>
+    );
+  };
+
   const renderEditor = (page: PageContent) => {
     switch (page.page_key) {
       case "about": return renderAboutEditor(page);
       case "contact": return renderContactEditor(page);
       case "navbar": return renderNavbarEditor(page);
+      case "footer": return renderFooterEditor(page);
       default: return <p className="text-sm text-muted-foreground">No editor available for this page.</p>;
     }
   };
