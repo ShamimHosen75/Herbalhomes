@@ -216,7 +216,12 @@ export default function AdminSlider() {
             {form.layout === "card" && (
               <div>
                 <Label className="text-sm font-medium">Card Image (ডান পাশে) *</Label>
-                <ImageUploadBox value={form.image_url || ""} field="image_url" fileRef={cardFileRef} />
+                <DragDropImageUpload
+                  value={form.image_url || ""}
+                  onChange={(v) => setForm(prev => ({ ...prev, image_url: v as string }))}
+                  bucket="slider-images"
+                  previewSize="lg"
+                />
               </div>
             )}
 
