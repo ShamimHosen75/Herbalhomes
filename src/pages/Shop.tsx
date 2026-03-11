@@ -1,7 +1,8 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, X, ChevronDown } from "lucide-react";
-import { products, categories } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
+import { useCategories } from "@/contexts/CategoriesContext";
 import ProductCard from "@/components/ProductCard";
 import PageLayout from "@/components/PageLayout";
 import Breadcrumb from "@/components/Breadcrumb";
