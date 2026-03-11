@@ -107,38 +107,7 @@ export default function AdminSlider() {
     setSlides((prev) => prev.map((s) => s.id === id ? { ...s, active: !current } : s));
   };
 
-  const ImageUploadBox = ({ value, field, fileRef }: { value: string; field: "image_url" | "banner_url"; fileRef: React.RefObject<HTMLInputElement> }) => (
-    <div>
-      <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadImage(f, field); }} />
-      <div className="flex items-start gap-3 mt-2">
-        <button
-          type="button"
-          onClick={() => fileRef.current?.click()}
-          className="w-32 h-24 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center gap-1 hover:border-primary/50 transition-colors overflow-hidden shrink-0"
-        >
-          {value ? (
-            <img src={value} alt="" className="w-full h-full object-cover rounded-lg" />
-          ) : (
-            <>
-              <Upload className="w-5 h-5 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">{uploading ? "Uploading..." : "Upload"}</span>
-            </>
-          )}
-        </button>
-        {value && (
-          <button type="button" onClick={() => setForm(prev => ({ ...prev, [field]: "" }))} className="text-muted-foreground hover:text-destructive mt-1">
-            <X className="h-4 w-4" />
-          </button>
-        )}
-      </div>
-      <Input
-        placeholder="Or paste image URL"
-        value={value || ""}
-        onChange={(e) => setForm(prev => ({ ...prev, [field]: e.target.value }))}
-        className="mt-2"
-      />
-    </div>
-  );
+  // Removed old ImageUploadBox - now using DragDropImageUpload directly
 
   return (
     <AdminLayout>
