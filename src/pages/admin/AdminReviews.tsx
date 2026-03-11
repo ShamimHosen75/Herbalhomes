@@ -76,10 +76,7 @@ export default function AdminReviews() {
   };
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
+    // no longer needed - handled by DragDropImageUpload
   };
 
   const handleCreate = async () => {
