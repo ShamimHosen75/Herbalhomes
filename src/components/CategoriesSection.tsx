@@ -1,12 +1,5 @@
-import { Baby, Sparkles, UtensilsCrossed, Package } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const categories = [
-  { name: "জৈব সাবান", slug: "soap", subtitle: "প্রাকৃতিক ও হাতে তৈরি", icon: Sparkles, bg: "bg-badge-pink", color: "text-pink-500" },
-  { name: "প্রাকৃতিক তেল", slug: "oil", subtitle: "কালোজিরা, নারকেল তেল", icon: Package, bg: "bg-badge-green", color: "text-primary" },
-  { name: "ভেষজ স্কিনকেয়ার", slug: "skincare", subtitle: "ত্বকের যত্ন", icon: Baby, bg: "bg-badge-orange", color: "text-orange-500" },
-  { name: "স্বাস্থ্যকর খাবার", slug: "food", subtitle: "খাদ্য সামগ্রী", icon: UtensilsCrossed, bg: "bg-badge-blue", color: "text-blue-500" },
-];
+import { useCategories } from "@/contexts/CategoriesContext";
 
 interface Props {
   title?: string;
@@ -14,6 +7,8 @@ interface Props {
 }
 
 const CategoriesSection = ({ title, subtitle }: Props) => {
+  const { categories } = useCategories();
+
   return (
     <section id="categories" className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -25,18 +20,30 @@ const CategoriesSection = ({ title, subtitle }: Props) => {
         )}
         {!subtitle && <div className="mb-10" />}
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {categories.map((cat) => (
             <Link
-              key={cat.name}
+              key={cat.id}
               to={`/shop?category=${cat.slug}`}
-              className="group flex flex-col items-center text-center p-6 md:p-8 rounded-2xl border border-border bg-card hover:shadow-lg hover:border-primary/20 transition-all duration-300"
+              className="group relative block overflow-hidden rounded-xl aspect-[4/5] md:aspect-[3/4]"
             >
-              <div className={`h-14 w-14 md:h-16 md:w-16 rounded-2xl ${cat.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <cat.icon className={`h-6 w-6 md:h-7 md:w-7 ${cat.color}`} />
+              {cat.image ? (
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-muted flex items-center justify-center">
+                  <span className="text-4xl">📦</span>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+                <span className="bg-primary text-primary-foreground text-xs md:text-sm font-bold uppercase tracking-wide px-5 py-2 rounded-sm shadow-lg group-hover:bg-primary/90 transition-colors">
+                  {cat.name}
+                </span>
               </div>
-              <h3 className="font-semibold text-foreground text-sm md:text-base">{cat.name}</h3>
-              <p className="text-xs text-muted-foreground mt-1">{cat.subtitle}</p>
             </Link>
           ))}
         </div>
