@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ShoppingCart, Menu, X, Search, User, Heart, Phone, LogIn } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
+
+const defaultNavLinks = [
+  { label: "হোমপেজ", href: "/" },
+  { label: "পণ্য সমূহ", href: "/shop" },
+  { label: "ক্যাটাগরি", href: "/categories" },
+  { label: "আমাদের সম্পর্কে", href: "/about" },
+  { label: "যোগাযোগ", href: "/contact" },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [navContent, setNavContent] = useState<any>(null);
   const location = useLocation();
   const { getItemCount } = useCart();
   const { getCount: getWishlistCount } = useWishlist();
@@ -22,13 +32,15 @@ const Navbar = () => {
   const storeLogo = settings.logo || logo;
   const phoneNumber = settings.phone || "+8801712345678";
 
-  const navLinks = [
-    { label: "হোমপেজ", href: "/" },
-    { label: "পণ্য সমূহ", href: "/shop" },
-    { label: "ক্যাটাগরি", href: "/categories" },
-    { label: "আমাদের সম্পর্কে", href: "/about" },
-    { label: "যোগাযোগ", href: "/contact" },
-  ];
+  useEffect(() => {
+    supabase.from("page_contents").select("*").eq("page_key", "navbar").single().then(({ data }) => {
+      if (data) setNavContent((data as any).content);
+    });
+  }, []);
+
+  const navLinks = navContent?.links?.length ? navContent.links : defaultNavLinks;
+  const ctaText = navContent?.cta_text || "যোগাযোগ";
+  const ctaLink = navContent?.cta_link || "/contact";
 
   return (
     <header className="sticky top-0 z-50 bg-background border-b border-border shadow-sm">
@@ -42,9 +54,9 @@ const Navbar = () => {
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
+            {navLinks.map((link: any) => (
               <Link
-                key={link.label}
+                key={link.href}
                 to={link.href}
                 className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                   location.pathname === link.href
@@ -89,13 +101,12 @@ const Navbar = () => {
               </Link>
             )}
 
-            <a
-              href={`tel:${phoneNumber}`}
+            <Link
+              to={ctaLink}
               className="hidden lg:flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
-              <Phone className="h-4 w-4" />
-              কল করুন
-            </a>
+              {ctaText}
+            </Link>
 
             <button
               className="lg:hidden p-2 text-muted-foreground"
@@ -116,9 +127,9 @@ const Navbar = () => {
                 className="w-full h-10 pl-10 pr-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
               />
             </div>
-            {navLinks.map((link) => (
+            {navLinks.map((link: any) => (
               <Link
-                key={link.label}
+                key={link.href}
                 to={link.href}
                 className={`block py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${
                   location.pathname === link.href
@@ -130,13 +141,13 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            <a
-              href={`tel:${phoneNumber}`}
+            <Link
+              to={ctaLink}
               className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl text-sm font-semibold mt-2"
+              onClick={() => setIsOpen(false)}
             >
-              <Phone className="h-4 w-4" />
-              কল করুন
-            </a>
+              {ctaText}
+            </Link>
           </nav>
         )}
       </div>
