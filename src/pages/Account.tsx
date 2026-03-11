@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { Package, User, MapPin, ShoppingCart, Clock, ChevronRight, LogOut, Save } from "lucide-react";
+import { Package, User, MapPin, ShoppingCart, Clock, ChevronRight, LogOut, Save, KeyRound } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOrders } from "@/contexts/OrderContext";
 import { Button } from "@/components/ui/button";
