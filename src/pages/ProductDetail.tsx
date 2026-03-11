@@ -168,46 +168,48 @@ const ProductDetailContent = ({ product }: { product: Product }) => {
 
               {/* Quantity + Add to Cart */}
               {selectedVariant.stock > 0 ? (
-                <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                  <div className="flex items-center border border-border rounded-xl">
+                <div className="flex flex-col gap-3 mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center border border-border rounded-xl">
+                      <button
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="h-11 w-11 flex items-center justify-center text-foreground hover:bg-muted rounded-l-xl"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </button>
+                      <span className="h-11 w-14 flex items-center justify-center text-sm font-semibold text-foreground border-x border-border">
+                        {quantity}
+                      </span>
+                      <button
+                        onClick={() => setQuantity(Math.min(selectedVariant.stock, quantity + 1))}
+                        className="h-11 w-11 flex items-center justify-center text-foreground hover:bg-muted rounded-r-xl"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </button>
+                    </div>
                     <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="h-11 w-11 flex items-center justify-center text-foreground hover:bg-muted rounded-l-xl"
+                      onClick={() => toggleItem(product.id)}
+                      className={`h-11 w-11 rounded-xl border flex items-center justify-center transition-colors shrink-0 ${
+                        inWishlist ? "border-discount bg-discount/10 text-discount" : "border-border text-muted-foreground hover:border-primary"
+                      }`}
+                      aria-label="উইশলিস্ট"
                     >
-                      <Minus className="h-4 w-4" />
-                    </button>
-                    <span className="h-11 w-14 flex items-center justify-center text-sm font-semibold text-foreground border-x border-border">
-                      {quantity}
-                    </span>
-                    <button
-                      onClick={() => setQuantity(Math.min(selectedVariant.stock, quantity + 1))}
-                      className="h-11 w-11 flex items-center justify-center text-foreground hover:bg-muted rounded-r-xl"
-                    >
-                      <Plus className="h-4 w-4" />
+                      <Heart className={`h-4 w-4 ${inWishlist ? "fill-current" : ""}`} />
                     </button>
                   </div>
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 flex items-center justify-center gap-2 bg-accent text-primary h-11 px-6 rounded-xl text-sm font-semibold hover:bg-accent/80 border border-primary/20 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 bg-accent text-primary h-11 px-6 rounded-xl text-sm font-semibold hover:bg-accent/80 border border-primary/20 transition-colors"
                   >
                     <ShoppingCart className="h-4 w-4" />
                     কার্টে যোগ করুন
                   </button>
                   <button
                     onClick={handleBuyNow}
-                    className="flex-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground h-11 px-6 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground h-11 px-6 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
                   >
                     <Zap className="h-4 w-4" />
                     এখনই কিনুন — ৳{selectedVariant.price * quantity}
-                  </button>
-                  <button
-                    onClick={() => toggleItem(product.id)}
-                    className={`h-11 w-11 rounded-xl border flex items-center justify-center transition-colors shrink-0 ${
-                      inWishlist ? "border-discount bg-discount/10 text-discount" : "border-border text-muted-foreground hover:border-primary"
-                    }`}
-                    aria-label="উইশলিস্ট"
-                  >
-                    <Heart className={`h-4 w-4 ${inWishlist ? "fill-current" : ""}`} />
                   </button>
                 </div>
               ) : (
