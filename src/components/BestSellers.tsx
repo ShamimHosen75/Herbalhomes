@@ -1,14 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProducts } from "@/contexts/ProductsContext";
+import { useCategories } from "@/contexts/CategoriesContext";
 import ProductCard from "@/components/ProductCard";
-
-const productGroups = [
-  { title: "জৈব সাবান", subtitle: "প্রাকৃতিক ও হাতে তৈরি সাবান", emoji: "🧼", category: "soap" },
-  { title: "প্রাকৃতিক তেল", subtitle: "বিশুদ্ধ ও কোল্ড-প্রেসড", emoji: "🫒", category: "oil" },
-  { title: "ভেষজ স্কিনকেয়ার", subtitle: "ত্বকের যত্নে প্রকৃতির ছোঁয়া", emoji: "🌿", category: "skincare" },
-  { title: "স্বাস্থ্যকর খাবার", subtitle: "খাদ্য সামগ্রী", emoji: "🍯", category: "food" },
-];
 
 interface Props {
   title?: string;
@@ -18,6 +12,8 @@ interface Props {
 
 const BestSellers = ({ title, subtitle }: Props) => {
   const { products } = useProducts();
+  const { categories } = useCategories();
+
   return (
     <section id="best-sellers" className="bg-muted/50">
       {title && (
@@ -26,20 +22,25 @@ const BestSellers = ({ title, subtitle }: Props) => {
           {subtitle && <p className="text-sm text-muted-foreground text-center">{subtitle}</p>}
         </div>
       )}
-      {productGroups.map((group) => {
-        const groupProducts = products.filter((p) => p.category === group.category).slice(0, 3);
+      {categories.map((cat) => {
+        const groupProducts = products.filter((p) => p.category === cat.slug).slice(0, 3);
+        if (groupProducts.length === 0) return null;
         return (
-          <div key={group.title} className="py-12 md:py-16">
+          <div key={cat.id} className="py-12 md:py-16">
             <div className="container mx-auto px-4">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{group.emoji}</span>
+                  {cat.image ? (
+                    <img src={cat.image} alt={cat.name} className="h-10 w-10 rounded-lg object-cover" />
+                  ) : (
+                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-xl">📦</div>
+                  )}
                   <div>
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground">{group.title}</h2>
-                    <p className="text-sm text-muted-foreground">{group.subtitle}</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground">{cat.name}</h2>
+                    {cat.description && <p className="text-sm text-muted-foreground">{cat.description}</p>}
                   </div>
                 </div>
-                <Link to="/shop" className="hidden sm:flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                <Link to={`/shop?category=${cat.slug}`} className="hidden sm:flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
                   সব দেখুন <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -49,7 +50,7 @@ const BestSellers = ({ title, subtitle }: Props) => {
                 ))}
               </div>
               <div className="sm:hidden mt-5 text-center">
-                <Link to="/shop" className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                <Link to={`/shop?category=${cat.slug}`} className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
                   আরো দেখুন <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
