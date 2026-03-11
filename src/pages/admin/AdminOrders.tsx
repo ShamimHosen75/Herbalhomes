@@ -91,7 +91,6 @@ export default function AdminOrders() {
                 <TableHead>STATUS</TableHead>
                 <TableHead>DATE</TableHead>
                 <TableHead className="text-right">ACTIONS</TableHead>
-                <TableHead className="text-right">ACTIONS</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -99,7 +98,9 @@ export default function AdminOrders() {
                 <TableRow key={order.id}>
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>{order.customerName}</TableCell>
-                  <TableCell>{order.customerPhone}</TableCell>
+                  <TableCell>
+                    <a href={`tel:${order.customerPhone}`} className="text-primary underline hover:text-primary/80">{order.customerPhone}</a>
+                  </TableCell>
                   <TableCell>
                     <div>
                       <Badge variant="outline" className="text-xs">{order.paymentMethod.toUpperCase()}</Badge>
