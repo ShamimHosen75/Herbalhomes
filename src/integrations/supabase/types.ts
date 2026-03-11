@@ -464,6 +464,7 @@ export type Database = {
           created_at: string
           date: string
           id: string
+          image: string
           product_id: string
           rating: number
           verified: boolean
@@ -475,6 +476,7 @@ export type Database = {
           created_at?: string
           date?: string
           id?: string
+          image?: string
           product_id: string
           rating?: number
           verified?: boolean
@@ -486,6 +488,7 @@ export type Database = {
           created_at?: string
           date?: string
           id?: string
+          image?: string
           product_id?: string
           rating?: number
           verified?: boolean

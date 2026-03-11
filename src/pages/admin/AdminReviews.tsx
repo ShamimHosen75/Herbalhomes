@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, Trash2, X, Plus, Check } from "lucide-react";
+import { Star, Trash2, X, Plus, Check, ImageIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -22,6 +22,7 @@ type Review = {
   verified: boolean;
   approved: boolean;
   created_at: string;
+  image?: string;
 };
 
 type Product = { id: string; name: string };
@@ -34,6 +35,10 @@ export default function AdminReviews() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ product_id: "", author: "", rating: 5, comment: "", verified: true });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [uploading, setUploading] = useState(false);
+  const imgRef = useRef<HTMLInputElement>(null);
 
   const fetchReviews = async () => {
     const { data, error } = await supabase.from("product_reviews").select("*").order("created_at", { ascending: false });
@@ -71,13 +76,34 @@ export default function AdminReviews() {
     fetchReviews();
   };
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const handleCreate = async () => {
-    if (!form.product_id || !form.author || !form.comment) { toast.error("Product, author and comment are required"); return; }
+    if (!form.product_id || !form.author) { toast.error("Product and author are required"); return; }
+
+    let imageUrl = "";
+    if (imageFile) {
+      setUploading(true);
+      const ext = imageFile.name.split(".").pop();
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error: upErr } = await supabase.storage.from("review-images").upload(path, imageFile);
+      if (upErr) { toast.error("Image upload failed"); setUploading(false); return; }
+      const { data: urlData } = supabase.storage.from("review-images").getPublicUrl(path);
+      imageUrl = urlData.publicUrl;
+      setUploading(false);
+    }
+
     const { error } = await supabase.from("product_reviews").insert({
       product_id: form.product_id,
       author: form.author,
       rating: form.rating,
       comment: form.comment,
+      image: imageUrl,
       date: new Date().toISOString().split("T")[0],
       verified: form.verified,
       approved: true,
@@ -86,6 +112,8 @@ export default function AdminReviews() {
     toast.success("Review created");
     setOpen(false);
     setForm({ product_id: "", author: "", rating: 5, comment: "", verified: true });
+    setImageFile(null);
+    setImagePreview("");
     fetchReviews();
   };
 
@@ -106,22 +134,14 @@ export default function AdminReviews() {
         <Button size="sm" onClick={() => setOpen(true)}><Plus className="h-4 w-4 mr-1" /> Add Review</Button>
       </div>
 
-      {/* Filter Tabs */}
       <div className="flex gap-2 mb-6">
         {(["all", "pending", "approved"] as const).map((f) => (
-          <Button
-            key={f}
-            size="sm"
-            variant={filter === f ? "default" : "outline"}
-            onClick={() => setFilter(f)}
-            className="capitalize"
-          >
+          <Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)} className="capitalize">
             {f}
           </Button>
         ))}
       </div>
 
-      {/* Reviews List */}
       <div className="bg-card rounded-xl border border-border divide-y divide-border">
         {loading ? (
           <p className="text-muted-foreground text-center py-8">Loading...</p>
@@ -129,19 +149,24 @@ export default function AdminReviews() {
           <p className="text-muted-foreground text-center py-8">No reviews found</p>
         ) : filtered.map((r) => (
           <div key={r.id} className="p-5 flex items-start justify-between gap-4">
-            <div className="space-y-1 flex-1">
-              <div className="flex items-center gap-3 flex-wrap">
-                <span className="font-bold text-foreground">{r.author}</span>
-                {renderStars(r.rating)}
-                <Badge variant={r.approved ? "default" : "secondary"} className={r.approved ? "bg-green-100 text-green-700 hover:bg-green-100" : ""}>
-                  {r.approved ? "Approved" : "Pending"}
-                </Badge>
-              </div>
-              <p className="text-muted-foreground">{r.comment}</p>
-              <div className="flex gap-3 text-xs text-muted-foreground">
-                <span>{r.date}</span>
-                <span>•</span>
-                <span>{getProductName(r.product_id)}</span>
+            <div className="flex gap-4 flex-1">
+              {r.image && (
+                <img src={r.image} alt="Review" className="h-14 w-14 rounded-lg object-cover shrink-0" />
+              )}
+              <div className="space-y-1 flex-1">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="font-bold text-foreground">{r.author}</span>
+                  {renderStars(r.rating)}
+                  <Badge variant={r.approved ? "default" : "secondary"} className={r.approved ? "bg-green-100 text-green-700 hover:bg-green-100" : ""}>
+                    {r.approved ? "Approved" : "Pending"}
+                  </Badge>
+                </div>
+                {r.comment && <p className="text-muted-foreground">{r.comment}</p>}
+                <div className="flex gap-3 text-xs text-muted-foreground">
+                  <span>{r.date}</span>
+                  <span>•</span>
+                  <span>{getProductName(r.product_id)}</span>
+                </div>
               </div>
             </div>
             <div className="flex gap-2 shrink-0">
@@ -185,18 +210,44 @@ export default function AdminReviews() {
               </div>
             </div>
             <div>
-              <Label className="font-semibold">Comment *</Label>
-              <Textarea className="mt-1" placeholder="Review comment..." value={form.comment} onChange={(e) => setForm({ ...form, comment: e.target.value })} />
+              <Label className="font-semibold">Image</Label>
+              <input type="file" accept="image/*" ref={imgRef} className="hidden" onChange={handleImageSelect} />
+              {imagePreview ? (
+                <div className="mt-1 relative inline-block">
+                  <img src={imagePreview} alt="Preview" className="h-24 w-24 rounded-lg object-cover" />
+                  <button
+                    type="button"
+                    className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full h-5 w-5 flex items-center justify-center"
+                    onClick={() => { setImageFile(null); setImagePreview(""); }}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => imgRef.current?.click()}
+                  className="mt-1 h-24 w-24 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center gap-1 text-muted-foreground hover:border-primary/50 transition-colors"
+                >
+                  <ImageIcon className="h-5 w-5" />
+                  <span className="text-xs">Upload</span>
+                </button>
+              )}
+            </div>
+            <div>
+              <Label className="font-semibold">Comment</Label>
+              <Textarea className="mt-1" placeholder="Review comment (optional)..." value={form.comment} onChange={(e) => setForm({ ...form, comment: e.target.value })} />
             </div>
             <div className="flex gap-2 justify-end">
               <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-              <Button onClick={handleCreate}>Create Review</Button>
+              <Button onClick={handleCreate} disabled={uploading}>
+                {uploading ? "Uploading..." : "Create Review"}
+              </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={(v) => { if (!v) setDeleteId(null); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
