@@ -1,9 +1,11 @@
+import { forwardRef } from "react";
 import { ArrowRight, Truck, ShieldCheck, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroPerson from "@/assets/hero-person.png";
 
-const HeroSection = () => {
+const HeroSection = forwardRef<HTMLElement>((_props, ref) => {
   return (
+    <section ref={ref} className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
     <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
       <div className="container mx-auto px-4 py-12 md:py-20">
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
