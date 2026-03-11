@@ -131,6 +131,7 @@ const App = () => {
       </CartProvider>
       </AuthProvider>
     </TooltipProvider>
+    </LanguageProvider>
     </DynamicThemeProvider>
   </QueryClientProvider>
   );
