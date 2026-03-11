@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, Eye, Filter } from "lucide-react";
+import { Search, Eye, Filter, MessageCircle } from "lucide-react";
 
 type LeadStatus = "new" | "contacted" | "converted" | "invalid";
 
@@ -160,7 +160,12 @@ export default function AdminCheckoutLeads() {
                   <TableCell className="font-medium">{lead.id}</TableCell>
                   <TableCell>{lead.customer_name}</TableCell>
                   <TableCell>
-                    <a href={`tel:${lead.customer_phone}`} className="text-primary underline hover:text-primary/80">{lead.customer_phone}</a>
+                    <div className="flex items-center gap-2">
+                      <a href={`tel:${lead.customer_phone}`} className="text-primary underline hover:text-primary/80">{lead.customer_phone}</a>
+                      <a href={`https://wa.me/${lead.customer_phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700" title="WhatsApp">
+                        <MessageCircle className="w-4 h-4" />
+                      </a>
+                    </div>
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="text-xs">{lead.items_count} items</Badge>
