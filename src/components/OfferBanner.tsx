@@ -3,9 +3,14 @@ import { Gift } from "lucide-react";
 interface Props {
   title?: string;
   subtitle?: string;
+  content?: any;
 }
 
-const OfferBanner = ({ title, subtitle }: Props) => {
+const OfferBanner = ({ title, subtitle, content }: Props) => {
+  const ctaText = content?.cta_text || "অফার দেখুন";
+  const ctaLink = content?.cta_link || "#best-sellers";
+  const couponCode = content?.coupon_code || "PURENATURE25";
+
   return (
     <section className="py-14 md:py-20 bg-gradient-to-r from-primary to-[hsl(142,64%,28%)] relative overflow-hidden">
       <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-primary-foreground/5 -translate-y-1/2 translate-x-1/3" />
@@ -20,13 +25,13 @@ const OfferBanner = ({ title, subtitle }: Props) => {
             {title || "প্রথম অর্ডারে ২৫% ছাড় পান"}
           </h2>
           <p className="text-primary-foreground/80 text-sm md:text-base mb-7">
-            {subtitle || 'চেকআউটে কোড PURENATURE25 ব্যবহার করুন। ৫০০৳ এর উপরে অর্ডারে ফ্রি ডেলিভারি।'}
+            {subtitle || `চেকআউটে কোড ${couponCode} ব্যবহার করুন। ৫০০৳ এর উপরে অর্ডারে ফ্রি ডেলিভারি।`}
           </p>
           <a
-            href="#best-sellers"
+            href={ctaLink}
             className="inline-flex items-center gap-2 bg-background text-foreground px-7 py-3 rounded-xl text-sm font-semibold hover:bg-muted transition-colors"
           >
-            অফার দেখুন
+            {ctaText}
           </a>
         </div>
       </div>

@@ -76,7 +76,7 @@ const Index = () => {
         {sections.map(section => {
           const Component = sectionComponents[section.section_type];
           if (!Component) return null;
-          return <Component key={section.id} title={section.title} subtitle={section.subtitle} />;
+          return <Component key={section.id} title={section.title} subtitle={section.subtitle} content={section.content} />;
         })}
       </main>
       <Footer />

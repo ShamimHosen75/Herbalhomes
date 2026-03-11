@@ -13,13 +13,13 @@ const productGroups = [
 interface Props {
   title?: string;
   subtitle?: string;
+  content?: any;
 }
 
 const BestSellers = ({ title, subtitle }: Props) => {
   const { products } = useProducts();
   return (
     <section id="best-sellers" className="bg-muted/50">
-      {/* Section heading from admin */}
       {title && (
         <div className="container mx-auto px-4 pt-12 md:pt-16">
           <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-1">{title}</h2>
