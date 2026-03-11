@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, Eye, Filter } from "lucide-react";
+import { Search, Eye, Filter, MessageCircle } from "lucide-react";
 
 type LeadStatus = "new" | "contacted" | "converted" | "invalid";
 
