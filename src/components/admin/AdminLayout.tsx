@@ -41,6 +41,7 @@ const sidebarItems = [
   { label: "Courier", icon: Truck, path: "/admin/courier" },
   { label: "Payment Methods", icon: CreditCard, path: "/admin/payment-methods" },
   { label: "Landing Pages", icon: FileText, path: "/admin/landing-pages" },
+  { label: "Page Contents", icon: FileText, path: "/admin/page-contents" },
   { label: "Staff Users", icon: Users, path: "/admin/users" },
   { label: "Customers", icon: Contact, path: "/admin/customers" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },
