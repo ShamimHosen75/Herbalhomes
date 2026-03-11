@@ -36,10 +36,8 @@ export default function AdminReviews() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ product_id: "", author: "", rating: 5, comment: "", verified: true });
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [reviewImage, setReviewImage] = useState("");
   const [uploading, setUploading] = useState(false);
-  const imgRef = useRef<HTMLInputElement>(null);
 
   const fetchReviews = async () => {
     const { data, error } = await supabase.from("product_reviews").select("*").order("created_at", { ascending: false });
