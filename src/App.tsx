@@ -47,6 +47,7 @@ import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminLandingPages from "./pages/admin/AdminLandingPages";
 import AdminHomepage from "./pages/admin/AdminHomepage";
+import AdminPageContents from "./pages/admin/AdminPageContents";
 import LandingPage from "./pages/LandingPage";
 import type { ReactNode } from "react";
 
@@ -114,6 +115,7 @@ const App = () => {
                   <Route path="/admin/settings" element={<ProtectedAdmin><AdminSettings /></ProtectedAdmin>} />
                   <Route path="/admin/landing-pages" element={<ProtectedAdmin><AdminLandingPages /></ProtectedAdmin>} />
                   <Route path="/admin/homepage" element={<ProtectedAdmin><AdminHomepage /></ProtectedAdmin>} />
+                  <Route path="/admin/page-contents" element={<ProtectedAdmin><AdminPageContents /></ProtectedAdmin>} />
 
                   <Route path="/lp/:slug" element={<LandingPage />} />
                   <Route path="*" element={<NotFound />} />
