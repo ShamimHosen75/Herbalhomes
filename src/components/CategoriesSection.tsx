@@ -2,10 +2,10 @@ import { Baby, Sparkles, UtensilsCrossed, Package } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const categories = [
-  { name: "জৈব সাবান", subtitle: "প্রাকৃতিক ও হাতে তৈরি", icon: Sparkles, bg: "bg-badge-pink", color: "text-pink-500" },
-  { name: "প্রাকৃতিক তেল", subtitle: "কালোজিরা, নারকেল তেল", icon: Package, bg: "bg-badge-green", color: "text-primary" },
-  { name: "ভেষজ স্কিনকেয়ার", subtitle: "ত্বকের যত্ন", icon: Baby, bg: "bg-badge-orange", color: "text-orange-500" },
-  { name: "স্বাস্থ্যকর খাবার", subtitle: "খাদ্য সামগ্রী", icon: UtensilsCrossed, bg: "bg-badge-blue", color: "text-blue-500" },
+  { name: "জৈব সাবান", slug: "soap", subtitle: "প্রাকৃতিক ও হাতে তৈরি", icon: Sparkles, bg: "bg-badge-pink", color: "text-pink-500" },
+  { name: "প্রাকৃতিক তেল", slug: "oil", subtitle: "কালোজিরা, নারকেল তেল", icon: Package, bg: "bg-badge-green", color: "text-primary" },
+  { name: "ভেষজ স্কিনকেয়ার", slug: "skincare", subtitle: "ত্বকের যত্ন", icon: Baby, bg: "bg-badge-orange", color: "text-orange-500" },
+  { name: "স্বাস্থ্যকর খাবার", slug: "food", subtitle: "খাদ্য সামগ্রী", icon: UtensilsCrossed, bg: "bg-badge-blue", color: "text-blue-500" },
 ];
 
 const CategoriesSection = () => {
