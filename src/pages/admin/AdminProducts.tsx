@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useProducts } from "@/contexts/ProductsContext";
-import { categories, type Product, type ProductVariant } from "@/data/products";
+import type { Product, ProductVariant } from "@/data/products";
+import { useCategories } from "@/contexts/CategoriesContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
