@@ -305,7 +305,6 @@ export default function AdminSlider() {
               <Button onClick={handleSave} className="flex-1">
                 {editId ? "Update Slide" : "Create Slide"}
               </Button>
-              </Button>
               <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
             </div>
           </div>
