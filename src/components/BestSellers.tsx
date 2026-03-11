@@ -53,7 +53,7 @@ const BestSellers = ({ title, subtitle }: Props) => {
               </div>
               <div className="sm:hidden mt-5 text-center">
                 <Link to={`/shop?category=${cat.slug}`} className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                  আরো দেখুন <ArrowRight className="h-4 w-4" />
+                  {t("best_sellers.view_more")} <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
             </div>
