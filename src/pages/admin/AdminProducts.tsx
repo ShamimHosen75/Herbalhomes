@@ -160,8 +160,37 @@ function ProductForm({
       </div>
 
       <div>
-        <label className="text-sm font-medium text-foreground">ছবি URL (কমা দিয়ে)</label>
-        <Input value={imagesInput} onChange={(e) => setImagesInput(e.target.value)} placeholder="https://..." />
+        <label className="text-sm font-medium text-foreground">ছবি</label>
+        <input type="file" accept="image/*" multiple ref={imgInputRef} className="hidden" onChange={async (e) => {
+          const files = e.target.files;
+          if (!files?.length) return;
+          setUploading(true);
+          const newUrls: string[] = [];
+          for (const file of Array.from(files)) {
+            const ext = file.name.split(".").pop();
+            const path = `${Date.now()}-${Math.random().toString(36).slice(2, 6)}.${ext}`;
+            const { error } = await supabase.storage.from("product-images").upload(path, file);
+            if (!error) {
+              const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(path);
+              newUrls.push(urlData.publicUrl);
+            }
+          }
+          setImages(prev => [...prev, ...newUrls]);
+          setUploading(false);
+          e.target.value = "";
+        }} />
+        <div className="flex flex-wrap gap-2 mt-1">
+          {images.map((url, i) => (
+            <div key={i} className="relative group">
+              <img src={url} alt="" className="h-16 w-16 rounded-lg object-cover border border-border" />
+              <button type="button" className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full h-5 w-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => setImages(prev => prev.filter((_, idx) => idx !== i))}>×</button>
+            </div>
+          ))}
+          <button type="button" onClick={() => imgInputRef.current?.click()} disabled={uploading}
+            className="h-16 w-16 rounded-lg border-2 border-dashed border-border hover:border-primary flex items-center justify-center text-muted-foreground hover:text-primary transition-colors">
+            {uploading ? <Loader2 className="h-5 w-5 animate-spin" /> : <ImagePlus className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Variants */}
