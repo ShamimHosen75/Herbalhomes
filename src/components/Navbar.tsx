@@ -5,16 +5,10 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import logo from "@/assets/logo.png";
-
-const defaultNavLinks = [
-  { label: "হোমপেজ", href: "/" },
-  { label: "পণ্য সমূহ", href: "/shop" },
-  { label: "ক্যাটাগরি", href: "/categories" },
-  { label: "আমাদের সম্পর্কে", href: "/about" },
-  { label: "যোগাযোগ", href: "/contact" },
-];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,12 +19,12 @@ const Navbar = () => {
   const { getCount: getWishlistCount } = useWishlist();
   const { settings } = useSiteSettings();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const cartCount = getItemCount();
   const wishlistCount = getWishlistCount();
 
   const storeName = settings.store_name || "Herbal Homes";
   const storeLogo = settings.logo || logo;
-  const phoneNumber = settings.phone || "+8801712345678";
 
   useEffect(() => {
     supabase.from("page_contents").select("*").eq("page_key", "navbar").single().then(({ data }) => {
@@ -38,8 +32,16 @@ const Navbar = () => {
     });
   }, []);
 
+  const defaultNavLinks = [
+    { label: t("nav.home"), href: "/" },
+    { label: t("nav.shop"), href: "/shop" },
+    { label: t("nav.categories"), href: "/categories" },
+    { label: t("nav.about"), href: "/about" },
+    { label: t("nav.contact"), href: "/contact" },
+  ];
+
   const navLinks = navContent?.links?.length ? navContent.links : defaultNavLinks;
-  const ctaText = navContent?.cta_text || "যোগাযোগ";
+  const ctaText = navContent?.cta_text || t("nav.contact");
   const ctaLink = navContent?.cta_link || "/contact";
 
   return (
@@ -74,7 +76,7 @@ const Navbar = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="প্রোডাক্ট খুঁজুন..."
+                placeholder={t("nav.search_placeholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full h-10 pl-10 pr-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
@@ -83,6 +85,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-1 md:gap-2">
+            <LanguageSwitcher />
             <Link to="/wishlist" className="hidden md:flex relative p-2 text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-accent">
               <Heart className="h-5 w-5" />
               {wishlistCount > 0 && <span className="absolute top-0.5 right-0.5 h-4 w-4 bg-discount text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">{wishlistCount}</span>}
@@ -123,7 +126,7 @@ const Navbar = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="প্রোডাক্ট খুঁজুন..."
+                placeholder={t("nav.search_placeholder")}
                 className="w-full h-10 pl-10 pr-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
               />
             </div>
