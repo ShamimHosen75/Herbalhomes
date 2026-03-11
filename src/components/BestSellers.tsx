@@ -1,14 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProducts } from "@/contexts/ProductsContext";
+import { useCategories } from "@/contexts/CategoriesContext";
 import ProductCard from "@/components/ProductCard";
-
-const productGroups = [
-  { title: "জৈব সাবান", subtitle: "প্রাকৃতিক ও হাতে তৈরি সাবান", emoji: "🧼", category: "soap" },
-  { title: "প্রাকৃতিক তেল", subtitle: "বিশুদ্ধ ও কোল্ড-প্রেসড", emoji: "🫒", category: "oil" },
-  { title: "ভেষজ স্কিনকেয়ার", subtitle: "ত্বকের যত্নে প্রকৃতির ছোঁয়া", emoji: "🌿", category: "skincare" },
-  { title: "স্বাস্থ্যকর খাবার", subtitle: "খাদ্য সামগ্রী", emoji: "🍯", category: "food" },
-];
 
 interface Props {
   title?: string;
