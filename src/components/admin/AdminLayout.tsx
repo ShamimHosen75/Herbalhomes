@@ -22,6 +22,7 @@ import {
   FileText,
   Home,
   Contact,
+  Award,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAdmin } from "@/contexts/AdminContext";
