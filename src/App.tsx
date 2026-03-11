@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import ScrollToTop from "@/components/ScrollToTop";
 import { DynamicThemeProvider } from "@/components/DynamicThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
