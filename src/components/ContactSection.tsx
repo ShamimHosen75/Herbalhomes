@@ -1,4 +1,5 @@
 import { Phone, MessageCircle } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
   title?: string;
@@ -7,22 +8,23 @@ interface Props {
 }
 
 const ContactSection = ({ title, subtitle, content }: Props) => {
+  const { t } = useLanguage();
   const phone = content?.phone || "০১৭১২-৩৪৫৬৭৮";
   const phoneRaw = content?.phone_raw || "+8801712345678";
   const whatsapp = content?.whatsapp || "8801712345678";
   const facebook = content?.facebook || "https://m.me/herbalhomes";
-  const ctaFacebook = content?.cta_facebook || "ফেসবুকে মেসেজ করুন";
-  const ctaWhatsapp = content?.cta_whatsapp || "হোয়াটসঅ্যাপ";
+  const ctaFacebook = content?.cta_facebook || t("contact_section.messenger");
+  const ctaWhatsapp = content?.cta_whatsapp || t("contact_section.whatsapp");
 
   return (
     <section id="contact" className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-xl md:text-2xl font-bold text-foreground mb-3">
-            {title || "প্রশ্ন আছে? আমাদের সাথে যোগাযোগ করুন"}
+            {title || t("contact_section.title")}
           </h2>
           <p className="text-sm md:text-base text-muted-foreground mb-8">
-            {subtitle || "যেকোনো প্রোডাক্ট সম্পর্কে জানতে বা অর্ডার করতে আমাদের সাথে যোগাযোগ করুন। আমরা সবসময় আপনার পাশে আছি।"}
+            {subtitle || t("contact_section.subtitle")}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
@@ -41,7 +43,7 @@ const ContactSection = ({ title, subtitle, content }: Props) => {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            অথবা সরাসরি কল করুন:{" "}
+            {t("contact_section.or_call")}{" "}
             <a href={`tel:${phoneRaw}`} className="font-semibold text-primary hover:underline inline-flex items-center gap-1">
               <Phone className="h-3.5 w-3.5" />
               {phone}

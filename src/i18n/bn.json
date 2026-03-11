@@ -1,0 +1,92 @@
+{
+  "nav": {
+    "home": "হোমপেজ",
+    "shop": "পণ্য সমূহ",
+    "categories": "ক্যাটাগরি",
+    "about": "আমাদের সম্পর্কে",
+    "contact": "যোগাযোগ",
+    "search_placeholder": "প্রোডাক্ট খুঁজুন...",
+    "login": "লগইন",
+    "account": "একাউন্ট"
+  },
+  "hero": {
+    "cta": "এখনই কিনুন"
+  },
+  "categories_section": {
+    "title": "প্রোডাক্ট বাছাই করুন"
+  },
+  "best_sellers": {
+    "view_all": "সব দেখুন",
+    "view_more": "আরো দেখুন"
+  },
+  "why_choose": {
+    "title": "কেন আমাদের বেছে নেবেন"
+  },
+  "contact_section": {
+    "title": "প্রশ্ন আছে? আমাদের সাথে যোগাযোগ করুন",
+    "subtitle": "যেকোনো প্রোডাক্ট সম্পর্কে জানতে বা অর্ডার করতে আমাদের সাথে যোগাযোগ করুন। আমরা সবসময় আপনার পাশে আছি।",
+    "or_call": "অথবা সরাসরি কল করুন:",
+    "messenger": "ফেসবুকে মেসেজ করুন",
+    "whatsapp": "হোয়াটসঅ্যাপ"
+  },
+  "footer": {
+    "tagline": "সুস্থ ও টেকসই জীবনযাপনের জন্য হাতে তৈরি জৈব পণ্য।",
+    "quick_links": "দ্রুত লিংক",
+    "help": "সাহায্য",
+    "contact_title": "যোগাযোগ",
+    "all_products": "সকল পণ্য",
+    "best_selling": "সেরা বিক্রিত",
+    "new_products": "নতুন পণ্য",
+    "gift_sets": "গিফট সেট",
+    "discounts": "ছাড়",
+    "faq": "সচরাচর জিজ্ঞাসা",
+    "shipping_returns": "শিপিং ও রিটার্ন",
+    "track_order": "অর্ডার ট্র্যাক করুন",
+    "contact_us": "যোগাযোগ করুন",
+    "privacy_policy": "গোপনীয়তা নীতি",
+    "copyright": "© ২০২৬ {{storeName}}। সর্বস্বত্ব সংরক্ষিত।"
+  },
+  "product": {
+    "add_to_cart": "কার্টে যোগ করুন",
+    "buy_now": "এখনই কিনুন",
+    "out_of_stock": "স্টক শেষ",
+    "in_stock": "স্টকে আছে",
+    "reviews": "রিভিউ",
+    "description": "বিবরণ",
+    "ingredients": "উপকরণ",
+    "benefits": "উপকারিতা",
+    "usage": "ব্যবহারবিধি",
+    "related": "সম্পর্কিত পণ্য"
+  },
+  "cart": {
+    "title": "শপিং কার্ট",
+    "empty": "আপনার কার্ট খালি",
+    "continue_shopping": "শপিং চালিয়ে যান",
+    "subtotal": "সাবটোটাল",
+    "checkout": "চেকআউট করুন",
+    "total": "মোট",
+    "quantity": "পরিমাণ",
+    "remove": "সরান"
+  },
+  "checkout": {
+    "title": "চেকআউট",
+    "name": "নাম",
+    "phone": "ফোন নম্বর",
+    "address": "ঠিকানা",
+    "place_order": "অর্ডার করুন",
+    "payment_method": "পেমেন্ট পদ্ধতি",
+    "shipping": "শিপিং",
+    "order_summary": "অর্ডার সারসংক্ষেপ"
+  },
+  "common": {
+    "home": "হোম",
+    "loading": "লোড হচ্ছে...",
+    "error": "কিছু ভুল হয়েছে",
+    "save": "সেভ করুন",
+    "cancel": "বাতিল",
+    "delete": "ডিলিট",
+    "edit": "এডিট",
+    "close": "বন্ধ করুন",
+    "taka": "৳"
+  }
+}
