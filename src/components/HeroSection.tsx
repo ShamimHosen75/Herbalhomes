@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Truck, ShieldCheck, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import heroPerson from "@/assets/hero-person.png";
 
@@ -27,6 +28,7 @@ const HeroSection = (_props: Props) => {
   const [slides, setSlides] = useState<Slide[]>([]);
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchSlides = async () => {
@@ -60,13 +62,8 @@ const HeroSection = (_props: Props) => {
   if (isBanner) {
     return (
       <section className="relative overflow-hidden">
-        {/* Full-width banner background */}
         {slide.banner_url && (
-          <img
-            src={slide.banner_url}
-            alt={slide.heading}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          <img src={slide.banner_url} alt={slide.heading} className="absolute inset-0 w-full h-full object-cover" />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
 
@@ -76,24 +73,16 @@ const HeroSection = (_props: Props) => {
               {slide.heading}
             </h1>
             {slide.text && (
-              <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-lg">
-                {slide.text}
-              </p>
+              <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-lg">{slide.text}</p>
             )}
             <div className="flex flex-wrap gap-3">
-              <Link
-                to={slide.cta_link || "/shop"}
-                className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
-              >
+              <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
                 <ShoppingCartIcon />
-                {slide.cta_text || "শপিং শুরু করুন"}
+                {slide.cta_text || t("hero.shop_now")}
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link
-                to="/categories"
-                className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/30 transition-colors"
-              >
-                ক্যাটাগরি দেখুন
+              <Link to="/categories" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/30 transition-colors">
+                {t("hero.view_categories")}
               </Link>
             </div>
 
@@ -104,7 +93,6 @@ const HeroSection = (_props: Props) => {
     );
   }
 
-  // Card layout (original)
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
       <div className="container mx-auto px-4 py-12 md:py-20">
@@ -112,7 +100,7 @@ const HeroSection = (_props: Props) => {
           <div className="flex-1 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 bg-accent text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-medium mb-6">
               <Star className="h-3.5 w-3.5 fill-primary text-primary" />
-              বাংলাদেশের বিশ্বস্ত অর্গানিক শপ
+              {t("hero.trusted_shop")}
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-foreground leading-tight mb-5">
@@ -124,53 +112,42 @@ const HeroSection = (_props: Props) => {
             </p>
 
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <Link
-                to={slide.cta_link || "/shop"}
-                className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
-              >
+              <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
                 <ShoppingCartIcon />
-                {slide.cta_text || "শপিং শুরু করুন"}
+                {slide.cta_text || t("hero.shop_now")}
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link
-                to="/categories"
-                className="inline-flex items-center gap-2 bg-background text-foreground px-7 py-3.5 rounded-xl text-sm font-semibold border border-border hover:bg-muted transition-colors"
-              >
-                ক্যাটাগরি দেখুন
+              <Link to="/categories" className="inline-flex items-center gap-2 bg-background text-foreground px-7 py-3.5 rounded-xl text-sm font-semibold border border-border hover:bg-muted transition-colors">
+                {t("hero.view_categories")}
               </Link>
             </div>
 
             <SlideControls slides={slides} current={current} setCurrent={setCurrent} />
           </div>
 
-          {/* Right Image */}
           <div className="flex-1 relative flex justify-center">
             <div className="relative">
-              <img
-                src={slide.image_url || heroPerson}
-                alt={slide.heading}
-                className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10 rounded-2xl"
-              />
+              <img src={slide.image_url || heroPerson} alt={slide.heading} className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10 rounded-2xl" />
 
               <div className="absolute top-8 -right-2 md:right-0 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20">
                 <div className="h-8 w-8 rounded-full bg-badge-blue flex items-center justify-center">
                   <Truck className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-xs font-semibold text-foreground">ফাস্ট ডেলিভারি</span>
+                <span className="text-xs font-semibold text-foreground">{t("hero.fast_delivery")}</span>
               </div>
 
               <div className="absolute bottom-16 -left-4 md:left-0 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20" style={{ animationDelay: "1s" }}>
                 <div className="h-8 w-8 rounded-full bg-badge-green flex items-center justify-center">
                   <ShieldCheck className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-xs font-semibold text-foreground">১০০% অরিজিনাল</span>
+                <span className="text-xs font-semibold text-foreground">{t("hero.original")}</span>
               </div>
 
               <div className="absolute bottom-4 right-4 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20" style={{ animationDelay: "2s" }}>
                 <div className="h-8 w-8 rounded-full bg-badge-orange flex items-center justify-center">
                   <Star className="h-4 w-4 fill-primary text-primary" />
                 </div>
-                <span className="text-xs font-semibold text-foreground">নিরাপদ সেবা</span>
+                <span className="text-xs font-semibold text-foreground">{t("hero.safe_service")}</span>
               </div>
             </div>
           </div>
@@ -179,6 +156,38 @@ const HeroSection = (_props: Props) => {
     </section>
   );
 };
+
+function FallbackHero() {
+  const { t } = useLanguage();
+  return (
+    <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
+      <div className="container mx-auto px-4 py-12 md:py-20">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div className="flex-1 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 bg-accent text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+              <Star className="h-3.5 w-3.5 fill-primary text-primary" />
+              {t("hero.trusted_shop")}
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-foreground leading-tight mb-5">
+              {t("hero.fallback_title_1")}{" "}<span className="text-primary">{t("hero.fallback_title_highlight")}</span>{" "}{t("hero.fallback_title_2")}
+            </h1>
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
+              {t("hero.fallback_subtitle")}
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              <Link to="/shop" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                <ShoppingCartIcon /> {t("hero.shop_now")} <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+          <div className="flex-1 relative flex justify-center">
+            <img src={heroPerson} alt="Herbal Homes" className="w-72 md:w-80 lg:w-96 h-auto object-contain" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function SlideControls({ slides, current, setCurrent, light }: { slides: Slide[]; current: number; setCurrent: (n: number) => void; light?: boolean }) {
   if (slides.length <= 1) return null;
@@ -196,46 +205,13 @@ function SlideControls({ slides, current, setCurrent, light }: { slides: Slide[]
       </button>
       <div className="flex gap-2">
         {slides.map((_, i) => (
-          <button key={i} onClick={() => setCurrent(i)}
-            className={`h-2 rounded-full transition-all ${i === current ? dotActive : dotInactive}`}
-          />
+          <button key={i} onClick={() => setCurrent(i)} className={`h-2 rounded-full transition-all ${i === current ? dotActive : dotInactive}`} />
         ))}
       </div>
       <button onClick={() => setCurrent((current + 1) % slides.length)} className={btnClass}>
         <ChevronRight className={chevronClass} />
       </button>
     </div>
-  );
-}
-
-function FallbackHero() {
-  return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
-      <div className="container mx-auto px-4 py-12 md:py-20">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-          <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 bg-accent text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-              <Star className="h-3.5 w-3.5 fill-primary text-primary" />
-              বাংলাদেশের বিশ্বস্ত অর্গানিক শপ
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-foreground leading-tight mb-5">
-              আপনার পছন্দের{" "}<span className="text-primary">অর্গানিক পণ্য</span>{" "}এখন আপনার হাতের নাগালে
-            </h1>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
-              জৈব সাবান, প্রাকৃতিক তেল, ভেষজ স্কিনকেয়ার ও স্বাস্থ্যকর খাবার — সবকিছু এক জায়গায়।
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <Link to="/shop" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
-                <ShoppingCartIcon /> শপিং শুরু করুন <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-          <div className="flex-1 relative flex justify-center">
-            <img src={heroPerson} alt="হার্বাল হোমস" className="w-72 md:w-80 lg:w-96 h-auto object-contain" />
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 
