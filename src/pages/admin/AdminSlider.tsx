@@ -9,12 +9,16 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, Upload, Image as ImageIcon } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Plus, Pencil, Trash2, Upload, Image as ImageIcon, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 type Slide = {
   id: string;
   image_url: string;
+  banner_url: string;
+  layout: string;
   heading: string;
   text: string;
   cta_text: string;
@@ -26,6 +30,8 @@ type Slide = {
 
 const emptyForm = (): Partial<Slide> => ({
   image_url: "",
+  banner_url: "",
+  layout: "card",
   heading: "",
   text: "",
   cta_text: "Shop Now",
@@ -41,7 +47,8 @@ export default function AdminSlider() {
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<Partial<Slide>>(emptyForm());
   const [uploading, setUploading] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const cardFileRef = useRef<HTMLInputElement>(null);
+  const bannerFileRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const fetchSlides = useCallback(async () => {
@@ -53,12 +60,10 @@ export default function AdminSlider() {
 
   useEffect(() => { fetchSlides(); }, [fetchSlides]);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const uploadImage = async (file: File, field: "image_url" | "banner_url") => {
     setUploading(true);
     const ext = file.name.split(".").pop();
-    const path = `slide-${Date.now()}.${ext}`;
+    const path = `slide-${field}-${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("slider-images").upload(path, file);
     if (error) {
       toast({ title: "আপলোড ব্যর্থ", variant: "destructive" });
@@ -66,7 +71,7 @@ export default function AdminSlider() {
       return;
     }
     const { data: urlData } = supabase.storage.from("slider-images").getPublicUrl(path);
-    setForm({ ...form, image_url: urlData.publicUrl });
+    setForm(prev => ({ ...prev, [field]: urlData.publicUrl }));
     setUploading(false);
   };
 
@@ -75,13 +80,11 @@ export default function AdminSlider() {
       toast({ title: "Heading is required", variant: "destructive" });
       return;
     }
-    if (!form.text?.trim()) {
-      toast({ title: "Text is required", variant: "destructive" });
-      return;
-    }
 
     const payload = {
       image_url: form.image_url || "",
+      banner_url: form.banner_url || "",
+      layout: form.layout || "card",
       heading: form.heading || "",
       text: form.text || "",
       cta_text: form.cta_text || "Shop Now",
@@ -121,6 +124,39 @@ export default function AdminSlider() {
     setSlides((prev) => prev.map((s) => s.id === id ? { ...s, active: !current } : s));
   };
 
+  const ImageUploadBox = ({ value, field, fileRef }: { value: string; field: "image_url" | "banner_url"; fileRef: React.RefObject<HTMLInputElement> }) => (
+    <div>
+      <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadImage(f, field); }} />
+      <div className="flex items-start gap-3 mt-2">
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          className="w-32 h-24 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center gap-1 hover:border-primary/50 transition-colors overflow-hidden shrink-0"
+        >
+          {value ? (
+            <img src={value} alt="" className="w-full h-full object-cover rounded-lg" />
+          ) : (
+            <>
+              <Upload className="w-5 h-5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">{uploading ? "Uploading..." : "Upload"}</span>
+            </>
+          )}
+        </button>
+        {value && (
+          <button type="button" onClick={() => setForm(prev => ({ ...prev, [field]: "" }))} className="text-muted-foreground hover:text-destructive mt-1">
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+      <Input
+        placeholder="Or paste image URL"
+        value={value || ""}
+        onChange={(e) => setForm(prev => ({ ...prev, [field]: e.target.value }))}
+        className="mt-2"
+      />
+    </div>
+  );
+
   return (
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
@@ -140,6 +176,7 @@ export default function AdminSlider() {
             <TableHeader>
               <TableRow>
                 <TableHead>IMAGE</TableHead>
+                <TableHead>LAYOUT</TableHead>
                 <TableHead>HEADING</TableHead>
                 <TableHead>CTA</TableHead>
                 <TableHead>ORDER</TableHead>
@@ -151,13 +188,16 @@ export default function AdminSlider() {
               {slides.map((slide) => (
                 <TableRow key={slide.id}>
                   <TableCell>
-                    {slide.image_url ? (
-                      <img src={slide.image_url} alt="" className="w-20 h-12 object-cover rounded" />
+                    {(slide.layout === "banner" ? slide.banner_url : slide.image_url) ? (
+                      <img src={slide.layout === "banner" ? slide.banner_url : slide.image_url} alt="" className="w-20 h-12 object-cover rounded" />
                     ) : (
                       <div className="w-20 h-12 bg-muted rounded flex items-center justify-center">
                         <ImageIcon className="w-5 h-5 text-muted-foreground" />
                       </div>
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="capitalize">{slide.layout || "card"}</Badge>
                   </TableCell>
                   <TableCell>
                     <div className="font-medium text-sm">{slide.heading}</div>
@@ -201,45 +241,47 @@ export default function AdminSlider() {
 
       {/* Add/Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={(v) => { if (!v) { setForm(emptyForm()); setEditId(null); } setDialogOpen(v); }}>
-        <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
+        <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editId ? "Edit" : "Add New"} Slide</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            {/* Image Upload */}
+            {/* Layout Type */}
             <div>
-              <Label className="text-sm font-medium">Slide Image *</Label>
-              <div className="mt-2 flex items-start gap-3">
-                <button
-                  type="button"
-                  onClick={() => fileRef.current?.click()}
-                  className="w-32 h-24 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center gap-1 hover:border-primary/50 transition-colors"
-                >
-                  {form.image_url ? (
-                    <img src={form.image_url} alt="" className="w-full h-full object-cover rounded-lg" />
-                  ) : (
-                    <>
-                      <Upload className="w-5 h-5 text-muted-foreground" />
-                      <span className="text-xs text-muted-foreground">{uploading ? "Uploading..." : "Upload Image"}</span>
-                    </>
-                  )}
-                </button>
-                <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-              </div>
-              <Input
-                placeholder="Or paste image URL"
-                value={form.image_url || ""}
-                onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                className="mt-2"
-              />
+              <Label className="text-sm font-medium">Layout Type *</Label>
+              <Select value={form.layout || "card"} onValueChange={(v) => setForm(prev => ({ ...prev, layout: v }))}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="card">Card Image (ডান পাশে ছবি)</SelectItem>
+                  <SelectItem value="banner">Full Width Banner</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
+
+            {/* Card Image - shown for card layout */}
+            {form.layout === "card" && (
+              <div>
+                <Label className="text-sm font-medium">Card Image (ডান পাশে) *</Label>
+                <ImageUploadBox value={form.image_url || ""} field="image_url" fileRef={cardFileRef} />
+              </div>
+            )}
+
+            {/* Banner Image - shown for banner layout */}
+            {form.layout === "banner" && (
+              <div>
+                <Label className="text-sm font-medium">Banner Image (Full Width) *</Label>
+                <ImageUploadBox value={form.banner_url || ""} field="banner_url" fileRef={bannerFileRef} />
+              </div>
+            )}
 
             {/* Heading */}
             <div>
               <Label className="text-sm font-medium">Heading *</Label>
               <Textarea
                 value={form.heading || ""}
-                onChange={(e) => setForm({ ...form, heading: e.target.value })}
+                onChange={(e) => setForm(prev => ({ ...prev, heading: e.target.value }))}
                 className="mt-1"
                 rows={2}
               />
@@ -247,10 +289,10 @@ export default function AdminSlider() {
 
             {/* Text */}
             <div>
-              <Label className="text-sm font-medium">Text *</Label>
+              <Label className="text-sm font-medium">Text</Label>
               <Textarea
                 value={form.text || ""}
-                onChange={(e) => setForm({ ...form, text: e.target.value })}
+                onChange={(e) => setForm(prev => ({ ...prev, text: e.target.value }))}
                 className="mt-1"
                 rows={3}
               />
@@ -262,7 +304,7 @@ export default function AdminSlider() {
                 <Label className="text-sm font-medium">CTA Text *</Label>
                 <Input
                   value={form.cta_text || ""}
-                  onChange={(e) => setForm({ ...form, cta_text: e.target.value })}
+                  onChange={(e) => setForm(prev => ({ ...prev, cta_text: e.target.value }))}
                   className="mt-1"
                 />
               </div>
@@ -270,7 +312,7 @@ export default function AdminSlider() {
                 <Label className="text-sm font-medium">CTA Link *</Label>
                 <Input
                   value={form.cta_link || ""}
-                  onChange={(e) => setForm({ ...form, cta_link: e.target.value })}
+                  onChange={(e) => setForm(prev => ({ ...prev, cta_link: e.target.value }))}
                   className="mt-1"
                 />
               </div>
@@ -283,14 +325,14 @@ export default function AdminSlider() {
                 <Input
                   type="number"
                   value={form.sort_order || 0}
-                  onChange={(e) => setForm({ ...form, sort_order: +e.target.value })}
+                  onChange={(e) => setForm(prev => ({ ...prev, sort_order: +e.target.value }))}
                   className="mt-1"
                 />
               </div>
               <div className="flex items-center gap-2 pb-2">
                 <Switch
                   checked={form.active ?? true}
-                  onCheckedChange={(v) => setForm({ ...form, active: v })}
+                  onCheckedChange={(v) => setForm(prev => ({ ...prev, active: v }))}
                 />
                 <Label className="text-sm">Active</Label>
               </div>
@@ -298,8 +340,8 @@ export default function AdminSlider() {
 
             {/* Actions */}
             <div className="flex gap-2 pt-2">
-              <Button onClick={handleSave} className="flex-1">
-                {editId ? "Update Slide" : "Create Slide"}
+              <Button onClick={handleSave} className="flex-1" disabled={uploading}>
+                {uploading ? "Uploading..." : editId ? "Update Slide" : "Create Slide"}
               </Button>
               <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
             </div>
