@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useProducts } from "@/contexts/ProductsContext";
-import { categories, type Product, type ProductVariant } from "@/data/products";
+import type { Product, ProductVariant } from "@/data/products";
+import { useCategories } from "@/contexts/CategoriesContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,13 +39,14 @@ function ProductForm({
   onSave: (product: Product) => void;
   onClose: () => void;
 }) {
+  const { categories } = useCategories();
   const [form, setForm] = useState<Partial<Product>>(initial ? { ...initial } : emptyProduct());
   const [variants, setVariants] = useState<ProductVariant[]>(initial?.variants || [emptyVariant()]);
   const [tagsInput, setTagsInput] = useState(initial?.tags?.join(", ") || "");
   const [benefitsInput, setBenefitsInput] = useState(initial?.benefits?.join(", ") || "");
   const [imagesInput, setImagesInput] = useState(initial?.images?.join(", ") || "");
 
-  const update = (key: keyof Product, value: any) => setForm({ ...form, [key]: value });
+  const update = (key: keyof Product, value: any) => setForm(prev => ({ ...prev, [key]: value }));
 
   const updateVariant = (index: number, key: keyof ProductVariant, value: any) => {
     const next = [...variants];
