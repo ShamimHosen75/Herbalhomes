@@ -7,34 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, Upload, X } from "lucide-react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import DragDropImageUpload from "@/components/admin/DragDropImageUpload";
 
 function CategoryForm({ initial, onSave, onClose }: { initial?: Category; onSave: (c: Category) => void; onClose: () => void }) {
   const [name, setName] = useState(initial?.name || "");
   const [slug, setSlug] = useState(initial?.slug || "");
   const [description, setDescription] = useState(initial?.description || "");
   const [image, setImage] = useState(initial?.image || "");
-  const [uploading, setUploading] = useState(false);
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const ext = file.name.split(".").pop();
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error } = await supabase.storage.from("category-images").upload(path, file);
-      if (error) throw error;
-      const { data: urlData } = supabase.storage.from("category-images").getPublicUrl(path);
-      setImage(urlData.publicUrl);
-    } catch (err) {
-      console.error("Upload error:", err);
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const handleSubmit = () => {
     if (!name) return;
@@ -64,23 +45,15 @@ function CategoryForm({ initial, onSave, onClose }: { initial?: Category; onSave
       </div>
       <div>
         <label className="text-sm font-medium text-foreground mb-2 block">ছবি</label>
-        {image ? (
-          <div className="relative inline-block">
-            <img src={image} alt="Category" className="h-32 w-32 rounded-lg object-cover border border-border" />
-            <button onClick={() => setImage("")} className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-0.5">
-              <X className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        ) : (
-          <label className="flex flex-col items-center justify-center h-32 w-32 rounded-lg border-2 border-dashed border-border cursor-pointer hover:border-primary/50 transition-colors">
-            <Upload className="h-6 w-6 text-muted-foreground mb-1" />
-            <span className="text-xs text-muted-foreground">{uploading ? "আপলোড হচ্ছে..." : "ছবি আপলোড"}</span>
-            <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading} />
-          </label>
-        )}
+        <DragDropImageUpload
+          value={image}
+          onChange={(v) => setImage(v as string)}
+          bucket="category-images"
+          previewSize="md"
+        />
       </div>
       <div className="flex gap-2">
-        <Button onClick={handleSubmit} className="flex-1" disabled={uploading}>{initial ? "আপডেট করুন" : "যোগ করুন"}</Button>
+        <Button onClick={handleSubmit} className="flex-1">{initial ? "আপডেট করুন" : "যোগ করুন"}</Button>
         <Button variant="outline" onClick={onClose}>বাতিল</Button>
       </div>
     </div>
