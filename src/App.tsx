@@ -47,6 +47,7 @@ import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminLandingPages from "./pages/admin/AdminLandingPages";
 import AdminHomepage from "./pages/admin/AdminHomepage";
+import AdminPageContents from "./pages/admin/AdminPageContents";
 import LandingPage from "./pages/LandingPage";
 import type { ReactNode } from "react";
 
