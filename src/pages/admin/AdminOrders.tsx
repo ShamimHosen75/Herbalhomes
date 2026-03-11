@@ -99,7 +99,12 @@ export default function AdminOrders() {
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>{order.customerName}</TableCell>
                   <TableCell>
-                    <a href={`tel:${order.customerPhone}`} className="text-primary underline hover:text-primary/80">{order.customerPhone}</a>
+                    <div className="flex items-center gap-2">
+                      <a href={`tel:${order.customerPhone}`} className="text-primary underline hover:text-primary/80">{order.customerPhone}</a>
+                      <a href={`https://wa.me/${order.customerPhone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700" title="WhatsApp">
+                        <MessageCircle className="w-4 h-4" />
+                      </a>
+                    </div>
                   </TableCell>
                   <TableCell>
                     <div>
