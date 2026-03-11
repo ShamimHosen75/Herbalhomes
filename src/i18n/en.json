@@ -1,0 +1,92 @@
+{
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "categories": "Categories",
+    "about": "About Us",
+    "contact": "Contact",
+    "search_placeholder": "Search products...",
+    "login": "Login",
+    "account": "Account"
+  },
+  "hero": {
+    "cta": "Shop Now"
+  },
+  "categories_section": {
+    "title": "Shop by Category"
+  },
+  "best_sellers": {
+    "view_all": "View All",
+    "view_more": "View More"
+  },
+  "why_choose": {
+    "title": "Why Choose Us"
+  },
+  "contact_section": {
+    "title": "Have Questions? Contact Us",
+    "subtitle": "Reach out to us for any product inquiries or orders. We're always here to help.",
+    "or_call": "Or call us directly:",
+    "messenger": "Message on Facebook",
+    "whatsapp": "WhatsApp"
+  },
+  "footer": {
+    "tagline": "Handmade organic products for a healthy & sustainable lifestyle.",
+    "quick_links": "Quick Links",
+    "help": "Help",
+    "contact_title": "Contact",
+    "all_products": "All Products",
+    "best_selling": "Best Sellers",
+    "new_products": "New Arrivals",
+    "gift_sets": "Gift Sets",
+    "discounts": "Discounts",
+    "faq": "FAQ",
+    "shipping_returns": "Shipping & Returns",
+    "track_order": "Track Order",
+    "contact_us": "Contact Us",
+    "privacy_policy": "Privacy Policy",
+    "copyright": "© 2026 {{storeName}}. All rights reserved."
+  },
+  "product": {
+    "add_to_cart": "Add to Cart",
+    "buy_now": "Buy Now",
+    "out_of_stock": "Out of Stock",
+    "in_stock": "In Stock",
+    "reviews": "Reviews",
+    "description": "Description",
+    "ingredients": "Ingredients",
+    "benefits": "Benefits",
+    "usage": "Usage",
+    "related": "Related Products"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "continue_shopping": "Continue Shopping",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "total": "Total",
+    "quantity": "Quantity",
+    "remove": "Remove"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "name": "Name",
+    "phone": "Phone Number",
+    "address": "Address",
+    "place_order": "Place Order",
+    "payment_method": "Payment Method",
+    "shipping": "Shipping",
+    "order_summary": "Order Summary"
+  },
+  "common": {
+    "home": "Home",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "taka": "৳"
+  }
+}
