@@ -8,6 +8,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
 import OfferBanner from "@/components/OfferBanner";
 import ContactSection from "@/components/ContactSection";
+import BSTICertificates from "@/components/BSTICertificates";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
@@ -30,6 +31,7 @@ const sectionComponents: Record<string, React.ComponentType<{ title?: string; su
   offer_banner: OfferBanner,
   customer_reviews: Testimonials,
   contact: ContactSection,
+  bsti_certificates: BSTICertificates as any,
 };
 
 const Index = () => {
@@ -59,6 +61,7 @@ const Index = () => {
           <CategoriesSection />
           <BestSellers />
           <WhyChooseUs />
+          <BSTICertificates />
           <OfferBanner />
           <Testimonials />
           <ContactSection />

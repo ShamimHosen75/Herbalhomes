@@ -22,6 +22,7 @@ import {
   FileText,
   Home,
   Contact,
+  Award,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAdmin } from "@/contexts/AdminContext";
@@ -40,6 +41,7 @@ const sidebarItems = [
   { label: "Reviews", icon: MessageSquare, path: "/admin/reviews" },
   { label: "Courier", icon: Truck, path: "/admin/courier" },
   { label: "Payment Methods", icon: CreditCard, path: "/admin/payment-methods" },
+  { label: "BSTI Certificates", icon: Award, path: "/admin/bsti-certificates" },
   { label: "Landing Pages", icon: FileText, path: "/admin/landing-pages" },
   { label: "Page Contents", icon: FileText, path: "/admin/page-contents" },
   { label: "Staff Users", icon: Users, path: "/admin/users" },
