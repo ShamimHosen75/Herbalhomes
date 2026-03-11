@@ -1,7 +1,8 @@
+import { forwardRef } from "react";
 import { MessageCircle } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
-export default function WhatsAppButton() {
+const WhatsAppButton = forwardRef<HTMLAnchorElement>((_props, ref) => {
   const { settings } = useSiteSettings();
   const whatsappNumber = settings.whatsapp || "8801XXXXXXXXX";
   const message = "আসসালামু আলাইকুম! আমি আপনাদের পণ্য সম্পর্কে জানতে চাই।";
@@ -9,6 +10,7 @@ export default function WhatsAppButton() {
 
   return (
     <a
+      ref={ref}
       href={url}
       target="_blank"
       rel="noopener noreferrer"
@@ -18,4 +20,8 @@ export default function WhatsAppButton() {
       <MessageCircle className="h-7 w-7" />
     </a>
   );
-}
+});
+
+WhatsAppButton.displayName = "WhatsAppButton";
+
+export default WhatsAppButton;
