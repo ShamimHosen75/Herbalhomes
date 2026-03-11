@@ -40,7 +40,8 @@ const Navbar = () => {
     { label: t("nav.contact"), href: "/contact" },
   ];
 
-  const navLinks = navContent?.links?.length ? navContent.links : defaultNavLinks;
+  // Always use translated nav links; only use DB for CTA customization
+  const navLinks = defaultNavLinks;
   const ctaText = navContent?.cta_text || t("nav.contact");
   const ctaLink = navContent?.cta_link || "/contact";
 
