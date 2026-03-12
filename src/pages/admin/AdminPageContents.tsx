@@ -368,12 +368,18 @@ export default function AdminPageContents() {
   };
 
   const renderEditor = (page: PageContent) => {
+    const updateFn = (content: any) => updateContent(page.id, content);
     switch (page.page_key) {
       case "about": return renderAboutEditor(page);
       case "contact": return renderContactEditor(page);
       case "navbar": return renderNavbarEditor(page);
       case "footer": return renderFooterEditor(page);
-      default: return <p className="text-sm text-muted-foreground">No editor available for this page.</p>;
+      case "faq": return <FAQEditor content={page.content} onUpdate={updateFn} />;
+      case "terms": return <TermsEditor content={page.content} onUpdate={updateFn} label="Terms & Conditions" />;
+      case "privacy": return <TermsEditor content={page.content} onUpdate={updateFn} label="Privacy Policy" />;
+      case "refund": return <TermsEditor content={page.content} onUpdate={updateFn} label="Refund Policy" />;
+      case "shipping_policy": return <TermsEditor content={page.content} onUpdate={updateFn} label="Shipping Policy" />;
+      default: return <GenericEditor content={page.content} onUpdate={updateFn} />;
     }
   };
 
