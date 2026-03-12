@@ -74,6 +74,39 @@ export default function AdminPageContents() {
     toast({ title: `${pageLabels[page.page_key] || page.page_key} সেভ হয়েছে` });
   };
 
+  const handleAddPage = async () => {
+    if (!newPageKey.trim()) return;
+    const slug = newPageKey.trim().toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
+    if (pages.some(p => p.page_key === slug)) {
+      toast({ title: "এই page key ইতিমধ্যে আছে", variant: "destructive" });
+      return;
+    }
+    setAddingPage(true);
+    const { error } = await supabase.from("page_contents").insert({
+      page_key: slug,
+      title: newPageTitle.trim() || slug,
+      subtitle: "",
+      content: {},
+    } as any);
+    setAddingPage(false);
+    if (error) {
+      toast({ title: "পেজ তৈরি করতে সমস্যা হয়েছে", variant: "destructive" });
+      return;
+    }
+    setShowAddDialog(false);
+    setNewPageKey("");
+    setNewPageTitle("");
+    toast({ title: "নতুন পেজ তৈরি হয়েছে" });
+    fetchPages();
+  };
+
+  const handleDeletePage = async (page: PageContent) => {
+    if (!confirm(`"${pageLabels[page.page_key] || page.page_key}" পেজটি মুছে ফেলতে চান?`)) return;
+    await supabase.from("page_contents").delete().eq("id", page.id);
+    toast({ title: "পেজ মুছে ফেলা হয়েছে" });
+    fetchPages();
+  };
+
   const renderAboutEditor = (page: PageContent) => {
     const c = page.content || {};
     return (
