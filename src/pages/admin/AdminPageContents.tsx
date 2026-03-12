@@ -371,12 +371,17 @@ export default function AdminPageContents() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center gap-2 mb-6">
-        <FileText className="h-6 w-6 text-foreground" />
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Page Contents</h1>
-          <p className="text-sm text-muted-foreground">সকল পেজের কনটেন্ট এডিট করুন</p>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <FileText className="h-6 w-6 text-foreground" />
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Page Contents</h1>
+            <p className="text-sm text-muted-foreground">সকল পেজের কনটেন্ট এডিট করুন</p>
+          </div>
         </div>
+        <Button onClick={() => setShowAddDialog(true)}>
+          <Plus className="h-4 w-4 mr-1" /> Add New Page
+        </Button>
       </div>
 
       {loading ? (
