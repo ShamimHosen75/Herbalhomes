@@ -81,6 +81,7 @@ const Index = () => {
           if (!Component) return null;
           return <Component key={section.id} title={section.title} subtitle={section.subtitle} content={section.content} />;
         })}
+        <BSTICertificates />
       </main>
       <Footer />
       <WhatsAppButton />
