@@ -9,6 +9,9 @@ import { Save, FileText, Plus, Trash2, ChevronRight } from "lucide-react";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
+} from "@/components/ui/dialog";
 
 interface PageContent {
   id: string;
@@ -30,6 +33,10 @@ export default function AdminPageContents() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
   const [expandedPage, setExpandedPage] = useState<string | null>(null);
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [newPageKey, setNewPageKey] = useState("");
+  const [newPageTitle, setNewPageTitle] = useState("");
+  const [addingPage, setAddingPage] = useState(false);
   const { toast } = useToast();
 
   const fetchPages = async () => {
@@ -65,6 +72,39 @@ export default function AdminPageContents() {
       .eq("id", page.id);
     setSaving(null);
     toast({ title: `${pageLabels[page.page_key] || page.page_key} সেভ হয়েছে` });
+  };
+
+  const handleAddPage = async () => {
+    if (!newPageKey.trim()) return;
+    const slug = newPageKey.trim().toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
+    if (pages.some(p => p.page_key === slug)) {
+      toast({ title: "এই page key ইতিমধ্যে আছে", variant: "destructive" });
+      return;
+    }
+    setAddingPage(true);
+    const { error } = await supabase.from("page_contents").insert({
+      page_key: slug,
+      title: newPageTitle.trim() || slug,
+      subtitle: "",
+      content: {},
+    } as any);
+    setAddingPage(false);
+    if (error) {
+      toast({ title: "পেজ তৈরি করতে সমস্যা হয়েছে", variant: "destructive" });
+      return;
+    }
+    setShowAddDialog(false);
+    setNewPageKey("");
+    setNewPageTitle("");
+    toast({ title: "নতুন পেজ তৈরি হয়েছে" });
+    fetchPages();
+  };
+
+  const handleDeletePage = async (page: PageContent) => {
+    if (!confirm(`"${pageLabels[page.page_key] || page.page_key}" পেজটি মুছে ফেলতে চান?`)) return;
+    await supabase.from("page_contents").delete().eq("id", page.id);
+    toast({ title: "পেজ মুছে ফেলা হয়েছে" });
+    fetchPages();
   };
 
   const renderAboutEditor = (page: PageContent) => {
@@ -331,12 +371,17 @@ export default function AdminPageContents() {
 
   return (
     <AdminLayout>
-      <div className="flex items-center gap-2 mb-6">
-        <FileText className="h-6 w-6 text-foreground" />
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Page Contents</h1>
-          <p className="text-sm text-muted-foreground">সকল পেজের কনটেন্ট এডিট করুন</p>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <FileText className="h-6 w-6 text-foreground" />
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Page Contents</h1>
+            <p className="text-sm text-muted-foreground">সকল পেজের কনটেন্ট এডিট করুন</p>
+          </div>
         </div>
+        <Button onClick={() => setShowAddDialog(true)}>
+          <Plus className="h-4 w-4 mr-1" /> Add New Page
+        </Button>
       </div>
 
       {loading ? (
@@ -354,10 +399,15 @@ export default function AdminPageContents() {
                     <p className="text-xs text-muted-foreground">{page.title}</p>
                   </div>
                 </div>
-                <Button size="sm" onClick={(e) => { e.stopPropagation(); handleSave(page); }} disabled={saving === page.id}>
-                  <Save className="h-4 w-4 mr-1" />
-                  {saving === page.id ? "Saving..." : "Save"}
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="ghost" className="text-destructive" onClick={(e) => { e.stopPropagation(); handleDeletePage(page); }}>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                  <Button size="sm" onClick={(e) => { e.stopPropagation(); handleSave(page); }} disabled={saving === page.id}>
+                    <Save className="h-4 w-4 mr-1" />
+                    {saving === page.id ? "Saving..." : "Save"}
+                  </Button>
+                </div>
               </div>
 
               {/* Expanded editor */}
@@ -380,6 +430,32 @@ export default function AdminPageContents() {
           ))}
         </div>
       )}
+
+      {/* Add New Page Dialog */}
+      <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>নতুন পেজ তৈরি করুন</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div>
+              <label className="text-sm font-medium text-foreground">Page Key</label>
+              <Input value={newPageKey} onChange={e => setNewPageKey(e.target.value)} placeholder="e.g. faq, terms, privacy" />
+              <p className="text-xs text-muted-foreground mt-1">ইউনিক আইডেন্টিফায়ার (ইংরেজি, lowercase)</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">Page Title</label>
+              <Input value={newPageTitle} onChange={e => setNewPageTitle(e.target.value)} placeholder="e.g. FAQ, Terms & Conditions" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowAddDialog(false)}>বাতিল</Button>
+            <Button onClick={handleAddPage} disabled={addingPage || !newPageKey.trim()}>
+              <Plus className="h-4 w-4 mr-1" /> {addingPage ? "তৈরি হচ্ছে..." : "তৈরি করুন"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 }
