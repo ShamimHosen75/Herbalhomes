@@ -12,6 +12,9 @@ import {
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
+import FAQEditor from "@/components/admin/page-editors/FAQEditor";
+import TermsEditor from "@/components/admin/page-editors/TermsEditor";
+import GenericEditor from "@/components/admin/page-editors/GenericEditor";
 
 interface PageContent {
   id: string;
