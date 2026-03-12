@@ -29,6 +29,11 @@ const pageLabels: Record<string, string> = {
   contact: "Contact / যোগাযোগ",
   navbar: "Navigation Menu",
   footer: "Footer / ফুটার",
+  faq: "FAQ / প্রশ্নোত্তর",
+  terms: "Terms & Conditions / শর্তাবলী",
+  privacy: "Privacy Policy / গোপনীয়তা নীতি",
+  refund: "Refund Policy / রিফান্ড নীতি",
+  shipping_policy: "Shipping Policy / শিপিং নীতি",
 };
 
 export default function AdminPageContents() {
