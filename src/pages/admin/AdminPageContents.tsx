@@ -12,6 +12,9 @@ import {
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
+import FAQEditor from "@/components/admin/page-editors/FAQEditor";
+import TermsEditor from "@/components/admin/page-editors/TermsEditor";
+import GenericEditor from "@/components/admin/page-editors/GenericEditor";
 
 interface PageContent {
   id: string;
@@ -26,6 +29,11 @@ const pageLabels: Record<string, string> = {
   contact: "Contact / যোগাযোগ",
   navbar: "Navigation Menu",
   footer: "Footer / ফুটার",
+  faq: "FAQ / প্রশ্নোত্তর",
+  terms: "Terms & Conditions / শর্তাবলী",
+  privacy: "Privacy Policy / গোপনীয়তা নীতি",
+  refund: "Refund Policy / রিফান্ড নীতি",
+  shipping_policy: "Shipping Policy / শিপিং নীতি",
 };
 
 export default function AdminPageContents() {
@@ -360,12 +368,18 @@ export default function AdminPageContents() {
   };
 
   const renderEditor = (page: PageContent) => {
+    const updateFn = (content: any) => updateContent(page.id, content);
     switch (page.page_key) {
       case "about": return renderAboutEditor(page);
       case "contact": return renderContactEditor(page);
       case "navbar": return renderNavbarEditor(page);
       case "footer": return renderFooterEditor(page);
-      default: return <p className="text-sm text-muted-foreground">No editor available for this page.</p>;
+      case "faq": return <FAQEditor content={page.content} onUpdate={updateFn} />;
+      case "terms": return <TermsEditor content={page.content} onUpdate={updateFn} label="Terms & Conditions" />;
+      case "privacy": return <TermsEditor content={page.content} onUpdate={updateFn} label="Privacy Policy" />;
+      case "refund": return <TermsEditor content={page.content} onUpdate={updateFn} label="Refund Policy" />;
+      case "shipping_policy": return <TermsEditor content={page.content} onUpdate={updateFn} label="Shipping Policy" />;
+      default: return <GenericEditor content={page.content} onUpdate={updateFn} />;
     }
   };
 
