@@ -430,6 +430,32 @@ export default function AdminPageContents() {
           ))}
         </div>
       )}
+
+      {/* Add New Page Dialog */}
+      <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>নতুন পেজ তৈরি করুন</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div>
+              <label className="text-sm font-medium text-foreground">Page Key</label>
+              <Input value={newPageKey} onChange={e => setNewPageKey(e.target.value)} placeholder="e.g. faq, terms, privacy" />
+              <p className="text-xs text-muted-foreground mt-1">ইউনিক আইডেন্টিফায়ার (ইংরেজি, lowercase)</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground">Page Title</label>
+              <Input value={newPageTitle} onChange={e => setNewPageTitle(e.target.value)} placeholder="e.g. FAQ, Terms & Conditions" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowAddDialog(false)}>বাতিল</Button>
+            <Button onClick={handleAddPage} disabled={addingPage || !newPageKey.trim()}>
+              <Plus className="h-4 w-4 mr-1" /> {addingPage ? "তৈরি হচ্ছে..." : "তৈরি করুন"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 }
