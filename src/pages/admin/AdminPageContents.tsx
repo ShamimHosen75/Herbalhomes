@@ -33,6 +33,10 @@ export default function AdminPageContents() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
   const [expandedPage, setExpandedPage] = useState<string | null>(null);
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [newPageKey, setNewPageKey] = useState("");
+  const [newPageTitle, setNewPageTitle] = useState("");
+  const [addingPage, setAddingPage] = useState(false);
   const { toast } = useToast();
 
   const fetchPages = async () => {
