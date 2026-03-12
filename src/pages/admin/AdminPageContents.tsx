@@ -399,10 +399,15 @@ export default function AdminPageContents() {
                     <p className="text-xs text-muted-foreground">{page.title}</p>
                   </div>
                 </div>
-                <Button size="sm" onClick={(e) => { e.stopPropagation(); handleSave(page); }} disabled={saving === page.id}>
-                  <Save className="h-4 w-4 mr-1" />
-                  {saving === page.id ? "Saving..." : "Save"}
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="ghost" className="text-destructive" onClick={(e) => { e.stopPropagation(); handleDeletePage(page); }}>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                  <Button size="sm" onClick={(e) => { e.stopPropagation(); handleSave(page); }} disabled={saving === page.id}>
+                    <Save className="h-4 w-4 mr-1" />
+                    {saving === page.id ? "Saving..." : "Save"}
+                  </Button>
+                </div>
               </div>
 
               {/* Expanded editor */}
