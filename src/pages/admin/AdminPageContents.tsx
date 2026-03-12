@@ -9,6 +9,9 @@ import { Save, FileText, Plus, Trash2, ChevronRight } from "lucide-react";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
+} from "@/components/ui/dialog";
 
 interface PageContent {
   id: string;
