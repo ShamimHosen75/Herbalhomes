@@ -50,7 +50,7 @@ const VideoSliderSection = () => {
     <section className="py-14 md:py-20 bg-muted/40">
       <div className="container mx-auto px-4">
         <h2 className="text-xl md:text-2xl font-bold text-primary text-left mb-8">
-          নিউজ মিডিয়ার ভিডিও
+          {title}
         </h2>
 
         <div className="relative">
