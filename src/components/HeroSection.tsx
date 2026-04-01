@@ -94,30 +94,30 @@ const HeroSection = (_props: Props) => {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
+    <section key={slide.id} className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
       <div className="container mx-auto px-4 py-16 md:py-28 lg:py-32">
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
           <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 bg-accent text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 bg-accent text-secondary-foreground px-4 py-1.5 rounded-full text-sm font-medium mb-6 animate-[fade-in_0.5s_ease-out_both]">
               <Star className="h-3.5 w-3.5 fill-primary text-primary" />
               {t("hero.trusted_shop")}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-foreground leading-tight mb-5">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-foreground leading-tight mb-5 animate-[fade-in_0.6s_ease-out_0.1s_both]">
               {slide.heading}
             </h1>
 
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0 animate-[fade-in_0.6s_ease-out_0.2s_both]">
               {slide.text}
             </p>
 
-            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start animate-[fade-in_0.6s_ease-out_0.3s_both]">
+              <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 hover-scale">
                 <ShoppingCartIcon />
                 {slide.cta_text || t("hero.shop_now")}
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link to="/categories" className="inline-flex items-center gap-2 bg-background text-foreground px-7 py-3.5 rounded-xl text-sm font-semibold border border-border hover:bg-muted transition-colors">
+              <Link to="/categories" className="inline-flex items-center gap-2 bg-background text-foreground px-7 py-3.5 rounded-xl text-sm font-semibold border border-border hover:bg-muted transition-colors hover-scale">
                 {t("hero.view_categories")}
               </Link>
             </div>
@@ -125,7 +125,7 @@ const HeroSection = (_props: Props) => {
             <SlideControls slides={slides} current={current} setCurrent={setCurrent} />
           </div>
 
-          <div className="flex-1 relative flex justify-center">
+          <div className="flex-1 relative flex justify-center animate-[scale-in_0.7s_ease-out_0.2s_both]">
             <div className="relative">
               <img src={slide.image_url || heroPerson} alt={slide.heading} className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10 rounded-2xl" />
 
