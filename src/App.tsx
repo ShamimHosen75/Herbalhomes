@@ -62,9 +62,6 @@ function ProtectedAdmin({ children }: { children: ReactNode }) {
 }
 
 const App = () => {
-  useEffect(() => {
-    seedDatabaseIfEmpty();
-  }, []);
 
   return (
   <QueryClientProvider client={queryClient}>
