@@ -16,12 +16,11 @@ const ProductCard = ({ product, showRating = true }: Props) => {
   const { toggleItem, isInWishlist } = useWishlist();
   const { t } = useLanguage();
   const navigate = useNavigate();
-  
-  // Guard against products with no variants
-  if (!product.variants || product.variants.length === 0) return null;
-  
-  const defaultVariant = product.variants[0];
+  const defaultVariant = product.variants?.[0];
   const [selectedVariant, setSelectedVariant] = useState(defaultVariant);
+
+  // Guard against products with no variants
+  if (!defaultVariant || !selectedVariant) return null;
 
   const discount = selectedVariant.oldPrice
     ? Math.round(((selectedVariant.oldPrice - selectedVariant.price) / selectedVariant.oldPrice) * 100)
