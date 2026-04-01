@@ -58,7 +58,7 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
     <section className="py-14 md:py-20 bg-muted/50">
       <div className="container mx-auto px-4">
         <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-2">
-          {title || "আমাদের গ্রাহকরা কী বলছেন"}
+          {title || "আমাদের সম্মানিত গ্রাহকদের রিভিউ দেখুন"}
         </h2>
         {subtitle && <p className="text-sm text-muted-foreground text-center mb-10">{subtitle}</p>}
         {!subtitle && <div className="mb-10" />}
@@ -68,7 +68,6 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
-          {/* Slider container */}
           <div className="overflow-hidden">
             <div
               className="flex transition-transform duration-500 ease-in-out"
@@ -82,23 +81,34 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
                   className="flex-shrink-0 px-2"
                   style={{ width: `${100 / visibleCount}%` }}
                 >
-                  <div className="bg-card rounded-2xl p-6 border border-border hover:shadow-md transition-shadow h-full">
-                    <div className="flex items-center gap-1 mb-3">
-                      {Array.from({ length: review.rating || 5 }).map((_, j) => (
-                        <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
+                  {review.image ? (
+                    <div className="rounded-xl overflow-hidden border border-border shadow-sm aspect-[3/4]">
+                      <img
+                        src={review.image}
+                        alt={review.name || `Review ${i + 1}`}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
                     </div>
-                    <p className="text-foreground text-sm leading-relaxed mb-5">"{review.text}"</p>
-                    <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
-                        {review.name?.[0] || "?"}
+                  ) : (
+                    <div className="bg-card rounded-xl p-6 border border-border hover:shadow-md transition-shadow h-full">
+                      <div className="flex items-center gap-1 mb-3">
+                        {Array.from({ length: review.rating || 5 }).map((_, j) => (
+                          <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        ))}
                       </div>
-                      <div>
-                        <p className="font-semibold text-foreground text-sm">{review.name}</p>
-                        <p className="text-xs text-muted-foreground">যাচাইকৃত ক্রেতা</p>
+                      <p className="text-foreground text-sm leading-relaxed mb-5">"{review.text}"</p>
+                      <div className="flex items-center gap-3">
+                        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
+                          {review.name?.[0] || "?"}
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground text-sm">{review.name}</p>
+                          <p className="text-xs text-muted-foreground">যাচাইকৃত ক্রেতা</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ))}
             </div>
