@@ -368,6 +368,55 @@ export default function AdminPageContents() {
     );
   };
 
+  const renderVideosEditor = (page: PageContent) => {
+    const c = page.content || {};
+    const videos = c.videos || [];
+    return (
+      <div className="space-y-4">
+        <h4 className="text-sm font-semibold text-foreground">ভিডিও তালিকা</h4>
+        {videos.map((video: any, i: number) => (
+          <div key={i} className="p-3 border border-border rounded-lg bg-muted/30 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Video #{i + 1}</span>
+              <Button size="icon" variant="ghost" className="text-destructive h-7 w-7" onClick={() => {
+                updateContent(page.id, { ...c, videos: videos.filter((_: any, idx: number) => idx !== i) });
+              }}><Trash2 className="h-4 w-4" /></Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div>
+                <label className="text-xs font-medium text-muted-foreground">Title / শিরোনাম</label>
+                <Input value={video.title || ""} placeholder="ভিডিও শিরোনাম" onChange={e => {
+                  const updated = [...videos];
+                  updated[i] = { ...updated[i], title: e.target.value };
+                  updateContent(page.id, { ...c, videos: updated });
+                }} />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-muted-foreground">YouTube URL / লিংক</label>
+                <Input value={video.url || ""} placeholder="https://www.youtube.com/watch?v=..." onChange={e => {
+                  const updated = [...videos];
+                  updated[i] = { ...updated[i], url: e.target.value };
+                  updateContent(page.id, { ...c, videos: updated });
+                }} />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-muted-foreground">Thumbnail URL (ঐচ্ছিক - YouTube হলে অটো দেখাবে)</label>
+              <Input value={video.thumbnail || ""} placeholder="https://..." onChange={e => {
+                const updated = [...videos];
+                updated[i] = { ...updated[i], thumbnail: e.target.value };
+                updateContent(page.id, { ...c, videos: updated });
+              }} />
+            </div>
+          </div>
+        ))}
+        <Button variant="outline" size="sm" onClick={() => {
+          updateContent(page.id, { ...c, videos: [...videos, { title: "", url: "", thumbnail: "" }] });
+        }}><Plus className="h-4 w-4 mr-1" /> Add Video</Button>
+      </div>
+    );
+  };
+
   const renderEditor = (page: PageContent) => {
     const updateFn = (content: any) => updateContent(page.id, content);
     switch (page.page_key) {
@@ -375,6 +424,7 @@ export default function AdminPageContents() {
       case "contact": return renderContactEditor(page);
       case "navbar": return renderNavbarEditor(page);
       case "footer": return renderFooterEditor(page);
+      case "homepage_videos": return renderVideosEditor(page);
       case "faq": return <FAQEditor content={page.content} onUpdate={updateFn} />;
       case "terms": return <TermsEditor content={page.content} onUpdate={updateFn} label="Terms & Conditions" />;
       case "privacy": return <TermsEditor content={page.content} onUpdate={updateFn} label="Privacy Policy" />;
