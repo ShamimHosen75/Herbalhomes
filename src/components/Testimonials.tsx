@@ -85,21 +85,6 @@ const PhoneWithOverlay = ({ src, index }: { src: string; index: number }) => (
         />
       </div>
 
-      {/* Badge */}
-      <div
-        className="rounded-full px-5 py-2 mx-auto mt-3 flex w-fit items-center gap-2"
-        style={{
-          background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8))",
-          boxShadow: "0 8px 25px hsl(var(--primary) / 0.35)",
-        }}
-      >
-        <span className="text-primary-foreground text-sm font-semibold">আলহামদুলিল্লাহ Happy client</span>
-        <div className="flex gap-0.5">
-          {[...Array(5)].map((_, j) => (
-            <Star key={j} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-          ))}
-        </div>
-      </div>
     </div>
   </div>
 );
