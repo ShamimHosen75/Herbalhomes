@@ -123,24 +123,24 @@ const ProductCard = ({ product, showRating = true }: Props) => {
         {selectedVariant.stock > 0 ? (
           <div className="flex flex-col gap-2">
             <button
-              onClick={handleBuyNow}
-              className="w-full flex items-center justify-center gap-1.5 bg-primary text-primary-foreground py-2.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
-            >
-              <Zap className="h-4 w-4" />
-              {t("product.buy_now")}
-            </button>
-            <button
               onClick={handleAddToCart}
-              className="w-full flex items-center justify-center gap-1.5 bg-accent text-primary py-2 rounded-xl text-xs font-semibold hover:bg-accent/80 border border-primary/20 transition-colors"
+              className="w-full flex items-center justify-center gap-1.5 bg-primary text-primary-foreground py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
               <ShoppingCart className="h-3.5 w-3.5" />
               {t("product.add_to_cart")}
+            </button>
+            <button
+              onClick={handleBuyNow}
+              className="w-full flex items-center justify-center gap-1.5 bg-destructive text-destructive-foreground py-2 rounded-lg text-sm font-semibold hover:bg-destructive/90 transition-colors"
+            >
+              <Zap className="h-3.5 w-3.5" />
+              {t("product.buy_now")}
             </button>
           </div>
         ) : (
           <button
             disabled
-            className="w-full flex items-center justify-center gap-2 bg-muted text-muted-foreground py-2.5 rounded-xl text-sm font-semibold cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 bg-muted text-muted-foreground py-2.5 rounded-lg text-sm font-semibold cursor-not-allowed"
           >
             {t("product.out_of_stock")}
           </button>
