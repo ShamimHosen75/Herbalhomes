@@ -19,6 +19,7 @@ type Slide = {
   id: string;
   image_url: string;
   banner_url: string;
+  images: string[];
   layout: string;
   heading: string;
   text: string;
@@ -32,6 +33,7 @@ type Slide = {
 const emptyForm = (): Partial<Slide> => ({
   image_url: "",
   banner_url: "",
+  images: [],
   layout: "card",
   heading: "",
   text: "",
