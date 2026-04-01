@@ -110,7 +110,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       title: "কার্টে যোগ হয়েছে",
       description: `${product.name} (${variant.label}) কার্টে যোগ করা হয়েছে।`,
     });
-  }, []);
+  }, [products]);
 
   const removeItem = useCallback((productId: string, variantId: string) => {
     setItems((prev) => prev.filter((i) => !(i.productId === productId && i.variantId === variantId)));
