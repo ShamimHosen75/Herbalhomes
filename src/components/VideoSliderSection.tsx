@@ -12,6 +12,7 @@ const getYouTubeId = (url: string): string | null => {
 const VideoSliderSection = () => {
   const [videos, setVideos] = useState<any[]>([]);
   const [page, setPage] = useState(0);
+  const [title, setTitle] = useState("নিউজ মিডিয়ার ভিডিও");
   const perPage = 3;
 
   useEffect(() => {
