@@ -19,7 +19,7 @@ interface Props {
 
 const PhoneCard = ({ src, index }: { src: string; index: number }) => (
   <div className="flex flex-col items-center">
-    <div className="relative" style={{ width: "min(220px, 55vw)" }}>
+    <div className="relative" style={{ width: "min(240px, 55vw)" }}>
       <img
         src={phoneFrame}
         alt="Phone frame"
@@ -28,11 +28,11 @@ const PhoneCard = ({ src, index }: { src: string; index: number }) => (
       <div
         className="absolute z-0 overflow-hidden"
         style={{
-          top: "2.8%",
-          left: "5.8%",
-          width: "88.4%",
-          height: "94.8%",
-          borderRadius: "1.4rem",
+          top: "1.8%",
+          left: "3.6%",
+          width: "92.8%",
+          height: "96.4%",
+          borderRadius: "2.4rem",
         }}
       >
         <img
@@ -43,7 +43,7 @@ const PhoneCard = ({ src, index }: { src: string; index: number }) => (
         />
       </div>
       {/* Shadow */}
-      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-6 w-[50%] rounded-full bg-black/25 blur-xl" />
+      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 h-8 w-[55%] rounded-full bg-primary/20 blur-2xl" />
     </div>
   </div>
 );
