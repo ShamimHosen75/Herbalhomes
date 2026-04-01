@@ -19,6 +19,7 @@ type Slide = {
   id: string;
   image_url: string;
   banner_url: string;
+  images: string[];
   layout: string;
   heading: string;
   text: string;
@@ -32,6 +33,7 @@ type Slide = {
 const emptyForm = (): Partial<Slide> => ({
   image_url: "",
   banner_url: "",
+  images: [],
   layout: "card",
   heading: "",
   text: "",
@@ -67,6 +69,7 @@ export default function AdminSlider() {
     const payload = {
       image_url: form.image_url || "",
       banner_url: form.banner_url || "",
+      images: form.images || [],
       layout: form.layout || "card",
       heading: form.heading || "",
       text: form.text || "",
@@ -239,6 +242,50 @@ export default function AdminSlider() {
                 />
               </div>
             )}
+
+            {/* Additional Images (Multiple) */}
+            <div>
+              <Label className="text-sm font-medium">অতিরিক্ত ছবি (Multiple Images)</Label>
+              <p className="text-xs text-muted-foreground mb-2">একাধিক ছবি আপলোড করুন — স্লাইডারে গ্যালারি হিসেবে দেখাবে</p>
+              <div className="space-y-2">
+                {(form.images || []).map((img, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <DragDropImageUpload
+                        value={img}
+                        onChange={(v) => {
+                          const updated = [...(form.images || [])];
+                          updated[i] = v as string;
+                          setForm(prev => ({ ...prev, images: updated }));
+                        }}
+                        bucket="slider-images"
+                        previewSize="sm"
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-destructive shrink-0"
+                      onClick={() => {
+                        const updated = (form.images || []).filter((_, idx) => idx !== i);
+                        setForm(prev => ({ ...prev, images: updated }));
+                      }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setForm(prev => ({ ...prev, images: [...(prev.images || []), ""] }))}
+                >
+                  <Plus className="h-4 w-4 mr-1" /> ছবি যোগ করুন
+                </Button>
+              </div>
+            </div>
 
             {/* Heading */}
             <div>
