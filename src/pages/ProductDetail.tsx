@@ -47,7 +47,7 @@ const ProductDetailContent = ({ product }: { product: Product }) => {
   const [activeTab, setActiveTab] = useState<"desc" | "ingredients" | "usage" | "reviews">("desc");
 
   const inWishlist = isInWishlist(product.id);
-  const related = getRelatedProducts(product);
+  const related = products.filter((p) => product.relatedIds.includes(p.id));
 
   const discount = selectedVariant.oldPrice
     ? Math.round(((selectedVariant.oldPrice - selectedVariant.price) / selectedVariant.oldPrice) * 100)
