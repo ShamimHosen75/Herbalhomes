@@ -173,7 +173,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const applyCoupon = useCallback(
     (code: string): boolean => {
-      const coupon = coupons.find((c) => c.code.toLowerCase() === code.toLowerCase() && c.active);
+      const coupon = dbCoupons.find((c) => c.code.toLowerCase() === code.toLowerCase() && c.active);
       if (!coupon) {
         toast({ title: "ত্রুটি", description: "কুপন কোড সঠিক নয়।", variant: "destructive" });
         return false;
