@@ -283,7 +283,7 @@ const Checkout = () => {
                             <p className="text-xs text-muted-foreground">{t("checkout.estimated", { days: method.estimatedDays })}</p>
                           </div>
                         </div>
-                        <span className="text-sm font-bold text-foreground">৳{method.cost}</span>
+                        <span className="text-sm font-bold text-foreground">{method.cost === 0 ? t("checkout.free") : `৳${method.cost}`}</span>
                       </label>
                     ))}
                   </div>
