@@ -203,16 +203,16 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
 
   // Fallback: text-based reviews
   return (
-    <section className="py-14 md:py-20 bg-[hsl(260,40%,20%)] relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-white/5 -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-48 h-48 rounded-full bg-white/5 translate-x-1/3 translate-y-1/3" />
+    <section className="py-16 md:py-24 bg-gradient-to-br from-[hsl(260,45%,16%)] via-[hsl(260,40%,20%)] to-[hsl(270,35%,14%)] relative overflow-hidden">
+      <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-primary/5 blur-3xl" />
+      <div className="absolute bottom-10 right-10 w-56 h-56 rounded-full bg-purple-500/5 blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-xl md:text-2xl font-bold text-white text-center mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-1">
           {title || "আমাদের সম্মানিত গ্রাহকদের রিভিউ দেখুন"}
         </h2>
-        {subtitle && <p className="text-sm text-white/60 text-center mb-10">{subtitle}</p>}
-        {!subtitle && <div className="mb-10" />}
+        {subtitle && <p className="text-sm text-white/50 text-center mb-12">{subtitle}</p>}
+        {!subtitle && <div className="mb-12" />}
 
         <div
           className="relative px-8 md:px-12"
