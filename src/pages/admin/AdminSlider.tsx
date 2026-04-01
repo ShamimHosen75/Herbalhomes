@@ -216,6 +216,7 @@ export default function AdminSlider() {
             {form.layout === "card" && (
               <div>
                 <Label className="text-sm font-medium">Card Image (ডান পাশে) *</Label>
+                <p className="text-xs text-muted-foreground mb-1">প্রস্তাবিত সাইজ: 600 × 750 px (4:5 ratio) — PNG (transparent)</p>
                 <DragDropImageUpload
                   value={form.image_url || ""}
                   onChange={(v) => setForm(prev => ({ ...prev, image_url: v as string }))}
@@ -229,6 +230,7 @@ export default function AdminSlider() {
             {form.layout === "banner" && (
               <div>
                 <Label className="text-sm font-medium">Banner Image (Full Width) *</Label>
+                <p className="text-xs text-muted-foreground mb-1">প্রস্তাবিত সাইজ: 1920 × 800 px (2.4:1 ratio) — JPG (&lt;300KB)</p>
                 <DragDropImageUpload
                   value={form.banner_url || ""}
                   onChange={(v) => setForm(prev => ({ ...prev, banner_url: v as string }))}
