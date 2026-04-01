@@ -16,19 +16,24 @@ const VideoSliderSection = () => {
   const perPage = 3;
 
   useEffect(() => {
+    console.log("VideoSliderSection: fetching videos...");
     supabase
       .from("page_contents")
       .select("*")
       .eq("page_key", "homepage_videos")
       .maybeSingle()
       .then(({ data, error }) => {
+        console.log("VideoSliderSection: response", { data, error });
         if (error) {
           console.error("Error fetching videos:", error);
           return;
         }
         if (data) {
           const d = data as any;
-          if (d.content?.videos && Array.isArray(d.content.videos)) setVideos(d.content.videos);
+          if (d.content?.videos && Array.isArray(d.content.videos)) {
+            console.log("VideoSliderSection: setting videos", d.content.videos);
+            setVideos(d.content.videos);
+          }
           if (d.title) setTitle(d.title);
         }
       });
