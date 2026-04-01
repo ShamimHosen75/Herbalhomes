@@ -21,8 +21,10 @@ const VideoSliderSection = () => {
       .eq("page_key", "homepage_videos")
       .single()
       .then(({ data }) => {
-        if (data && (data as any).content?.videos) {
-          setVideos((data as any).content.videos);
+        if (data) {
+          const d = data as any;
+          if (d.content?.videos) setVideos(d.content.videos);
+          if (d.title) setTitle(d.title);
         }
       });
   }, []);
