@@ -156,11 +156,21 @@ function SlideImages({ slide }: { slide: Slide }) {
     return () => clearInterval(timer);
   }, [allImages.length, slide.id]);
 
-  const mainSrc = allImages[activeImg] || heroPerson;
-
   return (
     <div className="relative">
-      <img src={mainSrc} alt={slide.heading} className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10 rounded-2xl transition-opacity duration-500" />
+      <div className="relative w-72 md:w-80 lg:w-96 aspect-[4/5] rounded-2xl overflow-hidden z-10">
+        {allImages.map((img, i) => (
+          <img
+            key={img}
+            src={img}
+            alt={slide.heading}
+            className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-700 ease-in-out ${i === activeImg ? "opacity-100" : "opacity-0"}`}
+          />
+        ))}
+        {allImages.length === 0 && (
+          <img src={heroPerson} alt={slide.heading} className="w-full h-full object-contain" />
+        )}
+      </div>
 
       {allImages.length > 1 && (
         <div className="flex gap-2 mt-3 justify-center z-20 relative">
