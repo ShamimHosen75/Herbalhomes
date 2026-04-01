@@ -146,7 +146,8 @@
     "stock_error": "Stock Issue",
     "stock_error_desc": "\"{{name}}\" ({{variant}}) has insufficient stock. Maximum {{max}} can be ordered.",
     "order_error": "Order processing failed. Please try again.",
-    "error": "Error"
+    "error": "Error",
+    "free": "Free Delivery"
   },
   "shop": {
     "title": "All Products",
