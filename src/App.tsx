@@ -72,10 +72,10 @@ const App = () => {
     <LanguageProvider>
     <TooltipProvider>
       <AuthProvider>
+      <ProductsProvider>
       <CartProvider>
         <WishlistProvider>
           <OrderProvider>
-            <ProductsProvider>
             <CategoriesProvider>
             <AdminProvider>
               <Toaster />
