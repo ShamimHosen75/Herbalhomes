@@ -69,6 +69,7 @@ export default function AdminSlider() {
     const payload = {
       image_url: form.image_url || "",
       banner_url: form.banner_url || "",
+      images: form.images || [],
       layout: form.layout || "card",
       heading: form.heading || "",
       text: form.text || "",
