@@ -1,5 +1,6 @@
 import { useProducts } from "@/contexts/ProductsContext";
 import ProductCard from "@/components/ProductCard";
+import { Link } from "react-router-dom";
 
 interface Props {
   title?: string;
@@ -10,7 +11,7 @@ const AllProducts = ({ title, subtitle }: Props) => {
   const { products, loading } = useProducts();
 
   return (
-    <section className="py-14 md:py-20 bg-background">
+    <section className="py-14 md:py-20 bg-accent/30">
       <div className="container mx-auto px-4">
         <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-2">
           {title || "আমাদের সকল পণ্য"}
@@ -35,11 +36,17 @@ const AllProducts = ({ title, subtitle }: Props) => {
             ))}
           </div>
         ) : products.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+            {/* Debug: show count */}
+            <p className="text-center text-sm text-muted-foreground mt-6">
+              মোট {products.length}টি পণ্য দেখানো হচ্ছে
+            </p>
+          </>
         ) : (
           <p className="text-center text-muted-foreground py-10">কোনো পণ্য পাওয়া যায়নি</p>
         )}
