@@ -127,10 +127,10 @@ const App = () => {
               </BrowserRouter>
             </AdminProvider>
             </CategoriesProvider>
-            </ProductsProvider>
           </OrderProvider>
         </WishlistProvider>
       </CartProvider>
+      </ProductsProvider>
       </AuthProvider>
     </TooltipProvider>
     </LanguageProvider>
