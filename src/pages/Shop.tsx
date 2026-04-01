@@ -45,7 +45,7 @@ const Shop = () => {
       case "popular": result.sort((a, b) => b.reviewCount - a.reviewCount); break;
     }
     return result;
-  }, [search, selectedCategory, sort, priceRange, inStockOnly]);
+  }, [products, search, selectedCategory, sort, priceRange, inStockOnly]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
