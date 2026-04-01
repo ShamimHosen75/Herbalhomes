@@ -55,8 +55,8 @@ const Index = () => {
     load();
   }, []);
 
-  // Fallback: default layout matching reference
-  if (loading || sections.length === 0) {
+  // Fallback: default layout when no CMS sections configured
+  if (!loading && sections.length === 0) {
     return (
       <div className="min-h-screen">
         <Navbar />
