@@ -11,6 +11,7 @@ interface Slide {
   text: string;
   image_url: string;
   banner_url: string;
+  images: string[];
   layout: string;
   cta_text: string;
   cta_link: string;
