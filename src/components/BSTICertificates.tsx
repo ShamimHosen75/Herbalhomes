@@ -58,7 +58,7 @@ const BSTICertificates = () => {
               <button
                 key={cert.id}
                 onClick={() => setSelectedCert(cert)}
-                className="group relative bg-card border border-border/60 hover:border-primary/40 rounded-xl p-4 md:p-5 text-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 animate-fade-in"
+                className="group relative bg-card border-2 border-primary/30 hover:border-primary/60 rounded-xl p-4 md:p-5 text-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 animate-fade-in"
                 style={{ animationDelay: `${index * 80}ms`, animationFillMode: "both" }}
               >
                 <div className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-3 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
