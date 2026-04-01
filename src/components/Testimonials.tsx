@@ -111,15 +111,24 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
                   >
                     {/* Phone frame mockup */}
                     <div className="mx-auto max-w-[280px]">
-                      <div className="relative rounded-[2rem] border-[6px] border-white/20 bg-black/40 overflow-hidden shadow-2xl">
+                      <div className="relative rounded-[2rem] border-[6px] border-white/20 bg-white overflow-hidden shadow-2xl">
                         {/* Phone notch */}
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-black/60 rounded-b-xl z-10" />
                         <img
                           src={img}
                           alt={`Customer review ${i + 1}`}
-                          className="w-full aspect-[9/16] object-cover"
+                          className="w-full h-auto object-contain"
                           loading="lazy"
                         />
+                        {/* Bottom label */}
+                        <div className="bg-primary py-2 px-4 text-center">
+                          <p className="text-primary-foreground text-xs font-semibold">আলহামদুলিল্লাহ Happy client</p>
+                          <div className="flex justify-center gap-0.5 mt-0.5">
+                            {Array.from({ length: 5 }).map((_, s) => (
+                              <span key={s} className="text-yellow-400 text-xs">★</span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
