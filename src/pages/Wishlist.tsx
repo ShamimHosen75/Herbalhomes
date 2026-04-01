@@ -3,7 +3,7 @@ import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { products } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
 import PageLayout from "@/components/PageLayout";
 import Breadcrumb from "@/components/Breadcrumb";
 
