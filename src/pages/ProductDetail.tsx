@@ -40,6 +40,7 @@ const ProductDetailContent = ({ product }: { product: Product }) => {
   const { toggleItem, isInWishlist } = useWishlist();
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const { products } = useProducts();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
