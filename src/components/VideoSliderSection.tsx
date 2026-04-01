@@ -53,7 +53,7 @@ const VideoSliderSection = () => {
   return (
     <section className="py-14 md:py-20 bg-muted/40">
       <div className="container mx-auto px-4">
-        <h2 className="text-xl md:text-2xl font-bold text-primary text-left mb-8">
+        <h2 className="text-xl md:text-2xl font-bold text-primary text-center mb-10">
           {title}
         </h2>
 
