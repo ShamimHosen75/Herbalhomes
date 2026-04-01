@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { type Product, type CouponRule } from "@/data/products";
 import { useProducts } from "@/contexts/ProductsContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 export type CartItem = {
