@@ -79,26 +79,27 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
   // Image testimonial slider (dark purple bg, phone frames)
   if (hasImages && imageList.length > 0) {
     return (
-      <section className="py-14 md:py-20 bg-[hsl(260,40%,20%)] relative overflow-hidden">
-        {/* Decorative circles */}
-        <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-white/5 -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-48 h-48 rounded-full bg-white/5 translate-x-1/3 translate-y-1/3" />
+      <section className="py-16 md:py-24 bg-gradient-to-br from-[hsl(260,45%,16%)] via-[hsl(260,40%,20%)] to-[hsl(270,35%,14%)] relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute bottom-10 right-10 w-56 h-56 rounded-full bg-purple-500/5 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.02]" />
 
         <div className="container mx-auto px-4 relative z-10">
-          <h2 className="text-xl md:text-2xl font-bold text-white text-center mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-1">
             {title || "আমাদের সম্মানিত গ্রাহকদের রিভিউ দেখুন"}
           </h2>
-          {subtitle && <p className="text-sm text-white/60 text-center mb-10">{subtitle}</p>}
-          {!subtitle && <div className="mb-10" />}
+          {subtitle && <p className="text-sm text-white/50 text-center mb-12">{subtitle}</p>}
+          {!subtitle && <div className="mb-12" />}
 
           <div
-            className="relative px-8 md:px-12"
+            className="relative px-10 md:px-14"
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
           >
             <div className="overflow-hidden">
               <div
-                className="flex transition-transform duration-500 ease-in-out"
+                className="flex transition-transform duration-600 ease-in-out"
                 style={{
                   transform: `translateX(-${current * (100 / visibleCount)}%)`,
                 }}
@@ -106,26 +107,52 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
                 {imageList.map((img: string, i: number) => (
                   <div
                     key={i}
-                    className="flex-shrink-0 px-3"
+                    className="flex-shrink-0 px-4"
                     style={{ width: `${100 / visibleCount}%` }}
                   >
-                    {/* Phone frame mockup */}
-                    <div className="mx-auto max-w-[280px]">
-                      <div className="relative rounded-[2rem] border-[6px] border-white/20 bg-white overflow-hidden shadow-2xl">
-                        {/* Phone notch */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-black/60 rounded-b-xl z-10" />
-                        <img
-                          src={img}
-                          alt={`Customer review ${i + 1}`}
-                          className="w-full h-auto object-contain"
-                          loading="lazy"
-                        />
-                        {/* Bottom label */}
-                        <div className="bg-primary py-2 px-4 text-center">
-                          <p className="text-primary-foreground text-xs font-semibold">আলহামদুলিল্লাহ Happy client</p>
+                    <div className="mx-auto max-w-[300px] group">
+                      {/* Phone device */}
+                      <div className="relative">
+                        {/* Phone outer shell */}
+                        <div className="rounded-[2.5rem] bg-gradient-to-b from-gray-700 to-gray-900 p-[6px] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.5)]">
+                          <div className="rounded-[2.2rem] bg-white overflow-hidden relative">
+                            {/* Status bar */}
+                            <div className="h-8 bg-gray-50 flex items-center justify-between px-6 relative">
+                              <span className="text-[9px] text-gray-500 font-medium">12:30</span>
+                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-[22px] bg-black rounded-b-2xl" />
+                              <div className="flex items-center gap-1">
+                                <div className="w-3 h-2 border border-gray-400 rounded-sm relative">
+                                  <div className="absolute inset-[1px] right-[2px] bg-gray-400 rounded-[1px]" />
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Screenshot content */}
+                            <img
+                              src={img}
+                              alt={`Customer review ${i + 1}`}
+                              className="w-full h-auto"
+                              loading="lazy"
+                            />
+
+                            {/* Bottom bar */}
+                            <div className="h-5 bg-gray-50 flex items-center justify-center">
+                              <div className="w-24 h-1 bg-gray-300 rounded-full" />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Glow effect on hover */}
+                        <div className="absolute -inset-2 rounded-[3rem] bg-primary/0 group-hover:bg-primary/10 transition-all duration-500 -z-10 blur-xl" />
+                      </div>
+
+                      {/* Happy client badge */}
+                      <div className="mt-4 flex justify-center">
+                        <div className="bg-gradient-to-r from-primary to-[hsl(142,64%,28%)] px-5 py-2 rounded-full shadow-lg shadow-primary/20">
+                          <p className="text-primary-foreground text-xs font-bold tracking-wide">✅ Verified Customer</p>
                           <div className="flex justify-center gap-0.5 mt-0.5">
                             {Array.from({ length: 5 }).map((_, s) => (
-                              <span key={s} className="text-yellow-400 text-xs">★</span>
+                              <span key={s} className="text-yellow-300 text-[10px]">★</span>
                             ))}
                           </div>
                         </div>
@@ -141,13 +168,13 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
               <>
                 <button
                   onClick={prev}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all z-10"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
                 <button
                   onClick={next}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all z-10"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>
@@ -157,13 +184,13 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
 
           {/* Dots */}
           {imageList.length > visibleCount && (
-            <div className="flex justify-center gap-2 mt-8">
+            <div className="flex justify-center gap-2 mt-10">
               {Array.from({ length: maxIndex + 1 }).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
                   className={`h-2.5 rounded-full transition-all duration-300 ${
-                    i === current ? "w-7 bg-primary" : "w-2.5 bg-white/30 hover:bg-white/50"
+                    i === current ? "w-8 bg-primary shadow-lg shadow-primary/30" : "w-2.5 bg-white/25 hover:bg-white/40"
                   }`}
                 />
               ))}
