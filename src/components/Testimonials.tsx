@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import phoneFrame from "@/assets/phone-frame.png";
 
 const defaultReviews = [
   { name: "সারাহ মুন্নি", text: "হার্বাল হোমসের ল্যাভেন্ডার সাবান ৩ মাস ধরে ব্যবহার করছি।", rating: 5 },
@@ -17,79 +18,86 @@ interface Props {
 }
 
 const PhoneWithOverlay = ({ src, index }: { src: string; index: number }) => (
-  <div className="relative flex justify-center py-6 md:py-8" style={{ minHeight: "560px" }}>
+  <div className="relative flex justify-center py-6 md:py-8" style={{ minHeight: "580px" }}>
+    {/* Phone with real frame */}
     <div
       className="absolute top-0 left-1/2 z-10"
       style={{
-        width: "min(268px, 62vw)",
+        width: "min(300px, 68vw)",
         transform: "translateX(-50%)",
       }}
     >
-      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 h-10 w-[62%] rounded-full bg-black/35 blur-3xl" />
-
-      <div
-        className="relative overflow-hidden rounded-[2.5rem]"
-        style={{
-          background: "linear-gradient(145deg, hsl(240 4% 30%) 0%, hsl(240 7% 9%) 100%)",
-          padding: "8px 6px",
-          boxShadow:
-            "0 0 0 1px hsla(0 0% 100% / 0.12), 0 28px 60px -18px hsla(0 0% 0% / 0.75), inset 0 1px 0 hsla(0 0% 100% / 0.12)",
-        }}
-      >
-        <div className="relative overflow-hidden rounded-[2rem] bg-white">
-          <div className="absolute left-1/2 top-2.5 z-20 h-[18px] w-[68px] -translate-x-1/2 rounded-full bg-black" />
-
+      <div className="relative">
+        {/* Phone frame image */}
+        <img
+          src={phoneFrame}
+          alt="Phone frame"
+          className="relative z-10 block w-full h-auto pointer-events-none"
+        />
+        {/* Screenshot inside the frame */}
+        <div
+          className="absolute z-0 overflow-hidden"
+          style={{
+            top: "2.8%",
+            left: "5.8%",
+            width: "88.4%",
+            height: "94.8%",
+            borderRadius: "1.8rem",
+          }}
+        >
           <img
             src={src}
             alt={`Customer review ${index + 1}`}
-            className="block w-full h-auto"
+            className="block w-full h-full object-cover"
             loading="lazy"
           />
-
-          <div className="absolute bottom-1.5 left-1/2 z-20 h-[4px] w-[96px] -translate-x-1/2 rounded-full bg-black/20" />
         </div>
-
-        <div
-          className="absolute right-[-2px] top-[84px] h-[42px] w-[3px] rounded-r-sm"
-          style={{ background: "linear-gradient(180deg, hsl(240 4% 34%), hsl(240 7% 16%))" }}
-        />
-        <div
-          className="absolute left-[-2px] top-[74px] h-[24px] w-[3px] rounded-l-sm"
-          style={{ background: "linear-gradient(180deg, hsl(240 4% 34%), hsl(240 7% 16%))" }}
-        />
-        <div
-          className="absolute left-[-2px] top-[106px] h-[24px] w-[3px] rounded-l-sm"
-          style={{ background: "linear-gradient(180deg, hsl(240 4% 34%), hsl(240 7% 16%))" }}
-        />
       </div>
+      {/* Shadow beneath phone */}
+      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 h-8 w-[55%] rounded-full bg-black/30 blur-2xl" />
     </div>
 
+    {/* Magnified overlay card */}
     <div
       className="absolute left-1/2 z-20"
       style={{
-        bottom: "120px",
-        width: "min(392px, 92vw)",
+        bottom: "80px",
+        width: "min(420px, 92vw)",
         transform: "translateX(-50%)",
       }}
     >
       <div
-        className="rounded-[1.35rem] bg-white p-2.5"
+        className="overflow-hidden rounded-2xl bg-white"
         style={{
-          boxShadow: "0 22px 45px -12px hsla(0 0% 0% / 0.45)",
+          boxShadow: "0 22px 50px -12px hsla(0 0% 0% / 0.5)",
         }}
       >
-        <div className="mb-2 h-px w-full bg-border/70" />
-        <div className="overflow-hidden rounded-[1rem] bg-white" style={{ height: "170px" }}>
-          <img
-            src={src}
-            alt={`Magnified review ${index + 1}`}
-            className="block h-full w-full"
-            loading="lazy"
-            style={{
-              objectFit: "cover",
-              objectPosition: "center 22%",
-            }}
-          />
+        <img
+          src={src}
+          alt={`Magnified review ${index + 1}`}
+          className="block w-full h-auto"
+          loading="lazy"
+          style={{
+            objectFit: "cover",
+            objectPosition: "center 25%",
+            maxHeight: "220px",
+          }}
+        />
+      </div>
+
+      {/* Badge */}
+      <div
+        className="rounded-full px-5 py-2 mx-auto mt-3 flex w-fit items-center gap-2"
+        style={{
+          background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8))",
+          boxShadow: "0 8px 25px hsl(var(--primary) / 0.35)",
+        }}
+      >
+        <span className="text-primary-foreground text-sm font-semibold">আলহামদুলিল্লাহ Happy client</span>
+        <div className="flex gap-0.5">
+          {[...Array(5)].map((_, j) => (
+            <Star key={j} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
+          ))}
         </div>
       </div>
     </div>
