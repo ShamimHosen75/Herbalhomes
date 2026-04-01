@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { toast } from "@/hooks/use-toast";
-import { products } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
 
 type WishlistContextType = {
   items: string[]; // product IDs
