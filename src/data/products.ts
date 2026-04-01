@@ -1,15 +1,12 @@
-import productSoapLavender from "@/assets/product-soap-lavender.jpg";
-import productBlackseedOil from "@/assets/product-blackseed-oil.jpg";
-import productFaceCream from "@/assets/product-face-cream.jpg";
-import productHoney from "@/assets/product-honey.jpg";
-import productCoconutOil from "@/assets/product-coconut-oil.jpg";
-import productSoapCharcoal from "@/assets/product-soap-charcoal.jpg";
-import productRosehipSerum from "@/assets/product-rosehip-serum.jpg";
-import productHerbalTea from "@/assets/product-herbal-tea.jpg";
-import categorySoap from "@/assets/category-soap.jpg";
-import categoryOils from "@/assets/category-oils.jpg";
-import categorySkincare from "@/assets/category-skincare.jpg";
-import categoryFood from "@/assets/category-food.jpg";
+import soapNeem from "@/assets/soap-neem.jpg";
+import soapCinnamon from "@/assets/soap-cinnamon.jpg";
+import soapSandalwood from "@/assets/soap-sandalwood.png";
+import soapSeaweed from "@/assets/soap-seaweed.jpg";
+import soapCharcoal from "@/assets/soap-charcoal.jpg";
+import soapTurmeric from "@/assets/soap-turmeric.jpg";
+import soapMoringa from "@/assets/soap-moringa.jpg";
+import soapGoatMilk from "@/assets/soap-goat-milk.jpg";
+import soapSaffron from "@/assets/soap-saffron.jpg";
 
 // ─── Types ───────────────────────────────────────────────
 export type ProductVariant = {
