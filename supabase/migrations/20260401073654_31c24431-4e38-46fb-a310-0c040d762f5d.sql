@@ -1,0 +1,1 @@
+DELETE FROM bsti_certificates WHERE id = 'd42f630b-e3ac-4dc2-80e6-04305ede6943';
