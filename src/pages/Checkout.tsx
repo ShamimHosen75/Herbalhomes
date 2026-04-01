@@ -379,7 +379,7 @@ const Checkout = () => {
                     )}
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">{t("checkout.delivery")}</span>
-                      <span className="text-foreground">৳{shipping.cost}</span>
+                      <span className="text-primary font-medium">{shipping.cost === 0 ? t("checkout.free") : `৳${shipping.cost}`}</span>
                     </div>
                     {codFee > 0 && (
                       <div className="flex justify-between">
