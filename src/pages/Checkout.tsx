@@ -283,7 +283,7 @@ const Checkout = () => {
                             <p className="text-xs text-muted-foreground">{t("checkout.estimated", { days: method.estimatedDays })}</p>
                           </div>
                         </div>
-                        <span className="text-sm font-bold text-foreground">৳{method.cost}</span>
+                        <span className="text-sm font-bold text-foreground">{method.cost === 0 ? t("checkout.free") : `৳${method.cost}`}</span>
                       </label>
                     ))}
                   </div>
@@ -379,7 +379,7 @@ const Checkout = () => {
                     )}
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">{t("checkout.delivery")}</span>
-                      <span className="text-foreground">৳{shipping.cost}</span>
+                      <span className="text-primary font-medium">{shipping.cost === 0 ? t("checkout.free") : `৳${shipping.cost}`}</span>
                     </div>
                     {codFee > 0 && (
                       <div className="flex justify-between">
