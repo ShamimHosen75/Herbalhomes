@@ -16,13 +16,49 @@ interface Props {
   content?: any;
 }
 
+const PhoneMockup = ({ src, index }: { src: string; index: number }) => (
+  <div className="relative mx-auto" style={{ maxWidth: 260 }}>
+    {/* Shadow beneath phone */}
+    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[70%] h-8 bg-black/30 blur-2xl rounded-full" />
+
+    {/* Phone body */}
+    <div className="relative rounded-[2rem] overflow-hidden" style={{
+      background: "linear-gradient(145deg, #2a2a2e 0%, #1a1a1e 100%)",
+      padding: "8px 6px",
+      boxShadow: "0 0 0 1px rgba(255,255,255,0.08), 0 25px 50px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1)"
+    }}>
+      {/* Screen */}
+      <div className="rounded-[1.5rem] overflow-hidden bg-white relative">
+        {/* Dynamic Island */}
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-[72px] h-[18px] bg-black rounded-full z-20" />
+
+        {/* Screen content - full image */}
+        <img
+          src={src}
+          alt={`Customer review ${index + 1}`}
+          className="w-full h-auto block"
+          loading="lazy"
+        />
+
+        {/* Home indicator */}
+        <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-black/20 rounded-full z-20" />
+      </div>
+
+      {/* Side buttons - power */}
+      <div className="absolute right-[-2px] top-[80px] w-[3px] h-[40px] rounded-r-sm" style={{ background: "linear-gradient(180deg, #3a3a3e, #2a2a2e)" }} />
+      {/* Side buttons - volume */}
+      <div className="absolute left-[-2px] top-[70px] w-[3px] h-[24px] rounded-l-sm" style={{ background: "linear-gradient(180deg, #3a3a3e, #2a2a2e)" }} />
+      <div className="absolute left-[-2px] top-[100px] w-[3px] h-[24px] rounded-l-sm" style={{ background: "linear-gradient(180deg, #3a3a3e, #2a2a2e)" }} />
+    </div>
+  </div>
+);
+
 const Testimonials = ({ title, subtitle, content }: Props) => {
   const reviews = content?.reviews?.length ? content.reviews : defaultReviews;
   const [reviewImages, setReviewImages] = useState<string[]>([]);
   const [current, setCurrent] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Load review images from DB
   useEffect(() => {
     supabase
       .from("product_reviews")
@@ -58,7 +94,6 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Use image list for slider if available, else text reviews
   const sliderItems = hasImages ? imageList : reviews;
   const maxIndex = Math.max(0, sliderItems.length - visibleCount);
 
@@ -76,121 +111,72 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
     return () => clearInterval(timer);
   }, [isAutoPlaying, next, sliderItems.length, visibleCount]);
 
-  // Image testimonial slider (dark purple bg, phone frames)
+  const sectionBg = "bg-gradient-to-b from-[hsl(258,50%,12%)] via-[hsl(260,42%,18%)] to-[hsl(262,45%,14%)]";
+
+  // ─── IMAGE TESTIMONIALS (phone mockups) ───
   if (hasImages && imageList.length > 0) {
     return (
-      <section className="py-16 md:py-24 bg-gradient-to-br from-[hsl(260,45%,16%)] via-[hsl(260,40%,20%)] to-[hsl(270,35%,14%)] relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-56 h-56 rounded-full bg-purple-500/5 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.02]" />
-
+      <section className={`py-16 md:py-24 ${sectionBg} relative overflow-hidden`}>
         <div className="container mx-auto px-4 relative z-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-1">
+          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-1 tracking-tight">
             {title || "আমাদের সম্মানিত গ্রাহকদের রিভিউ দেখুন"}
           </h2>
-          {subtitle && <p className="text-sm text-white/50 text-center mb-12">{subtitle}</p>}
-          {!subtitle && <div className="mb-12" />}
+          <p className="text-sm text-white/40 text-center mb-14">
+            {subtitle || "বিশ্বস্ত গ্রাহকদের অভিজ্ঞতা"}
+          </p>
 
           <div
-            className="relative px-10 md:px-14"
+            className="relative"
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
           >
-            <div className="overflow-hidden">
-              <div
-                className="flex transition-transform duration-600 ease-in-out"
-                style={{
-                  transform: `translateX(-${current * (100 / visibleCount)}%)`,
-                }}
-              >
-                {imageList.map((img: string, i: number) => (
-                  <div
-                    key={i}
-                    className="flex-shrink-0 px-4"
-                    style={{ width: `${100 / visibleCount}%` }}
-                  >
-                    <div className="mx-auto max-w-[300px] group">
-                      {/* Phone device */}
-                      <div className="relative">
-                        {/* Phone outer shell */}
-                        <div className="rounded-[2.5rem] bg-gradient-to-b from-gray-700 to-gray-900 p-[6px] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.5)]">
-                          <div className="rounded-[2.2rem] bg-white overflow-hidden relative">
-                            {/* Status bar */}
-                            <div className="h-8 bg-gray-50 flex items-center justify-between px-6 relative">
-                              <span className="text-[9px] text-gray-500 font-medium">12:30</span>
-                              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-[22px] bg-black rounded-b-2xl" />
-                              <div className="flex items-center gap-1">
-                                <div className="w-3 h-2 border border-gray-400 rounded-sm relative">
-                                  <div className="absolute inset-[1px] right-[2px] bg-gray-400 rounded-[1px]" />
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Screenshot content */}
-                            <img
-                              src={img}
-                              alt={`Customer review ${i + 1}`}
-                              className="w-full h-auto"
-                              loading="lazy"
-                            />
-
-                            {/* Bottom bar */}
-                            <div className="h-5 bg-gray-50 flex items-center justify-center">
-                              <div className="w-24 h-1 bg-gray-300 rounded-full" />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Glow effect on hover */}
-                        <div className="absolute -inset-2 rounded-[3rem] bg-primary/0 group-hover:bg-primary/10 transition-all duration-500 -z-10 blur-xl" />
-                      </div>
-
-                      {/* Happy client badge */}
-                      <div className="mt-4 flex justify-center">
-                        <div className="bg-gradient-to-r from-primary to-[hsl(142,64%,28%)] px-5 py-2 rounded-full shadow-lg shadow-primary/20">
-                          <p className="text-primary-foreground text-xs font-bold tracking-wide">✅ Verified Customer</p>
-                          <div className="flex justify-center gap-0.5 mt-0.5">
-                            {Array.from({ length: 5 }).map((_, s) => (
-                              <span key={s} className="text-yellow-300 text-[10px]">★</span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Navigation arrows */}
+            {/* Arrows */}
             {imageList.length > visibleCount && (
               <>
                 <button
                   onClick={prev}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all z-10"
+                  className="absolute -left-2 md:left-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/[0.07] backdrop-blur-lg border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/[0.12] transition-all"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
                 <button
                   onClick={next}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all z-10"
+                  className="absolute -right-2 md:right-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/[0.07] backdrop-blur-lg border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/[0.12] transition-all"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>
               </>
             )}
+
+            <div className="overflow-hidden mx-8 md:mx-14">
+              <div
+                className="flex transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${current * (100 / visibleCount)}%)` }}
+              >
+                {imageList.map((img: string, i: number) => (
+                  <div
+                    key={i}
+                    className="flex-shrink-0 px-4 md:px-6 py-6"
+                    style={{ width: `${100 / visibleCount}%` }}
+                  >
+                    <PhoneMockup src={img} index={i} />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Dots */}
           {imageList.length > visibleCount && (
-            <div className="flex justify-center gap-2 mt-10">
+            <div className="flex justify-center gap-2 mt-8">
               {Array.from({ length: maxIndex + 1 }).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
-                    i === current ? "w-8 bg-primary shadow-lg shadow-primary/30" : "w-2.5 bg-white/25 hover:bg-white/40"
+                  className={`rounded-full transition-all duration-300 ${
+                    i === current
+                      ? "w-8 h-2.5 bg-primary"
+                      : "w-2.5 h-2.5 bg-white/20 hover:bg-white/35"
                   }`}
                 />
               ))}
@@ -201,51 +187,70 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
     );
   }
 
-  // Fallback: text-based reviews
+  // ─── TEXT TESTIMONIALS (fallback) ───
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-[hsl(260,45%,16%)] via-[hsl(260,40%,20%)] to-[hsl(270,35%,14%)] relative overflow-hidden">
-      <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-primary/5 blur-3xl" />
-      <div className="absolute bottom-10 right-10 w-56 h-56 rounded-full bg-purple-500/5 blur-3xl" />
-
+    <section className={`py-16 md:py-24 ${sectionBg} relative overflow-hidden`}>
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-1">
+        <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-1 tracking-tight">
           {title || "আমাদের সম্মানিত গ্রাহকদের রিভিউ দেখুন"}
         </h2>
-        {subtitle && <p className="text-sm text-white/50 text-center mb-12">{subtitle}</p>}
-        {!subtitle && <div className="mb-12" />}
+        <p className="text-sm text-white/40 text-center mb-14">
+          {subtitle || "বিশ্বস্ত গ্রাহকদের অভিজ্ঞতা"}
+        </p>
 
         <div
-          className="relative px-8 md:px-12"
+          className="relative"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
-          <div className="overflow-hidden">
+          {reviews.length > visibleCount && (
+            <>
+              <button
+                onClick={prev}
+                className="absolute -left-2 md:left-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/[0.07] backdrop-blur-lg border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/[0.12] transition-all"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={next}
+                className="absolute -right-2 md:right-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/[0.07] backdrop-blur-lg border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/[0.12] transition-all"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </>
+          )}
+
+          <div className="overflow-hidden mx-8 md:mx-14">
             <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{
-                transform: `translateX(-${current * (100 / visibleCount)}%)`,
-              }}
+              className="flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${current * (100 / visibleCount)}%)` }}
             >
               {reviews.map((review: any, i: number) => (
                 <div
                   key={i}
-                  className="flex-shrink-0 px-2"
+                  className="flex-shrink-0 px-3"
                   style={{ width: `${100 / visibleCount}%` }}
                 >
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/15 transition-all h-full">
-                    <div className="flex items-center gap-1 mb-3">
+                  <div className="rounded-2xl p-6 h-full border border-white/[0.06] hover:border-white/[0.12] transition-colors" style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+                    backdropFilter: "blur(12px)"
+                  }}>
+                    <div className="flex items-center gap-0.5 mb-4">
                       {Array.from({ length: review.rating || 5 }).map((_, j) => (
                         <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
-                    <p className="text-white/90 text-sm leading-relaxed mb-5">"{review.text}"</p>
+                    <p className="text-white/80 text-sm leading-relaxed mb-6">"{review.text}"</p>
                     <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-full bg-primary/30 flex items-center justify-center text-sm font-bold text-primary">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary/40 to-primary/20 flex items-center justify-center text-sm font-bold text-primary-foreground border border-primary/30">
                         {review.name?.[0] || "?"}
                       </div>
                       <div>
                         <p className="font-semibold text-white text-sm">{review.name}</p>
-                        <p className="text-xs text-white/50">যাচাইকৃত ক্রেতা</p>
+                        <p className="text-[11px] text-white/40 flex items-center gap-1">
+                          <span className="inline-block w-3 h-3 rounded-full bg-primary/60 text-[8px] text-white flex items-center justify-center">✓</span>
+                          যাচাইকৃত ক্রেতা
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -253,23 +258,6 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
               ))}
             </div>
           </div>
-
-          {reviews.length > visibleCount && (
-            <>
-              <button
-                onClick={prev}
-                className="absolute left-0 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                onClick={next}
-                className="absolute right-0 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </>
-          )}
         </div>
 
         {reviews.length > visibleCount && (
@@ -278,8 +266,10 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  i === current ? "w-7 bg-primary" : "w-2.5 bg-white/30 hover:bg-white/50"
+                className={`rounded-full transition-all duration-300 ${
+                  i === current
+                    ? "w-8 h-2.5 bg-primary"
+                    : "w-2.5 h-2.5 bg-white/20 hover:bg-white/35"
                 }`}
               />
             ))}
