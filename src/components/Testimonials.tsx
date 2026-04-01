@@ -17,104 +17,79 @@ interface Props {
 }
 
 const PhoneWithOverlay = ({ src, index }: { src: string; index: number }) => (
-  <div className="relative flex justify-center py-8" style={{ minHeight: "520px" }}>
-    {/* Phone - positioned upper-left */}
+  <div className="relative flex justify-center py-6 md:py-8" style={{ minHeight: "560px" }}>
     <div
-      className="relative z-10"
+      className="absolute top-0 left-1/2 z-10"
       style={{
-        width: "min(280px, 65vw)",
-        position: "absolute",
-        top: 0,
-        left: "50%",
-        transform: "translateX(-75%)",
+        width: "min(268px, 62vw)",
+        transform: "translateX(-50%)",
       }}
     >
-      {/* Phone shadow */}
-      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[60%] h-10 bg-black/40 blur-3xl rounded-full" />
+      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 h-10 w-[62%] rounded-full bg-black/35 blur-3xl" />
 
-      {/* Phone body */}
       <div
-        className="relative rounded-[2.4rem] overflow-hidden"
+        className="relative overflow-hidden rounded-[2.5rem]"
         style={{
-          background: "linear-gradient(145deg, #3a3a3e 0%, #1a1a1e 100%)",
+          background: "linear-gradient(145deg, hsl(240 4% 30%) 0%, hsl(240 7% 9%) 100%)",
           padding: "8px 6px",
           boxShadow:
-            "0 0 0 1px rgba(255,255,255,0.1), 0 30px 60px -15px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.15)",
+            "0 0 0 1px hsla(0 0% 100% / 0.12), 0 28px 60px -18px hsla(0 0% 0% / 0.75), inset 0 1px 0 hsla(0 0% 100% / 0.12)",
         }}
       >
-        <div className="rounded-[1.9rem] overflow-hidden bg-white relative">
-          {/* Dynamic Island */}
-          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[65px] h-[18px] bg-black rounded-full z-20" />
+        <div className="relative overflow-hidden rounded-[2rem] bg-white">
+          <div className="absolute left-1/2 top-2.5 z-20 h-[18px] w-[68px] -translate-x-1/2 rounded-full bg-black" />
 
-          {/* Screenshot */}
           <img
             src={src}
             alt={`Customer review ${index + 1}`}
-            className="w-full h-auto block"
+            className="block w-full h-auto"
             loading="lazy"
           />
 
-          {/* Home indicator */}
-          <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-black/20 rounded-full z-20" />
+          <div className="absolute bottom-1.5 left-1/2 z-20 h-[4px] w-[96px] -translate-x-1/2 rounded-full bg-black/20" />
         </div>
 
-        {/* Side buttons */}
         <div
-          className="absolute right-[-3px] top-[80px] w-[3px] h-[40px] rounded-r-sm"
-          style={{ background: "linear-gradient(180deg, #4a4a4e, #2a2a2e)" }}
+          className="absolute right-[-2px] top-[84px] h-[42px] w-[3px] rounded-r-sm"
+          style={{ background: "linear-gradient(180deg, hsl(240 4% 34%), hsl(240 7% 16%))" }}
         />
         <div
-          className="absolute left-[-3px] top-[70px] w-[3px] h-[24px] rounded-l-sm"
-          style={{ background: "linear-gradient(180deg, #4a4a4e, #2a2a2e)" }}
+          className="absolute left-[-2px] top-[74px] h-[24px] w-[3px] rounded-l-sm"
+          style={{ background: "linear-gradient(180deg, hsl(240 4% 34%), hsl(240 7% 16%))" }}
         />
         <div
-          className="absolute left-[-3px] top-[100px] w-[3px] h-[24px] rounded-l-sm"
-          style={{ background: "linear-gradient(180deg, #4a4a4e, #2a2a2e)" }}
+          className="absolute left-[-2px] top-[106px] h-[24px] w-[3px] rounded-l-sm"
+          style={{ background: "linear-gradient(180deg, hsl(240 4% 34%), hsl(240 7% 16%))" }}
         />
       </div>
     </div>
 
-    {/* Magnified overlay - large, positioned bottom-right, overlapping phone */}
     <div
-      className="absolute z-20"
+      className="absolute left-1/2 z-20"
       style={{
-        bottom: "50px",
-        left: "50%",
-        transform: "translateX(-30%)",
-        width: "min(420px, 85vw)",
+        bottom: "120px",
+        width: "min(392px, 92vw)",
+        transform: "translateX(-50%)",
       }}
     >
       <div
-        className="rounded-2xl overflow-hidden border border-white/10"
+        className="rounded-[1.35rem] bg-white p-2.5"
         style={{
-          boxShadow: "0 25px 60px -10px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.15)",
+          boxShadow: "0 22px 45px -12px hsla(0 0% 0% / 0.45)",
         }}
       >
-        <img
-          src={src}
-          alt={`Magnified review ${index + 1}`}
-          className="w-full h-auto block"
-          loading="lazy"
-        />
-      </div>
-      {/* Glow behind overlay */}
-      <div className="absolute -inset-4 bg-primary/10 blur-3xl rounded-3xl -z-10" />
-    </div>
-
-    {/* Badge - bottom center */}
-    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30">
-      <div
-        className="rounded-full px-6 py-2.5 flex items-center gap-2"
-        style={{
-          background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8))",
-          boxShadow: "0 8px 30px hsl(var(--primary) / 0.4)",
-        }}
-      >
-        <span className="text-primary-foreground text-sm font-semibold">আলহামদুলিল্লাহ Happy client</span>
-        <div className="flex gap-0.5">
-          {[...Array(5)].map((_, j) => (
-            <Star key={j} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-          ))}
+        <div className="mb-2 h-px w-full bg-border/70" />
+        <div className="overflow-hidden rounded-[1rem] bg-white" style={{ height: "170px" }}>
+          <img
+            src={src}
+            alt={`Magnified review ${index + 1}`}
+            className="block h-full w-full"
+            loading="lazy"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center 22%",
+            }}
+          />
         </div>
       </div>
     </div>
