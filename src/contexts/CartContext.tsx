@@ -38,6 +38,7 @@ const CART_KEY = "hh_cart";
 const COUPON_KEY = "hh_coupon";
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const { products } = useProducts();
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem(CART_KEY);
