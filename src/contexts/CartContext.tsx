@@ -58,6 +58,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   });
 
+  const [dbCoupons, setDbCoupons] = useState<CouponRule[]>([]);
+
+  useEffect(() => {
+    supabase.from("coupons").select("*").then(({ data }) => {
+      if (data) {
+        setDbCoupons(data.map((c: any) => ({
+          code: c.code,
+          type: c.type as CouponRule["type"],
+          value: Number(c.value),
+          minSpend: Number(c.min_order),
+          maxUses: c.max_uses || 9999,
+          usedCount: c.used_count || 0,
+          perUserLimit: 1,
+          expiresAt: c.expires_at || "2099-12-31",
+          active: c.active,
+        })));
+      }
+    });
+  }, []);
+
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(items));
   }, [items]);
