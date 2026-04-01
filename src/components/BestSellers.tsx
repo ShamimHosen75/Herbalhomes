@@ -25,7 +25,7 @@ const BestSellers = ({ title, subtitle }: Props) => {
         </div>
       )}
       {categories.map((cat) => {
-        const groupProducts = products.filter((p) => p.category === cat.slug).slice(0, 3);
+        const groupProducts = products.filter((p) => p.category === cat.slug).slice(0, 4);
         if (groupProducts.length === 0) return null;
         return (
           <div key={cat.id} className="py-12 md:py-16">
@@ -46,7 +46,7 @@ const BestSellers = ({ title, subtitle }: Props) => {
                   {t("best_sellers.view_all")} <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-5">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                 {groupProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
