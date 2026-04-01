@@ -12,6 +12,7 @@ const getYouTubeId = (url: string): string | null => {
 const VideoSliderSection = () => {
   const [videos, setVideos] = useState<any[]>([]);
   const [page, setPage] = useState(0);
+  const [title, setTitle] = useState("নিউজ মিডিয়ার ভিডিও");
   const perPage = 3;
 
   useEffect(() => {
@@ -21,8 +22,10 @@ const VideoSliderSection = () => {
       .eq("page_key", "homepage_videos")
       .single()
       .then(({ data }) => {
-        if (data && (data as any).content?.videos) {
-          setVideos((data as any).content.videos);
+        if (data) {
+          const d = data as any;
+          if (d.content?.videos) setVideos(d.content.videos);
+          if (d.title) setTitle(d.title);
         }
       });
   }, []);
@@ -48,7 +51,7 @@ const VideoSliderSection = () => {
     <section className="py-14 md:py-20 bg-muted/40">
       <div className="container mx-auto px-4">
         <h2 className="text-xl md:text-2xl font-bold text-primary text-left mb-8">
-          নিউজ মিডিয়ার ভিডিও
+          {title}
         </h2>
 
         <div className="relative">
