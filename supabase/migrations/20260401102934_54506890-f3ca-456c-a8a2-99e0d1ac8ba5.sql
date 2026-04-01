@@ -1,0 +1,1 @@
+ALTER TABLE public.sliders ADD COLUMN images text[] NOT NULL DEFAULT '{}'::text[];

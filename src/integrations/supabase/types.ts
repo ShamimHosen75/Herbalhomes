@@ -770,6 +770,7 @@ export type Database = {
           heading: string
           id: string
           image_url: string
+          images: string[]
           layout: string
           sort_order: number
           text: string
@@ -783,6 +784,7 @@ export type Database = {
           heading?: string
           id: string
           image_url?: string
+          images?: string[]
           layout?: string
           sort_order?: number
           text?: string
@@ -796,6 +798,7 @@ export type Database = {
           heading?: string
           id?: string
           image_url?: string
+          images?: string[]
           layout?: string
           sort_order?: number
           text?: string
