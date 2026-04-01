@@ -45,7 +45,7 @@ const ProductCard = ({ product, showRating = true }: Props) => {
   };
 
   return (
-    <div className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300 flex flex-col">
+    <div className="group bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300 flex flex-col">
       <Link to={`/product/${product.slug}`} className="relative aspect-square overflow-hidden bg-muted block">
         <img
           src={product.images[0]}
