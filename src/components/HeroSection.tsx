@@ -67,7 +67,7 @@ const HeroSection = (_props: Props) => {
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
 
-        <div className="relative container mx-auto px-4 py-16 md:py-28">
+        <div className="relative container mx-auto px-4 py-24 md:py-36 lg:py-44">
           <div className="max-w-2xl">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-tight mb-5">
               {slide.heading}
