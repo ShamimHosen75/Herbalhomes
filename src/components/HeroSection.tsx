@@ -61,27 +61,27 @@ const HeroSection = (_props: Props) => {
 
   if (isBanner) {
     return (
-      <section className="relative overflow-hidden">
+      <section key={slide.id} className="relative overflow-hidden">
         {slide.banner_url && (
-          <img src={slide.banner_url} alt={slide.heading} className="absolute inset-0 w-full h-full object-cover" />
+          <img src={slide.banner_url} alt={slide.heading} className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 animate-fade-in" />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
 
         <div className="relative container mx-auto px-4 py-24 md:py-36 lg:py-44">
           <div className="max-w-2xl">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-tight mb-5">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-tight mb-5 animate-[fade-in_0.6s_ease-out_both]">
               {slide.heading}
             </h1>
             {slide.text && (
-              <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-lg">{slide.text}</p>
+              <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-lg animate-[fade-in_0.6s_ease-out_0.15s_both]">{slide.text}</p>
             )}
-            <div className="flex flex-wrap gap-3">
-              <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+            <div className="flex flex-wrap gap-3 animate-[fade-in_0.6s_ease-out_0.3s_both]">
+              <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 hover-scale">
                 <ShoppingCartIcon />
                 {slide.cta_text || t("hero.shop_now")}
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link to="/categories" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/30 transition-colors">
+              <Link to="/categories" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/30 transition-colors hover-scale">
                 {t("hero.view_categories")}
               </Link>
             </div>
