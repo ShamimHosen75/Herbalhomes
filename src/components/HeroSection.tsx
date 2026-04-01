@@ -135,6 +135,63 @@ const HeroSection = (_props: Props) => {
   );
 };
 
+function SlideImages({ slide }: { slide: Slide }) {
+  const { t } = useLanguage();
+  const allImages = [
+    slide.image_url,
+    ...(slide.images || []),
+  ].filter(Boolean);
+
+  const [activeImg, setActiveImg] = useState(0);
+
+  useEffect(() => {
+    setActiveImg(0);
+  }, [slide.id]);
+
+  const mainSrc = allImages[activeImg] || heroPerson;
+
+  return (
+    <div className="relative">
+      <img src={mainSrc} alt={slide.heading} className="w-72 md:w-80 lg:w-96 h-auto object-contain relative z-10 rounded-2xl transition-opacity duration-500" />
+
+      {allImages.length > 1 && (
+        <div className="flex gap-2 mt-3 justify-center z-20 relative">
+          {allImages.map((img, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveImg(i)}
+              className={`w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${i === activeImg ? "border-primary scale-110 shadow-md" : "border-border opacity-60 hover:opacity-100"}`}
+            >
+              <img src={img} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="absolute top-8 -right-2 md:right-0 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20">
+        <div className="h-8 w-8 rounded-full bg-badge-blue flex items-center justify-center">
+          <Truck className="h-4 w-4 text-primary" />
+        </div>
+        <span className="text-xs font-semibold text-foreground">{t("hero.fast_delivery")}</span>
+      </div>
+
+      <div className="absolute bottom-16 -left-4 md:left-0 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20" style={{ animationDelay: "1s" }}>
+        <div className="h-8 w-8 rounded-full bg-badge-green flex items-center justify-center">
+          <ShieldCheck className="h-4 w-4 text-primary" />
+        </div>
+        <span className="text-xs font-semibold text-foreground">{t("hero.original")}</span>
+      </div>
+
+      <div className="absolute bottom-4 right-4 bg-background rounded-xl shadow-lg px-4 py-2.5 flex items-center gap-2 animate-float z-20" style={{ animationDelay: "2s" }}>
+        <div className="h-8 w-8 rounded-full bg-badge-orange flex items-center justify-center">
+          <Star className="h-4 w-4 fill-primary text-primary" />
+        </div>
+        <span className="text-xs font-semibold text-foreground">{t("hero.safe_service")}</span>
+      </div>
+    </div>
+  );
+}
+
 function FallbackHero() {
   const { t } = useLanguage();
   return (
