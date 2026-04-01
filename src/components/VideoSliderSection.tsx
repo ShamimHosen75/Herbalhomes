@@ -83,7 +83,7 @@ const VideoSliderSection = () => {
               return (
                 <div
                   key={`${page}-${i}`}
-                  className="rounded-xl overflow-hidden border-2 border-primary/50 bg-card shadow-md"
+                  className="rounded-xl overflow-hidden border-2 border-primary/50 bg-card shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
                   {ytId ? (
                     <div className="aspect-video">
