@@ -34,6 +34,7 @@ const pageLabels: Record<string, string> = {
   privacy: "Privacy Policy / গোপনীয়তা নীতি",
   refund: "Refund Policy / রিফান্ড নীতি",
   shipping_policy: "Shipping Policy / শিপিং নীতি",
+  homepage_videos: "Homepage Videos / ভিডিও সেকশন",
 };
 
 export default function AdminPageContents() {
