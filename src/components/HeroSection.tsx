@@ -148,6 +148,14 @@ function SlideImages({ slide }: { slide: Slide }) {
     setActiveImg(0);
   }, [slide.id]);
 
+  useEffect(() => {
+    if (allImages.length <= 1) return;
+    const timer = setInterval(() => {
+      setActiveImg(prev => (prev + 1) % allImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [allImages.length, slide.id]);
+
   const mainSrc = allImages[activeImg] || heroPerson;
 
   return (
