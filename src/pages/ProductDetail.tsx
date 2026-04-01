@@ -13,6 +13,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useLanguage();
+  const { getProductBySlug, products } = useProducts();
   const product = getProductBySlug(slug || "");
 
   if (!product) {
