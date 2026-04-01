@@ -11,6 +11,7 @@ const Wishlist = () => {
   const { items, removeItem } = useWishlist();
   const { addItem } = useCart();
   const { t } = useLanguage();
+  const { products } = useProducts();
 
   const wishlistProducts = items.map((id) => products.find((p) => p.id === id)).filter(Boolean) as typeof products;
 

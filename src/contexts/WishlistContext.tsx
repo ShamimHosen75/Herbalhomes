@@ -15,6 +15,7 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 const WL_KEY = "hh_wishlist";
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
+  const { products } = useProducts();
   const [items, setItems] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem(WL_KEY);
