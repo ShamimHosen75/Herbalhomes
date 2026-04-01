@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { toast } from "@/hooks/use-toast";
-import { products } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
 
 type WishlistContextType = {
   items: string[]; // product IDs
@@ -15,6 +15,7 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 const WL_KEY = "hh_wishlist";
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
+  const { products } = useProducts();
   const [items, setItems] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem(WL_KEY);

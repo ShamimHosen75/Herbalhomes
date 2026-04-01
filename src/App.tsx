@@ -14,7 +14,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ProductsProvider } from "@/contexts/ProductsContext";
 import { CategoriesProvider } from "@/contexts/CategoriesContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { seedDatabaseIfEmpty } from "@/lib/supabase-helpers";
+
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import Categories from "./pages/Categories";
@@ -62,9 +62,6 @@ function ProtectedAdmin({ children }: { children: ReactNode }) {
 }
 
 const App = () => {
-  useEffect(() => {
-    seedDatabaseIfEmpty();
-  }, []);
 
   return (
   <QueryClientProvider client={queryClient}>
@@ -72,10 +69,10 @@ const App = () => {
     <LanguageProvider>
     <TooltipProvider>
       <AuthProvider>
+      <ProductsProvider>
       <CartProvider>
         <WishlistProvider>
           <OrderProvider>
-            <ProductsProvider>
             <CategoriesProvider>
             <AdminProvider>
               <Toaster />
@@ -127,10 +124,10 @@ const App = () => {
               </BrowserRouter>
             </AdminProvider>
             </CategoriesProvider>
-            </ProductsProvider>
           </OrderProvider>
         </WishlistProvider>
       </CartProvider>
+      </ProductsProvider>
       </AuthProvider>
     </TooltipProvider>
     </LanguageProvider>

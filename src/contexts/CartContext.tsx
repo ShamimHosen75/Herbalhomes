@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
-import { products, type Product, type CouponRule, coupons } from "@/data/products";
+import { type Product, type CouponRule } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 export type CartItem = {
@@ -37,6 +39,7 @@ const CART_KEY = "hh_cart";
 const COUPON_KEY = "hh_coupon";
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const { products } = useProducts();
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem(CART_KEY);
@@ -54,6 +57,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return null;
     }
   });
+
+  const [dbCoupons, setDbCoupons] = useState<CouponRule[]>([]);
+
+  useEffect(() => {
+    supabase.from("coupons").select("*").then(({ data }) => {
+      if (data) {
+        setDbCoupons(data.map((c: any) => ({
+          code: c.code,
+          type: c.type as CouponRule["type"],
+          value: Number(c.value),
+          minSpend: Number(c.min_order),
+          maxUses: c.max_uses || 9999,
+          usedCount: c.used_count || 0,
+          perUserLimit: 1,
+          expiresAt: c.expires_at || "2099-12-31",
+          active: c.active,
+        })));
+      }
+    });
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(items));
@@ -150,7 +173,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const applyCoupon = useCallback(
     (code: string): boolean => {
-      const coupon = coupons.find((c) => c.code.toLowerCase() === code.toLowerCase() && c.active);
+      const coupon = dbCoupons.find((c) => c.code.toLowerCase() === code.toLowerCase() && c.active);
       if (!coupon) {
         toast({ title: "ত্রুটি", description: "কুপন কোড সঠিক নয়।", variant: "destructive" });
         return false;
