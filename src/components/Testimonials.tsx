@@ -17,26 +17,34 @@ interface Props {
 }
 
 const PhoneWithOverlay = ({ src, index }: { src: string; index: number }) => (
-  <div className="relative flex items-center justify-center py-8">
-    {/* Main phone */}
-    <div className="relative z-10" style={{ width: "min(340px, 80vw)" }}>
+  <div className="relative flex justify-center py-8" style={{ minHeight: "520px" }}>
+    {/* Phone - positioned upper-left */}
+    <div
+      className="relative z-10"
+      style={{
+        width: "min(280px, 65vw)",
+        position: "absolute",
+        top: 0,
+        left: "50%",
+        transform: "translateX(-75%)",
+      }}
+    >
       {/* Phone shadow */}
       <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[60%] h-10 bg-black/40 blur-3xl rounded-full" />
 
       {/* Phone body */}
       <div
-        className="relative rounded-[2.8rem] overflow-hidden"
+        className="relative rounded-[2.4rem] overflow-hidden"
         style={{
           background: "linear-gradient(145deg, #3a3a3e 0%, #1a1a1e 100%)",
-          padding: "10px 8px",
+          padding: "8px 6px",
           boxShadow:
             "0 0 0 1px rgba(255,255,255,0.1), 0 30px 60px -15px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.15)",
         }}
       >
-        {/* Screen */}
-        <div className="rounded-[2.2rem] overflow-hidden bg-white relative">
+        <div className="rounded-[1.9rem] overflow-hidden bg-white relative">
           {/* Dynamic Island */}
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[80px] h-[22px] bg-black rounded-full z-20" />
+          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[65px] h-[18px] bg-black rounded-full z-20" />
 
           {/* Screenshot */}
           <img
@@ -47,33 +55,33 @@ const PhoneWithOverlay = ({ src, index }: { src: string; index: number }) => (
           />
 
           {/* Home indicator */}
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[120px] h-[4px] bg-black/20 rounded-full z-20" />
+          <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-black/20 rounded-full z-20" />
         </div>
 
         {/* Side buttons */}
         <div
-          className="absolute right-[-3px] top-[90px] w-[4px] h-[50px] rounded-r-sm"
+          className="absolute right-[-3px] top-[80px] w-[3px] h-[40px] rounded-r-sm"
           style={{ background: "linear-gradient(180deg, #4a4a4e, #2a2a2e)" }}
         />
         <div
-          className="absolute left-[-3px] top-[80px] w-[4px] h-[28px] rounded-l-sm"
+          className="absolute left-[-3px] top-[70px] w-[3px] h-[24px] rounded-l-sm"
           style={{ background: "linear-gradient(180deg, #4a4a4e, #2a2a2e)" }}
         />
         <div
-          className="absolute left-[-3px] top-[116px] w-[4px] h-[28px] rounded-l-sm"
+          className="absolute left-[-3px] top-[100px] w-[3px] h-[24px] rounded-l-sm"
           style={{ background: "linear-gradient(180deg, #4a4a4e, #2a2a2e)" }}
         />
       </div>
     </div>
 
-    {/* Magnified overlay - floating card */}
+    {/* Magnified overlay - large, positioned bottom-right, overlapping phone */}
     <div
-      className="absolute z-20 hidden md:block"
+      className="absolute z-20"
       style={{
-        bottom: "5%",
-        left: "58%",
-        width: "min(380px, 40vw)",
-        transform: "rotate(0deg)",
+        bottom: "50px",
+        left: "50%",
+        transform: "translateX(-30%)",
+        width: "min(420px, 85vw)",
       }}
     >
       <div
@@ -87,19 +95,14 @@ const PhoneWithOverlay = ({ src, index }: { src: string; index: number }) => (
           alt={`Magnified review ${index + 1}`}
           className="w-full h-auto block"
           loading="lazy"
-          style={{
-            objectFit: "cover",
-            objectPosition: "center 40%",
-            maxHeight: "350px",
-          }}
         />
       </div>
       {/* Glow behind overlay */}
       <div className="absolute -inset-4 bg-primary/10 blur-3xl rounded-3xl -z-10" />
     </div>
 
-    {/* Badge */}
-    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:right-[10%] md:bottom-[-10px] md:-translate-x-0 z-30">
+    {/* Badge - bottom center */}
+    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30">
       <div
         className="rounded-full px-6 py-2.5 flex items-center gap-2"
         style={{
