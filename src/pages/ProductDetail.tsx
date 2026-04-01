@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Heart, Star, Minus, Plus, ChevronDown, ChevronUp, Check, Truck, RotateCcw, Shield, Zap } from "lucide-react";
-import { getProductBySlug, getRelatedProducts, type Product } from "@/data/products";
+import { type Product } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,6 +13,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useLanguage();
+  const { getProductBySlug, products } = useProducts();
   const product = getProductBySlug(slug || "");
 
   if (!product) {
@@ -38,6 +40,7 @@ const ProductDetailContent = ({ product }: { product: Product }) => {
   const { toggleItem, isInWishlist } = useWishlist();
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const { products } = useProducts();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -45,7 +48,7 @@ const ProductDetailContent = ({ product }: { product: Product }) => {
   const [activeTab, setActiveTab] = useState<"desc" | "ingredients" | "usage" | "reviews">("desc");
 
   const inWishlist = isInWishlist(product.id);
-  const related = getRelatedProducts(product);
+  const related = products.filter((p) => product.relatedIds.includes(p.id));
 
   const discount = selectedVariant.oldPrice
     ? Math.round(((selectedVariant.oldPrice - selectedVariant.price) / selectedVariant.oldPrice) * 100)
