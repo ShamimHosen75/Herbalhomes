@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import CategoriesSection from "@/components/CategoriesSection";
+import BestSellers from "@/components/BestSellers";
 import AllProducts from "@/components/AllProducts";
+import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
+import OfferBanner from "@/components/OfferBanner";
+import ContactSection from "@/components/ContactSection";
 import VideoSection from "@/components/VideoSection";
 import BSTICertificates from "@/components/BSTICertificates";
 import Footer from "@/components/Footer";
@@ -22,8 +27,13 @@ interface HomepageSection {
 
 const sectionComponents: Record<string, React.ComponentType<{ title?: string; subtitle?: string; content?: any }>> = {
   hero_slider: HeroSection,
+  featured_categories: CategoriesSection,
+  best_sellers: BestSellers,
   all_products: AllProducts,
+  why_choose_us: WhyChooseUs,
+  offer_banner: OfferBanner,
   customer_reviews: Testimonials,
+  contact: ContactSection,
   video_section: VideoSection,
   bsti_certificates: BSTICertificates as any,
 };
@@ -45,7 +55,7 @@ const Index = () => {
     load();
   }, []);
 
-  // Fallback / default layout matching reference screenshot
+  // Fallback: default layout matching reference
   if (loading || sections.length === 0) {
     return (
       <div className="min-h-screen">
