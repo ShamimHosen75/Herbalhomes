@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Heart, Star, Minus, Plus, ChevronDown, ChevronUp, Check, Truck, RotateCcw, Shield, Zap } from "lucide-react";
-import { getProductBySlug, getRelatedProducts, type Product } from "@/data/products";
+import { type Product } from "@/data/products";
+import { useProducts } from "@/contexts/ProductsContext";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useLanguage } from "@/contexts/LanguageContext";
