@@ -17,7 +17,7 @@ interface Props {
 }
 
 const PhoneMockup = ({ src, index }: { src: string; index: number }) => (
-  <div className="relative mx-auto" style={{ maxWidth: 500 }}>
+  <div className="relative mx-auto" style={{ maxWidth: 700 }}>
     {/* Shadow beneath phone */}
     <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[70%] h-8 bg-black/30 blur-2xl rounded-full" />
 
