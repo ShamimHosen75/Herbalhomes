@@ -25,7 +25,7 @@ const BestSellers = ({ title, subtitle }: Props) => {
         </div>
       )}
       {categories.map((cat) => {
-        const groupProducts = products.filter((p) => p.category === cat.slug).slice(0, 3);
+        const groupProducts = products.filter((p) => p.category === cat.slug).slice(0, 4);
         if (groupProducts.length === 0) return null;
         return (
           <div key={cat.id} className="py-12 md:py-16">
