@@ -20,11 +20,15 @@ const VideoSliderSection = () => {
       .from("page_contents")
       .select("*")
       .eq("page_key", "homepage_videos")
-      .single()
-      .then(({ data }) => {
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Error fetching videos:", error);
+          return;
+        }
         if (data) {
           const d = data as any;
-          if (d.content?.videos) setVideos(d.content.videos);
+          if (d.content?.videos && Array.isArray(d.content.videos)) setVideos(d.content.videos);
           if (d.title) setTitle(d.title);
         }
       });
