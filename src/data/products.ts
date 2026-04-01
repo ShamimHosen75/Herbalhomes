@@ -118,6 +118,6 @@ export type ShippingAddress = {
 
 // ─── Default data (used as fallback) ─────────────────────
 export const shippingMethods: ShippingMethod[] = [
-  { id: "standard", name: "স্ট্যান্ডার্ড ডেলিভারি", cost: 80, estimatedDays: "3-5 দিন" },
-  { id: "express", name: "এক্সপ্রেস ডেলিভারি", cost: 150, estimatedDays: "1-2 দিন" },
+  { id: "standard", name: "স্ট্যান্ডার্ড ডেলিভারি", cost: 0, estimatedDays: "3-5 দিন" },
+  { id: "express", name: "এক্সপ্রেস ডেলিভারি", cost: 0, estimatedDays: "1-2 দিন" },
 ];
