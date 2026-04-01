@@ -14,74 +14,16 @@ import BSTICertificates from "@/components/BSTICertificates";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-interface HomepageSection {
-  id: string;
-  section_type: string;
-  title: string;
-  subtitle: string;
-  layout: string;
-  sort_order: number;
-  active: boolean;
-  content: any;
-}
-
-const sectionComponents: Record<string, React.ComponentType<{ title?: string; subtitle?: string; content?: any }>> = {
-  hero_slider: HeroSection,
-  featured_categories: CategoriesSection,
-  best_sellers: BestSellers,
-  all_products: AllProducts,
-  why_choose_us: WhyChooseUs,
-  offer_banner: OfferBanner,
-  customer_reviews: Testimonials,
-  contact: ContactSection,
-  video_section: VideoSection,
-  bsti_certificates: BSTICertificates as any,
-};
-
 const Index = () => {
-  const [sections, setSections] = useState<HomepageSection[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const load = async () => {
-      const { data } = await supabase
-        .from("homepage_sections")
-        .select("*")
-        .eq("active", true)
-        .order("sort_order");
-      setSections((data as HomepageSection[]) || []);
-      setLoading(false);
-    };
-    load();
-  }, []);
-
-  // Fallback: default layout when no CMS sections configured
-  if (!loading && sections.length === 0) {
-    return (
-      <div className="min-h-screen">
-        <Navbar />
-        <main>
-          <HeroSection />
-          <AllProducts />
-          <Testimonials />
-          <VideoSection />
-          <BSTICertificates />
-        </main>
-        <Footer />
-        <WhatsAppButton />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen">
       <Navbar />
       <main>
-        {sections.map(section => {
-          const Component = sectionComponents[section.section_type];
-          if (!Component) return null;
-          return <Component key={section.id} title={section.title} subtitle={section.subtitle} content={section.content} />;
-        })}
+        <HeroSection />
+        <AllProducts />
+        <CategoriesSection />
+        <WhyChooseUs />
+        <Testimonials />
         <BSTICertificates />
       </main>
       <Footer />
