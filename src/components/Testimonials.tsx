@@ -17,74 +17,33 @@ interface Props {
   content?: any;
 }
 
-const PhoneWithOverlay = ({ src, index }: { src: string; index: number }) => (
-  <div className="relative flex justify-center py-6 md:py-8" style={{ minHeight: "580px" }}>
-    {/* Phone with real frame */}
-    <div
-      className="absolute top-0 left-1/2 z-10"
-      style={{
-        width: "min(300px, 68vw)",
-        transform: "translateX(-50%)",
-      }}
-    >
-      <div className="relative">
-        {/* Phone frame image */}
-        <img
-          src={phoneFrame}
-          alt="Phone frame"
-          className="relative z-10 block w-full h-auto pointer-events-none"
-        />
-        {/* Screenshot inside the frame */}
-        <div
-          className="absolute z-0 overflow-hidden"
-          style={{
-            top: "2.8%",
-            left: "5.8%",
-            width: "88.4%",
-            height: "94.8%",
-            borderRadius: "1.8rem",
-          }}
-        >
-          <img
-            src={src}
-            alt={`Customer review ${index + 1}`}
-            className="block w-full h-full object-cover"
-            loading="lazy"
-          />
-        </div>
-      </div>
-      {/* Shadow beneath phone */}
-      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 h-8 w-[55%] rounded-full bg-black/30 blur-2xl" />
-    </div>
-
-    {/* Magnified overlay card */}
-    <div
-      className="absolute left-1/2 z-20"
-      style={{
-        bottom: "80px",
-        width: "min(420px, 92vw)",
-        transform: "translateX(-50%)",
-      }}
-    >
+const PhoneCard = ({ src, index }: { src: string; index: number }) => (
+  <div className="flex flex-col items-center">
+    <div className="relative" style={{ width: "min(220px, 55vw)" }}>
+      <img
+        src={phoneFrame}
+        alt="Phone frame"
+        className="relative z-10 block w-full h-auto pointer-events-none"
+      />
       <div
-        className="overflow-hidden rounded-2xl bg-white"
+        className="absolute z-0 overflow-hidden"
         style={{
-          boxShadow: "0 22px 50px -12px hsla(0 0% 0% / 0.5)",
+          top: "2.8%",
+          left: "5.8%",
+          width: "88.4%",
+          height: "94.8%",
+          borderRadius: "1.4rem",
         }}
       >
         <img
           src={src}
-          alt={`Magnified review ${index + 1}`}
-          className="block w-full h-auto"
+          alt={`Customer review ${index + 1}`}
+          className="block w-full h-full object-cover"
           loading="lazy"
-          style={{
-            objectFit: "cover",
-            objectPosition: "center 25%",
-            maxHeight: "220px",
-          }}
         />
       </div>
-
+      {/* Shadow */}
+      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-6 w-[50%] rounded-full bg-black/25 blur-xl" />
     </div>
   </div>
 );
@@ -102,7 +61,7 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
       .eq("approved", true)
       .neq("image", "")
       .order("created_at", { ascending: false })
-      .limit(10)
+      .limit(20)
       .then(({ data }) => {
         if (data) {
           const imgs = (data as any[]).map((r) => r.image).filter(Boolean);
@@ -117,7 +76,10 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
       ? reviewImages
       : reviews.filter((r: any) => r.image).map((r: any) => r.image);
 
-  const maxIndex = hasImages ? Math.max(0, imageList.length - 1) : Math.max(0, reviews.length - 1);
+  // Show 3 on md+, 1 on mobile
+  const visibleCount = typeof window !== "undefined" && window.innerWidth >= 768 ? 3 : 1;
+  const totalItems = hasImages ? imageList.length : reviews.length;
+  const maxIndex = Math.max(0, totalItems - visibleCount);
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
@@ -129,20 +91,20 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
 
   useEffect(() => {
     if (!isAutoPlaying) return;
-    const total = hasImages ? imageList.length : reviews.length;
-    if (total <= 1) return;
+    if (totalItems <= visibleCount) return;
     const timer = setInterval(next, 4000);
     return () => clearInterval(timer);
-  }, [isAutoPlaying, next, hasImages, imageList.length, reviews.length]);
+  }, [isAutoPlaying, next, totalItems, visibleCount]);
 
   const sectionBg =
     "bg-gradient-to-b from-[hsl(258,50%,12%)] via-[hsl(260,42%,18%)] to-[hsl(262,45%,14%)]";
+
+  const slideWidth = 100 / visibleCount;
 
   // ─── IMAGE TESTIMONIALS ───
   if (hasImages && imageList.length > 0) {
     return (
       <section className={`py-16 md:py-24 ${sectionBg} relative overflow-hidden`}>
-        {/* Decorative glows */}
         <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
 
@@ -155,12 +117,12 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
           </p>
 
           <div
-            className="relative max-w-4xl mx-auto"
+            className="relative max-w-6xl mx-auto"
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
           >
             {/* Arrows */}
-            {imageList.length > 1 && (
+            {totalItems > visibleCount && (
               <>
                 <button
                   onClick={prev}
@@ -177,15 +139,19 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
               </>
             )}
 
-            {/* Single slide display */}
+            {/* 3-at-a-time slider */}
             <div className="overflow-hidden mx-10 md:mx-16">
               <div
                 className="flex transition-transform duration-700 ease-out"
-                style={{ transform: `translateX(-${current * 100}%)` }}
+                style={{ transform: `translateX(-${current * slideWidth}%)` }}
               >
                 {imageList.map((img: string, i: number) => (
-                  <div key={i} className="flex-shrink-0 w-full">
-                    <PhoneWithOverlay src={img} index={i} />
+                  <div
+                    key={i}
+                    className="flex-shrink-0 px-2 md:px-4"
+                    style={{ width: `${slideWidth}%` }}
+                  >
+                    <PhoneCard src={img} index={i} />
                   </div>
                 ))}
               </div>
@@ -193,9 +159,9 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
           </div>
 
           {/* Dots */}
-          {imageList.length > 1 && (
-            <div className="flex justify-center gap-2 mt-6">
-              {imageList.map((_, i) => (
+          {totalItems > visibleCount && (
+            <div className="flex justify-center gap-2 mt-8">
+              {Array.from({ length: maxIndex + 1 }).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
@@ -228,11 +194,11 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
         </p>
 
         <div
-          className="relative max-w-4xl mx-auto"
+          className="relative max-w-5xl mx-auto"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
-          {reviews.length > 1 && (
+          {reviews.length > visibleCount && (
             <>
               <button
                 onClick={prev}
@@ -252,12 +218,16 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
           <div className="overflow-hidden mx-8 md:mx-14">
             <div
               className="flex transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${current * 100}%)` }}
+              style={{ transform: `translateX(-${current * slideWidth}%)` }}
             >
               {reviews.map((review: any, i: number) => (
-                <div key={i} className="flex-shrink-0 w-full px-4">
+                <div
+                  key={i}
+                  className="flex-shrink-0 px-3"
+                  style={{ width: `${slideWidth}%` }}
+                >
                   <div
-                    className="rounded-2xl p-8 max-w-lg mx-auto border border-white/[0.06] hover:border-white/[0.12] transition-colors"
+                    className="rounded-2xl p-6 md:p-8 border border-white/[0.06] hover:border-white/[0.12] transition-colors"
                     style={{
                       background:
                         "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
@@ -269,15 +239,15 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
                         <Star key={j} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
-                    <p className="text-white/80 text-base leading-relaxed mb-6">
+                    <p className="text-white/80 text-sm md:text-base leading-relaxed mb-6">
                       "{review.text}"
                     </p>
                     <div className="flex items-center gap-3">
-                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary/40 to-primary/20 flex items-center justify-center text-base font-bold text-primary-foreground border border-primary/30">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary/40 to-primary/20 flex items-center justify-center text-sm font-bold text-primary-foreground border border-primary/30">
                         {review.name?.[0] || "?"}
                       </div>
                       <div>
-                        <p className="font-semibold text-white">{review.name}</p>
+                        <p className="font-semibold text-white text-sm">{review.name}</p>
                         <p className="text-xs text-white/40 flex items-center gap-1">
                           <span className="inline-block w-4 h-4 rounded-full bg-primary/60 text-[9px] text-white flex items-center justify-center">
                             ✓
@@ -293,9 +263,9 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
           </div>
         </div>
 
-        {reviews.length > 1 && (
+        {reviews.length > visibleCount && (
           <div className="flex justify-center gap-2 mt-8">
-            {reviews.map((_: any, i: number) => (
+            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
