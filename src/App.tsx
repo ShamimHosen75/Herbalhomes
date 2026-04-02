@@ -50,6 +50,7 @@ import AdminLandingPages from "./pages/admin/AdminLandingPages";
 import AdminHomepage from "./pages/admin/AdminHomepage";
 import AdminPageContents from "./pages/admin/AdminPageContents";
 import AdminBSTICertificates from "./pages/admin/AdminBSTICertificates";
+import AdminVideoReviews from "./pages/admin/AdminVideoReviews";
 import LandingPage from "./pages/LandingPage";
 import type { ReactNode } from "react";
 
