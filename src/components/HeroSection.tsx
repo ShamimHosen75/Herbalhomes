@@ -61,7 +61,7 @@ const HeroSection = (_props: Props) => {
   const isBanner = slide.layout === "banner";
 
   if (isBanner) {
-    const slideImages = [slide.image_url, ...(slide.images || [])].filter(Boolean);
+    
     return (
       <section key={slide.id} className="relative overflow-hidden group">
         {slide.banner_url && (
@@ -71,34 +71,26 @@ const HeroSection = (_props: Props) => {
 
         {slides.length > 1 && <SlideArrows slides={slides} current={current} setCurrent={setCurrent} />}
 
-        <div className="relative container mx-auto px-4 py-16 md:py-28 lg:py-36">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-            <div className="flex-1 max-w-2xl">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-tight mb-5 animate-[fade-in_0.6s_ease-out_both]">
-                {slide.heading}
-              </h1>
-              {slide.text && (
-                <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-lg animate-[fade-in_0.6s_ease-out_0.15s_both]">{slide.text}</p>
-              )}
-              <div className="flex flex-wrap gap-3 animate-[fade-in_0.6s_ease-out_0.3s_both]">
-                <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 hover-scale">
-                  <ShoppingCartIcon />
-                  {slide.cta_text || t("hero.shop_now")}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link to="/categories" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/30 transition-colors hover-scale">
-                  {t("hero.view_categories")}
-                </Link>
-              </div>
-
-              <SlideControls slides={slides} current={current} setCurrent={setCurrent} light />
+        <div className="relative container mx-auto px-4 py-24 md:py-36 lg:py-44">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-tight mb-5 animate-[fade-in_0.6s_ease-out_both]">
+              {slide.heading}
+            </h1>
+            {slide.text && (
+              <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-lg animate-[fade-in_0.6s_ease-out_0.15s_both]">{slide.text}</p>
+            )}
+            <div className="flex flex-wrap gap-3 animate-[fade-in_0.6s_ease-out_0.3s_both]">
+              <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 hover-scale">
+                <ShoppingCartIcon />
+                {slide.cta_text || t("hero.shop_now")}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to="/categories" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/30 transition-colors hover-scale">
+                {t("hero.view_categories")}
+              </Link>
             </div>
 
-            {slideImages.length > 0 && (
-              <div className="flex-1 relative flex justify-center lg:justify-end animate-[scale-in_0.7s_ease-out_0.2s_both]">
-                <BannerSlideImages images={slideImages} slideId={slide.id} />
-              </div>
-            )}
+            <SlideControls slides={slides} current={current} setCurrent={setCurrent} light />
           </div>
         </div>
       </section>
