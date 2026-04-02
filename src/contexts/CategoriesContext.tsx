@@ -21,7 +21,7 @@ export function CategoriesProvider({ children }: { children: ReactNode }) {
   const fetchCategories = useCallback(async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.from("categories").select("*") as any;
+      const { data, error } = await supabase.from("categories").select("*").order("sort_order" as any) as any;
       if (error) throw error;
       setCategories((data || []).map(dbCategoryToApp));
     } catch (err) {
