@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCategories } from "@/contexts/CategoriesContext";
+import { useProducts } from "@/contexts/ProductsContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
