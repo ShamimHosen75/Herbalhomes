@@ -134,7 +134,7 @@ const ProductCard = ({ product, showRating = true }: Props) => {
             </button>
             <button
               onClick={handleBuyNow}
-              className="w-full flex items-center justify-center gap-1.5 bg-destructive text-destructive-foreground py-2 rounded-lg text-sm font-semibold hover:bg-destructive/90 transition-colors"
+              className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-primary to-[hsl(142,64%,28%)] text-primary-foreground py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               <Zap className="h-3.5 w-3.5" />
               {t("product.buy_now")}
