@@ -113,10 +113,15 @@ export default function DragDropImageUpload({
               <img
                 src={url}
                 alt=""
+                onClick={() => {
+                  if (!multiple) inputRef.current?.click();
+                }}
                 className={cn(
                   "rounded-lg object-cover border border-border",
+                  !multiple && "cursor-pointer hover:opacity-80 transition-opacity",
                   previewSizeClasses[previewSize]
                 )}
+                title={!multiple ? "ক্লিক করে ছবি পরিবর্তন করুন" : undefined}
               />
               <button
                 type="button"
@@ -125,6 +130,11 @@ export default function DragDropImageUpload({
               >
                 <X className="h-3 w-3" />
               </button>
+              {!multiple && (
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 rounded-lg pointer-events-none">
+                  <Upload className="h-5 w-5 text-white" />
+                </div>
+              )}
             </div>
           ))}
         </div>
