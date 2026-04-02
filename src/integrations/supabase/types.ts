@@ -50,6 +50,7 @@ export type Database = {
           image: string
           name: string
           slug: string
+          sort_order: number
         }
         Insert: {
           count?: number
@@ -59,6 +60,7 @@ export type Database = {
           image?: string
           name: string
           slug: string
+          sort_order?: number
         }
         Update: {
           count?: number
@@ -68,6 +70,7 @@ export type Database = {
           image?: string
           name?: string
           slug?: string
+          sort_order?: number
         }
         Relationships: []
       }
