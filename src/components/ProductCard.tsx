@@ -127,7 +127,7 @@ const ProductCard = ({ product, showRating = true }: Props) => {
           <div className="flex flex-col gap-2">
             <button
               onClick={handleAddToCart}
-              className="w-full flex items-center justify-center gap-1.5 bg-primary text-primary-foreground py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
+              className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-[hsl(260,60%,50%)] to-[hsl(240,60%,45%)] text-primary-foreground py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               <ShoppingCart className="h-3.5 w-3.5" />
               {t("product.add_to_cart")}
