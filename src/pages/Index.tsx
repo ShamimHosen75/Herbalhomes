@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import CategoriesSection from "@/components/CategoriesSection";
 import BestSellers from "@/components/BestSellers";
 import AllProducts from "@/components/AllProducts";
+import FreeDeliveryBanner from "@/components/FreeDeliveryBanner";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
 import VideoSliderSection from "@/components/VideoSliderSection";
