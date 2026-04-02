@@ -97,7 +97,8 @@ const HeroSection = (_props: Props) => {
   }
 
   return (
-    <section key={slide.id} className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
+    <section key={slide.id} className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))] group">
+      {slides.length > 1 && <SlideArrows slides={slides} current={current} setCurrent={setCurrent} />}
       <div className="container mx-auto px-4 py-16 md:py-28 lg:py-32">
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
           <div className="flex-1 text-center lg:text-left">
