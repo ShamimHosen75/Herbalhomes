@@ -25,6 +25,7 @@ const Index = () => {
         <AllProducts />
         <WhyChooseUs />
         <Testimonials />
+        <CustomerVideoReviews />
         <VideoSliderSection />
         <CallToAction />
         <BSTICertificates />

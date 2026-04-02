@@ -118,6 +118,7 @@ const App = () => {
                   <Route path="/admin/homepage" element={<ProtectedAdmin><AdminHomepage /></ProtectedAdmin>} />
                   <Route path="/admin/page-contents" element={<ProtectedAdmin><AdminPageContents /></ProtectedAdmin>} />
                   <Route path="/admin/bsti-certificates" element={<ProtectedAdmin><AdminBSTICertificates /></ProtectedAdmin>} />
+                  <Route path="/admin/video-reviews" element={<ProtectedAdmin><AdminVideoReviews /></ProtectedAdmin>} />
 
                   <Route path="/lp/:slug" element={<LandingPage />} />
                   <Route path="*" element={<NotFound />} />
