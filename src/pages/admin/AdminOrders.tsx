@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useOrders } from "@/contexts/OrderContext";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -6,11 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, RefreshCw, MoreHorizontal, Eye, Trash2, MessageCircle } from "lucide-react";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Search, RefreshCw, MoreHorizontal, Eye, MessageCircle, Truck, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import type { OrderStatus, Order } from "@/data/products";
+import { toast } from "sonner";
 
 const statusColors: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
@@ -26,10 +27,23 @@ const statusColors: Record<string, string> = {
 const allStatuses: OrderStatus[] = ["pending", "confirmed", "packed", "shipped", "delivered", "cancelled", "refunded"];
 
 export default function AdminOrders() {
-  const { orders, updateOrderStatus } = useOrders();
+  const { orders, updateOrderStatus, refreshOrders } = useOrders();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [viewOrder, setViewOrder] = useState<Order | null>(null);
+  const [courierEnabled, setCourierEnabled] = useState(false);
+  const [sendingOrderId, setSendingOrderId] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase
+      .from("courier_settings")
+      .select("enabled")
+      .eq("id", "steadfast")
+      .single()
+      .then(({ data }) => {
+        if (data) setCourierEnabled((data as any).enabled);
+      });
+  }, []);
 
   const filtered = orders.filter((o) => {
     const matchesSearch =
@@ -41,11 +55,42 @@ export default function AdminOrders() {
     return matchesSearch && matchesStatus;
   });
 
+  const sendToSteadfast = async (order: Order) => {
+    if (order.trackingNumber) {
+      toast.error("এই অর্ডার ইতিমধ্যে কুরিয়ারে পাঠানো হয়েছে");
+      return;
+    }
+
+    setSendingOrderId(order.id);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-to-steadfast", {
+        body: { order_id: order.id },
+      });
+
+      if (error) {
+        toast.error(`কুরিয়ারে পাঠাতে সমস্যা: ${error.message}`);
+        return;
+      }
+
+      if (data?.error) {
+        toast.error(`Steadfast Error: ${data.error}`);
+        return;
+      }
+
+      toast.success(`অর্ডার ${order.id} Steadfast এ পাঠানো হয়েছে! Tracking: ${data.tracking_code}`);
+      await refreshOrders();
+    } catch (err: any) {
+      toast.error(`Error: ${err.message}`);
+    } finally {
+      setSendingOrderId(null);
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-foreground">Orders</h1>
-        <Button variant="outline" size="sm" onClick={() => window.location.reload()}>
+        <Button variant="outline" size="sm" onClick={() => refreshOrders()}>
           <RefreshCw className="w-4 h-4 mr-2" /> Refresh
         </Button>
       </div>
@@ -89,6 +134,7 @@ export default function AdminOrders() {
                 <TableHead>PAYMENT</TableHead>
                 <TableHead>TOTAL</TableHead>
                 <TableHead>STATUS</TableHead>
+                <TableHead>COURIER</TableHead>
                 <TableHead>DATE</TableHead>
                 <TableHead className="text-right">ACTIONS</TableHead>
               </TableRow>
@@ -136,6 +182,19 @@ export default function AdminOrders() {
                       </SelectContent>
                     </Select>
                   </TableCell>
+                  <TableCell>
+                    {order.trackingNumber ? (
+                      <div className="text-xs">
+                        <Badge variant="secondary" className="bg-green-100 text-green-800 text-[10px]">
+                          <Truck className="w-3 h-3 mr-1" />
+                          {order.courierName || "Steadfast"}
+                        </Badge>
+                        <p className="font-mono text-muted-foreground mt-0.5">{order.trackingNumber}</p>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">—</span>
+                    )}
+                  </TableCell>
                   <TableCell className="text-muted-foreground text-sm">
                     {new Date(order.createdAt).toLocaleDateString("en-US", {
                       year: "numeric", month: "short", day: "numeric",
@@ -152,6 +211,22 @@ export default function AdminOrders() {
                         <DropdownMenuItem onClick={() => setViewOrder(order)}>
                           <Eye className="w-4 h-4 mr-2" /> View Details
                         </DropdownMenuItem>
+                        {courierEnabled && !order.trackingNumber && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => sendToSteadfast(order)}
+                              disabled={sendingOrderId === order.id}
+                            >
+                              {sendingOrderId === order.id ? (
+                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                              ) : (
+                                <Truck className="w-4 h-4 mr-2" />
+                              )}
+                              Send to Steadfast
+                            </DropdownMenuItem>
+                          </>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -180,7 +255,32 @@ export default function AdminOrders() {
                 {viewOrder.transactionId && (
                   <div className="col-span-2"><span className="text-muted-foreground">Transaction ID:</span> <span className="font-mono font-medium">{viewOrder.transactionId}</span></div>
                 )}
+                {viewOrder.trackingNumber && (
+                  <div className="col-span-2">
+                    <span className="text-muted-foreground">Tracking:</span>{" "}
+                    <span className="font-mono font-medium">{viewOrder.trackingNumber}</span>
+                    {viewOrder.courierName && <Badge variant="outline" className="ml-2 text-xs">{viewOrder.courierName}</Badge>}
+                  </div>
+                )}
               </div>
+
+              {/* Send to courier button in detail view */}
+              {courierEnabled && !viewOrder.trackingNumber && (
+                <Button
+                  size="sm"
+                  className="w-full"
+                  onClick={() => sendToSteadfast(viewOrder)}
+                  disabled={sendingOrderId === viewOrder.id}
+                >
+                  {sendingOrderId === viewOrder.id ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Truck className="w-4 h-4 mr-2" />
+                  )}
+                  Steadfast এ পাঠান
+                </Button>
+              )}
+
               <div className="border-t border-border pt-3">
                 <p className="font-medium mb-2">Items</p>
                 {viewOrder.items.map((item, i) => (
