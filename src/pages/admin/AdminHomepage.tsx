@@ -30,6 +30,7 @@ const sectionTypeLabels: Record<string, string> = {
   why_choose_us: "Why Choose Us",
   offer_banner: "Offer Banner",
   customer_reviews: "Customer Reviews",
+  customer_video_reviews: "Customer Video Reviews",
   contact: "Contact",
 };
 
@@ -276,10 +277,18 @@ export default function AdminHomepage() {
       );
     }
 
-    if (section_type === "best_sellers") {
+    if (section_type === "best_sellers" || section_type === "all_products") {
       return (
         <p className="text-xs text-muted-foreground mt-3">
           প্রোডাক্ট <a href="/admin/products" className="text-primary underline">Products</a> থেকে ম্যানেজ করুন।
+        </p>
+      );
+    }
+
+    if (section_type === "customer_video_reviews") {
+      return (
+        <p className="text-xs text-muted-foreground mt-3">
+          ভিডিও রিভিউ <a href="/admin/video-reviews" className="text-primary underline">Video Reviews</a> থেকে ম্যানেজ করুন।
         </p>
       );
     }
