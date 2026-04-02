@@ -87,6 +87,34 @@ export default function AdminOrders() {
     }
   };
 
+  const syncSteadfastStatuses = async () => {
+    setSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("sync-steadfast-status", {
+        body: {},
+      });
+
+      if (error) {
+        toast.error(`Sync সমস্যা: ${error.message}`);
+        return;
+      }
+
+      if (data?.error) {
+        toast.error(`Sync Error: ${data.error}`);
+        return;
+      }
+
+      toast.success(`Steadfast Sync সম্পন্ন! ${data.updated || 0}টি অর্ডার আপডেট হয়েছে (মোট ${data.total || 0}টি)`);
+      if (data?.updated > 0) {
+        await refreshOrders();
+      }
+    } catch (err: any) {
+      toast.error(`Error: ${err.message}`);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
