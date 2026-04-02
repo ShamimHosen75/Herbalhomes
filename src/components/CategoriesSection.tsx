@@ -10,7 +10,11 @@ interface Props {
 
 const CategoriesSection = ({ title, subtitle }: Props) => {
   const { categories } = useCategories();
+  const { products } = useProducts();
   const { t } = useLanguage();
+
+  const getCategoryProductCount = (slug: string) =>
+    products.filter((p) => p.category === slug).length;
 
   return (
     <section id="categories" className="py-14 md:py-20 bg-background">
