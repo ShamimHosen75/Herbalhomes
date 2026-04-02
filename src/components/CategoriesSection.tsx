@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCategories } from "@/contexts/CategoriesContext";
+import { useProducts } from "@/contexts/ProductsContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
@@ -9,7 +10,11 @@ interface Props {
 
 const CategoriesSection = ({ title, subtitle }: Props) => {
   const { categories } = useCategories();
+  const { products } = useProducts();
   const { t } = useLanguage();
+
+  const getCategoryProductCount = (slug: string) =>
+    products.filter((p) => p.category === slug).length;
 
   return (
     <section id="categories" className="py-14 md:py-20 bg-background">
@@ -43,7 +48,7 @@ const CategoriesSection = ({ title, subtitle }: Props) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-0 right-0 flex justify-center">
                 <span className="bg-primary text-primary-foreground text-xs md:text-sm font-bold uppercase tracking-wide px-5 py-2 rounded-sm shadow-lg group-hover:bg-primary/90 transition-colors">
-                  {cat.name}
+                  {cat.name} ({getCategoryProductCount(cat.slug)})
                 </span>
               </div>
             </Link>
