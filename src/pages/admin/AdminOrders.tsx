@@ -33,6 +33,7 @@ export default function AdminOrders() {
   const [viewOrder, setViewOrder] = useState<Order | null>(null);
   const [courierEnabled, setCourierEnabled] = useState(false);
   const [sendingOrderId, setSendingOrderId] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     supabase
