@@ -61,6 +61,7 @@ const HeroSection = (_props: Props) => {
   const isBanner = slide.layout === "banner";
 
   if (isBanner) {
+    const slideImages = [slide.image_url, ...(slide.images || [])].filter(Boolean);
     return (
       <section key={slide.id} className="relative overflow-hidden group">
         {slide.banner_url && (
@@ -70,26 +71,34 @@ const HeroSection = (_props: Props) => {
 
         {slides.length > 1 && <SlideArrows slides={slides} current={current} setCurrent={setCurrent} />}
 
-        <div className="relative container mx-auto px-4 py-24 md:py-36 lg:py-44">
-          <div className="max-w-2xl">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-tight mb-5 animate-[fade-in_0.6s_ease-out_both]">
-              {slide.heading}
-            </h1>
-            {slide.text && (
-              <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-lg animate-[fade-in_0.6s_ease-out_0.15s_both]">{slide.text}</p>
-            )}
-            <div className="flex flex-wrap gap-3 animate-[fade-in_0.6s_ease-out_0.3s_both]">
-              <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 hover-scale">
-                <ShoppingCartIcon />
-                {slide.cta_text || t("hero.shop_now")}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link to="/categories" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/30 transition-colors hover-scale">
-                {t("hero.view_categories")}
-              </Link>
+        <div className="relative container mx-auto px-4 py-16 md:py-28 lg:py-36">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            <div className="flex-1 max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-tight mb-5 animate-[fade-in_0.6s_ease-out_both]">
+                {slide.heading}
+              </h1>
+              {slide.text && (
+                <p className="text-base md:text-lg text-white/80 leading-relaxed mb-8 max-w-lg animate-[fade-in_0.6s_ease-out_0.15s_both]">{slide.text}</p>
+              )}
+              <div className="flex flex-wrap gap-3 animate-[fade-in_0.6s_ease-out_0.3s_both]">
+                <Link to={slide.cta_link || "/shop"} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 hover-scale">
+                  <ShoppingCartIcon />
+                  {slide.cta_text || t("hero.shop_now")}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link to="/categories" className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-7 py-3.5 rounded-xl text-sm font-semibold border border-white/30 hover:bg-white/30 transition-colors hover-scale">
+                  {t("hero.view_categories")}
+                </Link>
+              </div>
+
+              <SlideControls slides={slides} current={current} setCurrent={setCurrent} light />
             </div>
 
-            <SlideControls slides={slides} current={current} setCurrent={setCurrent} light />
+            {slideImages.length > 0 && (
+              <div className="flex-1 relative flex justify-center lg:justify-end animate-[scale-in_0.7s_ease-out_0.2s_both]">
+                <BannerSlideImages images={slideImages} slideId={slide.id} />
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -137,6 +146,40 @@ const HeroSection = (_props: Props) => {
     </section>
   );
 };
+
+function BannerSlideImages({ images, slideId }: { images: string[]; slideId: string }) {
+  const [activeImg, setActiveImg] = useState(0);
+
+  useEffect(() => { setActiveImg(0); }, [slideId]);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const timer = setInterval(() => {
+      setActiveImg(prev => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [images.length, slideId]);
+
+  return (
+    <div className="relative w-60 md:w-72 lg:w-80 aspect-square">
+      {images.map((img, i) => (
+        <img
+          key={img}
+          src={img}
+          alt=""
+          className={`absolute inset-0 w-full h-full object-contain drop-shadow-2xl transition-opacity duration-700 ease-in-out ${i === activeImg ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+      {images.length > 1 && (
+        <div className="flex gap-2 mt-2 justify-center absolute -bottom-8 left-0 right-0">
+          {images.map((_, i) => (
+            <button key={i} onClick={() => setActiveImg(i)} className={`w-2 h-2 rounded-full transition-all ${i === activeImg ? "w-5 bg-white" : "bg-white/40"}`} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function SlideImages({ slide }: { slide: Slide }) {
   const { t } = useLanguage();
