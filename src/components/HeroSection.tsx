@@ -62,11 +62,13 @@ const HeroSection = (_props: Props) => {
 
   if (isBanner) {
     return (
-      <section key={slide.id} className="relative overflow-hidden">
+      <section key={slide.id} className="relative overflow-hidden group">
         {slide.banner_url && (
           <img src={slide.banner_url} alt={slide.heading} className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 animate-fade-in" />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+
+        {slides.length > 1 && <SlideArrows slides={slides} current={current} setCurrent={setCurrent} />}
 
         <div className="relative container mx-auto px-4 py-24 md:py-36 lg:py-44">
           <div className="max-w-2xl">
