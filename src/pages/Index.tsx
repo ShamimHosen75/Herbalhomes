@@ -19,6 +19,7 @@ const Index = () => {
         <HeroSection />
         <CategoriesSection />
         
+        <FreeDeliveryBanner />
         <AllProducts />
         <WhyChooseUs />
         <Testimonials />
