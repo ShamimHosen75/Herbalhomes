@@ -62,11 +62,13 @@ const HeroSection = (_props: Props) => {
 
   if (isBanner) {
     return (
-      <section key={slide.id} className="relative overflow-hidden">
+      <section key={slide.id} className="relative overflow-hidden group">
         {slide.banner_url && (
           <img src={slide.banner_url} alt={slide.heading} className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 animate-fade-in" />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+
+        {slides.length > 1 && <SlideArrows slides={slides} current={current} setCurrent={setCurrent} />}
 
         <div className="relative container mx-auto px-4 py-24 md:py-36 lg:py-44">
           <div className="max-w-2xl">
@@ -95,7 +97,8 @@ const HeroSection = (_props: Props) => {
   }
 
   return (
-    <section key={slide.id} className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))]">
+    <section key={slide.id} className="relative overflow-hidden bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] via-background to-[hsl(var(--hero-gradient-end))] group">
+      {slides.length > 1 && <SlideArrows slides={slides} current={current} setCurrent={setCurrent} />}
       <div className="container mx-auto px-4 py-16 md:py-28 lg:py-32">
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
           <div className="flex-1 text-center lg:text-left">
@@ -242,28 +245,37 @@ function FallbackHero() {
   );
 }
 
+function SlideArrows({ slides, current, setCurrent }: { slides: Slide[]; current: number; setCurrent: (n: number) => void }) {
+  return (
+    <>
+      <button
+        onClick={() => setCurrent((current - 1 + slides.length) % slides.length)}
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 p-2 md:p-3 rounded-full bg-black/30 backdrop-blur-sm text-white border border-white/20 hover:bg-black/50 transition-all opacity-0 group-hover:opacity-100"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
+      </button>
+      <button
+        onClick={() => setCurrent((current + 1) % slides.length)}
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 p-2 md:p-3 rounded-full bg-black/30 backdrop-blur-sm text-white border border-white/20 hover:bg-black/50 transition-all opacity-0 group-hover:opacity-100"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+      </button>
+    </>
+  );
+}
+
 function SlideControls({ slides, current, setCurrent, light }: { slides: Slide[]; current: number; setCurrent: (n: number) => void; light?: boolean }) {
   if (slides.length <= 1) return null;
-  const btnClass = light
-    ? "p-1.5 rounded-full border border-white/30 hover:bg-white/20 transition-colors"
-    : "p-1.5 rounded-full border border-border hover:bg-muted transition-colors";
-  const chevronClass = light ? "h-4 w-4 text-white" : "h-4 w-4 text-foreground";
   const dotActive = "w-6 bg-primary";
   const dotInactive = light ? "w-2 bg-white/40" : "w-2 bg-muted-foreground/30";
 
   return (
-    <div className={`flex items-center gap-3 mt-8 ${light ? "" : "justify-center lg:justify-start"}`}>
-      <button onClick={() => setCurrent((current - 1 + slides.length) % slides.length)} className={btnClass}>
-        <ChevronLeft className={chevronClass} />
-      </button>
-      <div className="flex gap-2">
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => setCurrent(i)} className={`h-2 rounded-full transition-all ${i === current ? dotActive : dotInactive}`} />
-        ))}
-      </div>
-      <button onClick={() => setCurrent((current + 1) % slides.length)} className={btnClass}>
-        <ChevronRight className={chevronClass} />
-      </button>
+    <div className={`flex items-center gap-2 mt-8 ${light ? "" : "justify-center lg:justify-start"}`}>
+      {slides.map((_, i) => (
+        <button key={i} onClick={() => setCurrent(i)} className={`h-2 rounded-full transition-all ${i === current ? dotActive : dotInactive}`} />
+      ))}
     </div>
   );
 }
