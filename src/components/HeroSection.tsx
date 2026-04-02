@@ -245,28 +245,37 @@ function FallbackHero() {
   );
 }
 
+function SlideArrows({ slides, current, setCurrent }: { slides: Slide[]; current: number; setCurrent: (n: number) => void }) {
+  return (
+    <>
+      <button
+        onClick={() => setCurrent((current - 1 + slides.length) % slides.length)}
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 p-2 md:p-3 rounded-full bg-black/30 backdrop-blur-sm text-white border border-white/20 hover:bg-black/50 transition-all opacity-0 group-hover:opacity-100"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
+      </button>
+      <button
+        onClick={() => setCurrent((current + 1) % slides.length)}
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 p-2 md:p-3 rounded-full bg-black/30 backdrop-blur-sm text-white border border-white/20 hover:bg-black/50 transition-all opacity-0 group-hover:opacity-100"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+      </button>
+    </>
+  );
+}
+
 function SlideControls({ slides, current, setCurrent, light }: { slides: Slide[]; current: number; setCurrent: (n: number) => void; light?: boolean }) {
   if (slides.length <= 1) return null;
-  const btnClass = light
-    ? "p-1.5 rounded-full border border-white/30 hover:bg-white/20 transition-colors"
-    : "p-1.5 rounded-full border border-border hover:bg-muted transition-colors";
-  const chevronClass = light ? "h-4 w-4 text-white" : "h-4 w-4 text-foreground";
   const dotActive = "w-6 bg-primary";
   const dotInactive = light ? "w-2 bg-white/40" : "w-2 bg-muted-foreground/30";
 
   return (
-    <div className={`flex items-center gap-3 mt-8 ${light ? "" : "justify-center lg:justify-start"}`}>
-      <button onClick={() => setCurrent((current - 1 + slides.length) % slides.length)} className={btnClass}>
-        <ChevronLeft className={chevronClass} />
-      </button>
-      <div className="flex gap-2">
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => setCurrent(i)} className={`h-2 rounded-full transition-all ${i === current ? dotActive : dotInactive}`} />
-        ))}
-      </div>
-      <button onClick={() => setCurrent((current + 1) % slides.length)} className={btnClass}>
-        <ChevronRight className={chevronClass} />
-      </button>
+    <div className={`flex items-center gap-2 mt-8 ${light ? "" : "justify-center lg:justify-start"}`}>
+      {slides.map((_, i) => (
+        <button key={i} onClick={() => setCurrent(i)} className={`h-2 rounded-full transition-all ${i === current ? dotActive : dotInactive}`} />
+      ))}
     </div>
   );
 }
