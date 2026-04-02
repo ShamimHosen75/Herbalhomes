@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ArrowUp, ArrowDown, GripVertical } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import DragDropImageUpload from "@/components/admin/DragDropImageUpload";
+import { supabase } from "@/integrations/supabase/client";
 
 function CategoryForm({ initial, onSave, onClose }: { initial?: Category; onSave: (c: Category) => void; onClose: () => void }) {
   const [name, setName] = useState(initial?.name || "");
@@ -61,7 +62,7 @@ function CategoryForm({ initial, onSave, onClose }: { initial?: Category; onSave
 }
 
 export default function AdminCategories() {
-  const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
+  const { categories, addCategory, updateCategory, deleteCategory, refreshCategories } = useCategories();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editItem, setEditItem] = useState<Category | null>(null);
   const { toast } = useToast();
@@ -81,6 +82,22 @@ export default function AdminCategories() {
   const handleDelete = async (id: string) => {
     await deleteCategory(id);
     toast({ title: "ক্যাটেগরি ডিলিট হয়েছে!", variant: "destructive" });
+  };
+
+  const moveCategory = async (index: number, direction: "up" | "down") => {
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= categories.length) return;
+
+    const current = categories[index];
+    const swap = categories[swapIndex];
+
+    await Promise.all([
+      supabase.from("categories").update({ sort_order: swapIndex } as any).eq("id", current.id),
+      supabase.from("categories").update({ sort_order: index } as any).eq("id", swap.id),
+    ]);
+
+    await refreshCategories();
+    toast({ title: "ক্রম পরিবর্তন হয়েছে!" });
   };
 
   return (
@@ -104,6 +121,7 @@ export default function AdminCategories() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[60px]">ORDER</TableHead>
               <TableHead>IMAGE</TableHead>
               <TableHead>NAME</TableHead>
               <TableHead>SLUG</TableHead>
@@ -113,8 +131,31 @@ export default function AdminCategories() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {categories.map((c) => (
+            {categories.map((c, i) => (
               <TableRow key={c.id}>
+                <TableCell>
+                  <div className="flex flex-col items-center gap-0.5">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      disabled={i === 0}
+                      onClick={() => moveCategory(i, "up")}
+                    >
+                      <ArrowUp className="h-3.5 w-3.5" />
+                    </Button>
+                    <GripVertical className="h-4 w-4 text-muted-foreground" />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      disabled={i === categories.length - 1}
+                      onClick={() => moveCategory(i, "down")}
+                    >
+                      <ArrowDown className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                </TableCell>
                 <TableCell>
                   {c.image ? (
                     <img src={c.image} alt={c.name} className="h-10 w-10 rounded object-cover" />
