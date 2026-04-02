@@ -119,9 +119,17 @@ export default function AdminOrders() {
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-foreground">Orders</h1>
-        <Button variant="outline" size="sm" onClick={() => refreshOrders()}>
-          <RefreshCw className="w-4 h-4 mr-2" /> Refresh
-        </Button>
+        <div className="flex gap-2">
+          {courierEnabled && (
+            <Button variant="outline" size="sm" onClick={syncSteadfastStatuses} disabled={syncing}>
+              {syncing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Truck className="w-4 h-4 mr-2" />}
+              Sync Steadfast
+            </Button>
+          )}
+          <Button variant="outline" size="sm" onClick={() => refreshOrders()}>
+            <RefreshCw className="w-4 h-4 mr-2" /> Refresh
+          </Button>
+        </div>
       </div>
 
       {/* Search & Filter */}
