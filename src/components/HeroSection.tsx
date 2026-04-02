@@ -147,6 +147,40 @@ const HeroSection = (_props: Props) => {
   );
 };
 
+function BannerSlideImages({ images, slideId }: { images: string[]; slideId: string }) {
+  const [activeImg, setActiveImg] = useState(0);
+
+  useEffect(() => { setActiveImg(0); }, [slideId]);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const timer = setInterval(() => {
+      setActiveImg(prev => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [images.length, slideId]);
+
+  return (
+    <div className="relative w-60 md:w-72 lg:w-80 aspect-square">
+      {images.map((img, i) => (
+        <img
+          key={img}
+          src={img}
+          alt=""
+          className={`absolute inset-0 w-full h-full object-contain drop-shadow-2xl transition-opacity duration-700 ease-in-out ${i === activeImg ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+      {images.length > 1 && (
+        <div className="flex gap-2 mt-2 justify-center absolute -bottom-8 left-0 right-0">
+          {images.map((_, i) => (
+            <button key={i} onClick={() => setActiveImg(i)} className={`w-2 h-2 rounded-full transition-all ${i === activeImg ? "w-5 bg-white" : "bg-white/40"}`} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SlideImages({ slide }: { slide: Slide }) {
   const { t } = useLanguage();
   const allImages = [
