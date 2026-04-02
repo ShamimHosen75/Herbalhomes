@@ -6,6 +6,7 @@ import AllProducts from "@/components/AllProducts";
 import FreeDeliveryBanner from "@/components/FreeDeliveryBanner";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
+import CustomerVideoReviews from "@/components/CustomerVideoReviews";
 import VideoSliderSection from "@/components/VideoSliderSection";
 import CallToAction from "@/components/CallToAction";
 import BSTICertificates from "@/components/BSTICertificates";
@@ -24,6 +25,7 @@ const Index = () => {
         <AllProducts />
         <WhyChooseUs />
         <Testimonials />
+        <CustomerVideoReviews />
         <VideoSliderSection />
         <CallToAction />
         <BSTICertificates />

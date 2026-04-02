@@ -194,6 +194,39 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_video_reviews: {
+        Row: {
+          active: boolean
+          created_at: string
+          customer_name: string
+          id: string
+          rating: number
+          sort_order: number
+          thumbnail_url: string
+          video_url: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          customer_name?: string
+          id?: string
+          rating?: number
+          sort_order?: number
+          thumbnail_url?: string
+          video_url?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          customer_name?: string
+          id?: string
+          rating?: number
+          sort_order?: number
+          thumbnail_url?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
       homepage_sections: {
         Row: {
           active: boolean

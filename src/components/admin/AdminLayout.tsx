@@ -39,6 +39,7 @@ const sidebarItems = [
   { label: "Shipping Zones", icon: MapPin, path: "/admin/shipping-zones" },
   { label: "Shipping Methods", icon: Truck, path: "/admin/shipping-methods" },
   { label: "Reviews", icon: MessageSquare, path: "/admin/reviews" },
+  { label: "Video Reviews", icon: MessageSquare, path: "/admin/video-reviews" },
   { label: "Courier", icon: Truck, path: "/admin/courier" },
   { label: "Payment Methods", icon: CreditCard, path: "/admin/payment-methods" },
   { label: "BSTI Certificates", icon: Award, path: "/admin/bsti-certificates" },
