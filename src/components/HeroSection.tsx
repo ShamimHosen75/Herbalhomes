@@ -61,7 +61,7 @@ const HeroSection = (_props: Props) => {
   const isBanner = slide.layout === "banner";
 
   if (isBanner) {
-    const slideImages = [slide.image_url, ...(slide.images || [])].filter(Boolean);
+    
     return (
       <section key={slide.id} className="relative overflow-hidden group">
         {slide.banner_url && (
