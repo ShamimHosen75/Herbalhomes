@@ -30,6 +30,7 @@ const sectionTypeLabels: Record<string, string> = {
   why_choose_us: "Why Choose Us",
   offer_banner: "Offer Banner",
   customer_reviews: "Customer Reviews",
+  customer_video_reviews: "Customer Video Reviews",
   contact: "Contact",
 };
 
