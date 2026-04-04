@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PhoneInput from "@/components/PhoneInput";
 import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
@@ -107,8 +108,11 @@ const Contact = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-1.5">{t("contact_page.phone_label")}</label>
-                      <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder={t("contact_page.phone_placeholder")}
-                        className="w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                      <PhoneInput
+                        value={formData.phone}
+                        onChange={(val) => setFormData({ ...formData, phone: val })}
+                        placeholder={t("contact_page.phone_placeholder")}
+                      />
                     </div>
                   </div>
                   <div>
