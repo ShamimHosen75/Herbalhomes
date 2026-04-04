@@ -101,8 +101,23 @@ serve(async (req) => {
       body: JSON.stringify(payload),
     });
 
-    const result = await response.json();
-    console.log("Steadfast response:", JSON.stringify(result));
+    const responseText = await response.text();
+    console.log("Steadfast response:", responseText);
+
+    let result: any;
+    try {
+      result = JSON.parse(responseText);
+    } catch {
+      return new Response(
+        JSON.stringify({
+          error: responseText || `Steadfast API error (HTTP ${response.status})`,
+        }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
 
     if (!response.ok || result.status !== 200) {
       return new Response(
