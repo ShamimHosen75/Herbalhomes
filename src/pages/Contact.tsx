@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PhoneInput from "@/components/PhoneInput";
 import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
