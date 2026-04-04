@@ -1,0 +1,1 @@
+UPDATE page_contents SET content = jsonb_set(content, '{email}', '"info.herbalhomes26@gmail.com"'), updated_at = now() WHERE page_key = 'contact';
