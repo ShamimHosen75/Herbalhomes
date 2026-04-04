@@ -110,10 +110,12 @@ serve(async (req) => {
     } catch {
       return new Response(
         JSON.stringify({
+          success: false,
           error: responseText || `Steadfast API error (HTTP ${response.status})`,
+          upstream_status: response.status,
         }),
         {
-          status: 400,
+          status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         }
       );
@@ -122,11 +124,13 @@ serve(async (req) => {
     if (!response.ok || result.status !== 200) {
       return new Response(
         JSON.stringify({
-          error: result.message || "Failed to create parcel",
+          success: false,
+          error: result.message || result.error || "Failed to create parcel",
           details: result,
+          upstream_status: response.status,
         }),
         {
-          status: 400,
+          status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         }
       );
