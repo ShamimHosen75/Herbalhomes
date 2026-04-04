@@ -64,17 +64,33 @@ export default function AdminOrders() {
 
     setSendingOrderId(order.id);
     try {
-      const { data, error } = await supabase.functions.invoke("send-to-steadfast", {
+      const { data, error, response } = await supabase.functions.invoke("send-to-steadfast", {
         body: { order_id: order.id },
       });
 
       if (error) {
-        toast.error(`কুরিয়ারে পাঠাতে সমস্যা: ${error.message}`);
+        let message = error.message;
+
+        if (response) {
+          try {
+            const body = await response.clone().json();
+            message = body?.error || body?.message || message;
+          } catch {
+            try {
+              const text = await response.clone().text();
+              if (text) message = text;
+            } catch {
+              // ignore body parse errors
+            }
+          }
+        }
+
+        toast.error(`কুরিয়ারে পাঠাতে সমস্যা: ${message}`);
         return;
       }
 
-      if (data?.error) {
-        toast.error(`Steadfast Error: ${data.error}`);
+      if (data?.success === false || data?.error) {
+        toast.error(`কুরিয়ারে পাঠাতে সমস্যা: ${data.error}`);
         return;
       }
 
