@@ -8,7 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import PageLayout from "@/components/PageLayout";
 import Breadcrumb from "@/components/Breadcrumb";
 
-type SortOption = "newest" | "price-asc" | "price-desc" | "popular" | "rating";
+type SortOption = "default" | "newest" | "price-asc" | "price-desc" | "popular" | "rating";
 const ITEMS_PER_PAGE = 8;
 
 const Shop = () => {
