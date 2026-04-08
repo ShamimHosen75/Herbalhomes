@@ -627,6 +627,7 @@ export type Database = {
           review_count: number
           short_desc: string
           slug: string
+          sort_order: number
           subcategory: string | null
           tags: string[]
           usage_info: string
@@ -650,6 +651,7 @@ export type Database = {
           review_count?: number
           short_desc?: string
           slug: string
+          sort_order?: number
           subcategory?: string | null
           tags?: string[]
           usage_info?: string
@@ -673,6 +675,7 @@ export type Database = {
           review_count?: number
           short_desc?: string
           slug?: string
+          sort_order?: number
           subcategory?: string | null
           tags?: string[]
           usage_info?: string
