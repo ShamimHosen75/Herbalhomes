@@ -397,6 +397,7 @@ export default function AdminProducts() {
               <TableHead className="w-10">
                 <Checkbox checked={allSelected} onCheckedChange={toggleAll} />
               </TableHead>
+              <TableHead className="w-10"></TableHead>
               <TableHead className="w-12">#</TableHead>
               <TableHead>PRODUCT</TableHead>
               <TableHead>SKU</TableHead>
