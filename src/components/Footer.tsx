@@ -28,7 +28,7 @@ const Footer = () => {
 
   const storeName = settings.store_name || "Herbal Homes";
   const storeLogo = settings.logo || logo;
-  const email = settings.email || "hello@herbalhomes.com";
+  const emails = ["herbalhomes1991@gmail.com", "info.herbalhomes26@gmail.com"];
   const phone = settings.phone || "+৮৮০ ১৭১২-৩৪৫৬৭৮";
 
   const socialLinks = [
@@ -106,7 +106,9 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-primary-foreground mb-4 text-sm">{contactTitle}</h4>
             <ul className="space-y-2.5 text-sm text-primary-foreground/50">
-              <li>{email}</li>
+              {emails.map((em) => (
+                <li key={em}><a href={`mailto:${em}`} className="hover:text-primary transition-colors">{em}</a></li>
+              ))}
               <li>{phone}</li>
               <li>{settings.address || "শনি - বৃহস্পতি, সকাল ৯টা - সন্ধ্যা ৬টা"}</li>
             </ul>

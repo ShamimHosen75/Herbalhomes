@@ -23,7 +23,7 @@ const Contact = () => {
   const subtitle = pageData?.subtitle || t("contact_page.subtitle");
   const phone = c.phone || "০১৭১২-৩৪৫৬৭৮";
   const phoneRaw = c.phone_raw || "+8801712345678";
-  const email = c.email || "hello@herbalhomes.com";
+  const emails = c.emails || ["herbalhomes1991@gmail.com", "info.herbalhomes26@gmail.com"];
   const address = c.address || "ঢাকা, বাংলাদেশ";
   const hours = c.hours || "শনি - বৃহস্পতি, সকাল ৯টা - সন্ধ্যা ৬টা";
   const whatsapp = c.whatsapp || "8801712345678";
@@ -35,7 +35,6 @@ const Contact = () => {
 
   const contactItems = [
     { icon: Phone, label: t("contact_page.phone"), value: phone, href: `tel:${phoneRaw}` },
-    { icon: Mail, label: t("contact_page.email"), value: email, href: `mailto:${email}` },
     { icon: MapPin, label: t("contact_page.address"), value: address, href: null },
     { icon: Clock, label: t("contact_page.hours"), value: hours, href: null },
   ];
@@ -77,6 +76,17 @@ const Contact = () => {
                       </div>
                     </div>
                   ))}
+                  <div className="flex items-start gap-4">
+                    <div className="h-11 w-11 rounded-xl bg-accent flex items-center justify-center shrink-0">
+                      <Mail className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{t("contact_page.email")}</p>
+                      {emails.map((em: string) => (
+                        <a key={em} href={`mailto:${em}`} className="text-sm text-muted-foreground hover:text-primary block">{em}</a>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 <h3 className="font-semibold text-foreground mb-3">{t("contact_page.direct_contact")}</h3>
