@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
+  const { setAdminSession } = useAdmin();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,6 +57,10 @@ export default function AdminLogin() {
       toast({ title: "Access denied", description: "You don't have admin privileges.", variant: "destructive" });
       return;
     }
+
+    // Set AdminContext so ProtectedAdmin allows access
+    const adminName = staffData?.name || roleData?.role || "Admin";
+    setAdminSession(email, "admin", adminName);
 
     setLoading(false);
     toast({ title: "Admin login successful!" });
