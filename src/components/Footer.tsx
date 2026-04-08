@@ -29,7 +29,7 @@ const Footer = () => {
   const storeName = settings.store_name || "Herbal Homes";
   const storeLogo = settings.logo || logo;
   const emails = ["herbalhomes1991@gmail.com", "info.herbalhomes26@gmail.com"];
-  const phone = settings.phone || "+৮৮০ ১৭১২-৩৪৫৬৭৮";
+  const phone = settings.phone || "+880 1850602230";
 
   const socialLinks = [
     { icon: Facebook, url: settings.facebook },
