@@ -23,7 +23,7 @@ const Shop = () => {
     const cat = searchParams.get("category");
     setSelectedCategory(cat || null);
   }, [searchParams]);
-  const [sort, setSort] = useState<SortOption>("popular");
+  const [sort, setSort] = useState<SortOption>("default");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
   const [inStockOnly, setInStockOnly] = useState(false);
