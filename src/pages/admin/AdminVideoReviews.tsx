@@ -107,7 +107,9 @@ export default function AdminVideoReviews() {
 
   const getYtThumb = (url: string) => {
     const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([^?&/]+)/);
-    return match ? `https://img.youtube.com/vi/${match[1]}/default.jpg` : null;
+    if (match) return `https://img.youtube.com/vi/${match[1]}/default.jpg`;
+    const vidParam = url.match(/[?&]video_id=([^&]+)/);
+    return vidParam ? `https://img.youtube.com/vi/${vidParam[1]}/default.jpg` : null;
   };
 
   return (
