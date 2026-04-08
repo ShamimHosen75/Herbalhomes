@@ -64,6 +64,7 @@ export default function AdminLogin() {
     setLoading(false);
     toast({ title: "Admin login successful!" });
     navigate("/admin");
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
