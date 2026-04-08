@@ -212,7 +212,7 @@ function ProductForm({
 }
 
 export default function AdminProducts() {
-  const { products, addProduct, updateProduct, deleteProduct } = useProducts();
+  const { products, addProduct, updateProduct, deleteProduct, moveProduct } = useProducts();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");

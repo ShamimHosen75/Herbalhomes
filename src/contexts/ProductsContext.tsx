@@ -112,6 +112,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
       faq: product.faq as any,
       meta_title: product.metaTitle,
       meta_desc: product.metaDesc,
+      sort_order: product.sortOrder ?? 0,
     } as any).eq("id", id);
 
     // Replace variants: delete old, insert new
