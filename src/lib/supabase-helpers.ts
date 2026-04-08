@@ -22,6 +22,7 @@ export function dbProductToApp(row: any, variants: any[], reviews: any[]): Produ
     reviewCount: row.review_count,
     relatedIds: row.related_ids || [],
     faq: row.faq || [],
+    sortOrder: row.sort_order ?? 0,
     metaTitle: row.meta_title,
     metaDesc: row.meta_desc,
     variants: variants.map((v) => ({
