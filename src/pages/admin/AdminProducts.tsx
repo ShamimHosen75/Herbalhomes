@@ -405,10 +405,20 @@ export default function AdminProducts() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filtered.map((p) => (
+            {filtered.map((p, idx) => (
               <TableRow key={p.id} data-state={selected.has(p.id) ? "selected" : undefined}>
                 <TableCell>
                   <Checkbox checked={selected.has(p.id)} onCheckedChange={() => toggleOne(p.id)} />
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-col gap-0.5">
+                    <Button variant="ghost" size="icon" className="h-6 w-6" disabled={idx === 0} onClick={() => moveProduct(p.id, "up")}>
+                      <ArrowUp className="h-3 w-3" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" disabled={idx === filtered.length - 1} onClick={() => moveProduct(p.id, "down")}>
+                      <ArrowDown className="h-3 w-3" />
+                    </Button>
+                  </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-3">
