@@ -20,7 +20,7 @@ const BestSellers = ({ title, subtitle }: Props) => {
     <section id="best-sellers" className="bg-muted/50">
       {title && (
         <div className="container mx-auto px-4 pt-12 md:pt-16">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-1">{title}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-1">{title}</h2>
           {subtitle && <p className="text-sm text-muted-foreground text-center">{subtitle}</p>}
         </div>
       )}
@@ -38,7 +38,7 @@ const BestSellers = ({ title, subtitle }: Props) => {
                     <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-xl">📦</div>
                   )}
                   <div>
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground">{cat.name}</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground">{cat.name}</h2>
                     {cat.description && <p className="text-sm text-muted-foreground">{cat.description}</p>}
                   </div>
                 </div>

@@ -36,7 +36,7 @@ const VideoSection = ({ title, content }: Props) => {
   return (
     <section className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-10">
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-10">
           {title || "আমাদের নিয়ে করা ভিডিও দেখুন"}
         </h2>
 
