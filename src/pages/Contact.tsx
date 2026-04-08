@@ -26,8 +26,8 @@ const Contact = () => {
   const c = pageData?.content || {};
   const title = pageData?.title || t("contact_page.title");
   const subtitle = pageData?.subtitle || t("contact_page.subtitle");
-  const phone = c.phone || "+৮৮০১৭১২-৩৪৫৬৭৮";
-  const phoneRaw = c.phone_raw || "+8801712345678";
+  const phone = c.phone || "+৮৮০ ১৮৫০৬০২২৩০";
+  const phoneRaw = c.phone_raw || "+8801850602230";
   const email = c.email || "hello@herbalhomes.com";
   const address = c.address || "ঢাকা, বাংলাদেশ";
   const hours = c.hours || "শনি - বৃহস্পতি, সকাল ৯টা - সন্ধ্যা ৬টা";
