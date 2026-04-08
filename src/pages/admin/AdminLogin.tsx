@@ -13,7 +13,7 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
-  const { login: adminLogin } = useAdmin();
+  const { setAdminSession } = useAdmin();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
