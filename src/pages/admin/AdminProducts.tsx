@@ -315,6 +315,7 @@ export default function AdminProducts() {
             faq: [],
             metaTitle: name,
             metaDesc: get("short_desc") || "",
+            sortOrder: 0,
           };
           addProduct(product);
           count++;
