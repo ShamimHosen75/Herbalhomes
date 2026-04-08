@@ -85,6 +85,7 @@ function ProductForm({
       faq: initial?.faq || [],
       metaTitle: form.metaTitle || form.name!,
       metaDesc: form.metaDesc || form.shortDesc || "",
+      sortOrder: initial?.sortOrder || 0,
     };
 
     onSave(product);
