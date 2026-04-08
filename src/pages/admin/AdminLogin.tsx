@@ -59,7 +59,8 @@ export default function AdminLogin() {
     }
 
     // Set AdminContext so ProtectedAdmin allows access
-    await adminLogin(email, password);
+    const adminName = staffData?.name || roleData?.role || "Admin";
+    setAdminSession(email, "admin", adminName);
 
     setLoading(false);
     toast({ title: "Admin login successful!" });
