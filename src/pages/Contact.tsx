@@ -13,17 +13,22 @@ const Contact = () => {
   const { t } = useLanguage();
 
   useEffect(() => {
-    supabase.from("page_contents").select("*").eq("page_key", "contact").single().then(({ data }) => {
-      if (data) setPageData(data);
-    });
+    supabase
+      .from("page_contents")
+      .select("*")
+      .eq("page_key", "contact")
+      .single()
+      .then(({ data }) => {
+        if (data) setPageData(data);
+      });
   }, []);
 
   const c = pageData?.content || {};
   const title = pageData?.title || t("contact_page.title");
   const subtitle = pageData?.subtitle || t("contact_page.subtitle");
-  const phone = c.phone || "+880 1850602230";
-  const phoneRaw = c.phone_raw || "+8801850602230";
-  const emails = c.emails || ["herbalhomes1991@gmail.com", "info.herbalhomes26@gmail.com"];
+  const phone = c.phone || "+৮৮০১৭১২-৩৪৫৬৭৮";
+  const phoneRaw = c.phone_raw || "+8801712345678";
+  const email = c.email || "hello@herbalhomes.com";
   const address = c.address || "ঢাকা, বাংলাদেশ";
   const hours = c.hours || "শনি - বৃহস্পতি, সকাল ৯টা - সন্ধ্যা ৬টা";
   const whatsapp = c.whatsapp || "8801712345678";
@@ -35,6 +40,7 @@ const Contact = () => {
 
   const contactItems = [
     { icon: Phone, label: t("contact_page.phone"), value: phone, href: `tel:${phoneRaw}` },
+    { icon: Mail, label: t("contact_page.email"), value: email, href: `mailto:${email}` },
     { icon: MapPin, label: t("contact_page.address"), value: address, href: null },
     { icon: Clock, label: t("contact_page.hours"), value: hours, href: null },
   ];
@@ -46,7 +52,9 @@ const Contact = () => {
         <section className="bg-accent py-10 md:py-14">
           <div className="container mx-auto px-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-              <Link to="/" className="hover:text-primary">{t("contact_page.home")}</Link>
+              <Link to="/" className="hover:text-primary">
+                {t("contact_page.home")}
+              </Link>
               <ArrowRight className="h-3 w-3" />
               <span className="text-foreground font-medium">{title}</span>
             </div>
@@ -69,34 +77,33 @@ const Contact = () => {
                       <div>
                         <p className="text-sm font-semibold text-foreground">{item.label}</p>
                         {item.href ? (
-                          <a href={item.href} className="text-sm text-muted-foreground hover:text-primary">{item.value}</a>
+                          <a href={item.href} className="text-sm text-muted-foreground hover:text-primary">
+                            {item.value}
+                          </a>
                         ) : (
                           <p className="text-sm text-muted-foreground">{item.value}</p>
                         )}
                       </div>
                     </div>
                   ))}
-                  <div className="flex items-start gap-4">
-                    <div className="h-11 w-11 rounded-xl bg-accent flex items-center justify-center shrink-0">
-                      <Mail className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{t("contact_page.email")}</p>
-                      {emails.map((em: string) => (
-                        <a key={em} href={`mailto:${em}`} className="text-sm text-muted-foreground hover:text-primary block">{em}</a>
-                      ))}
-                    </div>
-                  </div>
                 </div>
 
                 <h3 className="font-semibold text-foreground mb-3">{t("contact_page.direct_contact")}</h3>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <a href={facebook} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-[hsl(221,44%,41%)] text-primary-foreground px-5 py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity">
+                  <a
+                    href={facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-[hsl(221,44%,41%)] text-primary-foreground px-5 py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
+                  >
                     <MessageCircle className="h-4 w-4" /> {t("contact_page.facebook_msg")}
                   </a>
-                  <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-whatsapp text-primary-foreground px-5 py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity">
+                  <a
+                    href={`https://wa.me/${whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-whatsapp text-primary-foreground px-5 py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
+                  >
                     {t("contact_page.whatsapp")}
                   </a>
                 </div>
@@ -106,18 +113,35 @@ const Contact = () => {
                 <h2 className="text-xl font-bold text-foreground mb-6">{t("contact_page.send_message")}</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">{t("contact_page.your_name")}</label>
-                    <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder={t("contact_page.name_placeholder")}
-                      className="w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    <label className="block text-sm font-medium text-foreground mb-1.5">
+                      {t("contact_page.your_name")}
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder={t("contact_page.name_placeholder")}
+                      className="w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-1.5">{t("contact_page.email_label")}</label>
-                      <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder={t("contact_page.email_placeholder")}
-                        className="w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                      <label className="block text-sm font-medium text-foreground mb-1.5">
+                        {t("contact_page.email_label")}
+                      </label>
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder={t("contact_page.email_placeholder")}
+                        className="w-full h-11 px-4 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-1.5">{t("contact_page.phone_label")}</label>
+                      <label className="block text-sm font-medium text-foreground mb-1.5">
+                        {t("contact_page.phone_label")}
+                      </label>
                       <PhoneInput
                         value={formData.phone}
                         onChange={(val) => setFormData({ ...formData, phone: val })}
@@ -126,11 +150,22 @@ const Contact = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">{t("contact_page.message")}</label>
-                    <textarea required rows={5} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} placeholder={t("contact_page.message_placeholder")}
-                      className="w-full px-4 py-3 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" />
+                    <label className="block text-sm font-medium text-foreground mb-1.5">
+                      {t("contact_page.message")}
+                    </label>
+                    <textarea
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder={t("contact_page.message_placeholder")}
+                      className="w-full px-4 py-3 rounded-xl bg-muted border-0 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                    />
                   </div>
-                  <button type="submit" className="w-full bg-primary text-primary-foreground py-3 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors">
+                  <button
+                    type="submit"
+                    className="w-full bg-primary text-primary-foreground py-3 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors"
+                  >
                     {t("contact_page.submit")}
                   </button>
                 </form>
