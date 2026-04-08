@@ -409,9 +409,39 @@ export default function AdminProducts() {
           </TableHeader>
           <TableBody>
             {filtered.map((p, idx) => (
-              <TableRow key={p.id} data-state={selected.has(p.id) ? "selected" : undefined}>
+              <TableRow
+                key={p.id}
+                data-state={selected.has(p.id) ? "selected" : undefined}
+                className={`transition-colors ${dragOverId === p.id ? "bg-primary/10 border-t-2 border-primary" : ""} ${dragId === p.id ? "opacity-40" : ""}`}
+                draggable={!search}
+                onDragStart={(e) => {
+                  setDragId(p.id);
+                  e.dataTransfer.effectAllowed = "move";
+                }}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = "move";
+                  setDragOverId(p.id);
+                }}
+                onDragLeave={() => setDragOverId(null)}
+                onDrop={async (e) => {
+                  e.preventDefault();
+                  setDragOverId(null);
+                  if (dragId && dragId !== p.id) {
+                    await reorderProducts(dragId, p.id);
+                    toast({ title: "প্রোডাক্ট ক্রম আপডেট হয়েছে!" });
+                  }
+                  setDragId(null);
+                }}
+                onDragEnd={() => { setDragId(null); setDragOverId(null); }}
+              >
                 <TableCell>
                   <Checkbox checked={selected.has(p.id)} onCheckedChange={() => toggleOne(p.id)} />
+                </TableCell>
+                <TableCell>
+                  <div className={`cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground ${search ? "opacity-30 pointer-events-none" : ""}`}>
+                    <GripVertical className="h-4 w-4" />
+                  </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-col gap-0.5">
