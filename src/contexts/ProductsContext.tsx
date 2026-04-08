@@ -13,6 +13,7 @@ type ProductsContextType = {
   getProductById: (id: string) => Product | undefined;
   getProductsByCategory: (cat: string) => Product[];
   refreshProducts: () => Promise<void>;
+  moveProduct: (id: string, direction: "up" | "down") => Promise<void>;
 };
 
 const ProductsContext = createContext<ProductsContextType | undefined>(undefined);
