@@ -152,6 +152,27 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
     await fetchProducts();
   }, [products, fetchProducts]);
 
+  const reorderProducts = useCallback(async (fromId: string, toId: string) => {
+    if (fromId === toId) return;
+    const fromIdx = products.findIndex((p) => p.id === fromId);
+    const toIdx = products.findIndex((p) => p.id === toId);
+    if (fromIdx < 0 || toIdx < 0) return;
+
+    const reordered = [...products];
+    const [moved] = reordered.splice(fromIdx, 1);
+    reordered.splice(toIdx, 0, moved);
+
+    // Optimistic update
+    setProducts(reordered);
+
+    // Save new sort_order for all affected items
+    const updates = reordered.map((p, i) => 
+      supabase.from("products").update({ sort_order: i } as any).eq("id", p.id)
+    );
+    await Promise.all(updates);
+    await fetchProducts();
+  }, [products, fetchProducts]);
+
   const getProductBySlug = useCallback(
     (slug: string) => products.find((p) => p.slug === slug),
     [products]
@@ -169,7 +190,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
 
   return (
     <ProductsContext.Provider
-      value={{ products, loading, addProduct, updateProduct, deleteProduct, getProductBySlug, getProductById, getProductsByCategory, refreshProducts: fetchProducts, moveProduct }}
+      value={{ products, loading, addProduct, updateProduct, deleteProduct, getProductBySlug, getProductById, getProductsByCategory, refreshProducts: fetchProducts, moveProduct, reorderProducts }}
     >
       {children}
     </ProductsContext.Provider>
