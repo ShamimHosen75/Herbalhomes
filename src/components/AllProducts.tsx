@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { useProducts } from "@/contexts/ProductsContext";
+import { useCategories } from "@/contexts/CategoriesContext";
 import ProductCard from "@/components/ProductCard";
 
 interface Props {
@@ -8,6 +10,20 @@ interface Props {
 
 const AllProducts = ({ title, subtitle }: Props) => {
   const { products, loading } = useProducts();
+  const { categories } = useCategories();
+
+  const grouped = useMemo(() => {
+    if (!products.length || !categories.length) return [];
+
+    return categories
+      .map((cat) => ({
+        category: cat,
+        items: products.filter(
+          (p) => p.category?.toLowerCase() === cat.slug?.toLowerCase()
+        ),
+      }))
+      .filter((g) => g.items.length > 0);
+  }, [products, categories]);
 
   return (
     <section className="py-14 md:py-20 bg-background">
@@ -34,10 +50,19 @@ const AllProducts = ({ title, subtitle }: Props) => {
               </div>
             ))}
           </div>
-        ) : products.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+        ) : grouped.length > 0 ? (
+          <div className="space-y-12">
+            {grouped.map((group) => (
+              <div key={group.category.id}>
+                <h3 className="text-lg md:text-xl font-bold text-foreground mb-5 border-l-4 border-primary pl-3">
+                  {group.category.name}
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+                  {group.items.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         ) : (
