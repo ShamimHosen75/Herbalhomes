@@ -54,7 +54,7 @@ const AllProducts = ({ title, subtitle }: Props) => {
           <div className="space-y-12">
             {grouped.map((group) => (
               <div key={group.category.id}>
-                <h3 className="text-lg md:text-xl font-bold text-foreground mb-5 border-l-4 border-primary pl-3">
+                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-5 border-l-4 border-primary pl-3">
                   {group.category.name}
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
