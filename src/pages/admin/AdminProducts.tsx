@@ -465,7 +465,7 @@ export default function AdminProducts() {
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                   {search ? "কোনো প্রোডাক্ট পাওয়া যায়নি" : "কোনো প্রোডাক্ট নেই"}
                 </TableCell>
               </TableRow>
