@@ -28,7 +28,7 @@ const Footer = () => {
 
   const storeName = settings.store_name || "Herbal Homes";
   const storeLogo = settings.logo || logo;
-  const email = settings.email || "hello@herbalhomes.com";
+  const emails = ["herbalhomes1991@gmail.com", "info.herbalhomes26@gmail.com"];
   const phone = settings.phone || "+৮৮০ ১৭১২-৩৪৫৬৭৮";
 
   const socialLinks = [
