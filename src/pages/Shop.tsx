@@ -71,6 +71,7 @@ const Shop = () => {
             <div className="flex gap-2">
               <div className="relative">
                 <select value={sort} onChange={(e) => setSort(e.target.value as SortOption)} className="h-11 pl-4 pr-10 rounded-xl bg-muted border-0 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 appearance-none cursor-pointer">
+                  <option value="default">{t("shop.sort_default") || "ডিফল্ট"}</option>
                   <option value="popular">{t("shop.sort_popular")}</option>
                   <option value="newest">{t("shop.sort_newest")}</option>
                   <option value="price-asc">{t("shop.sort_price_asc")}</option>
