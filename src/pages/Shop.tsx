@@ -8,7 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import PageLayout from "@/components/PageLayout";
 import Breadcrumb from "@/components/Breadcrumb";
 
-type SortOption = "newest" | "price-asc" | "price-desc" | "popular" | "rating";
+type SortOption = "default" | "newest" | "price-asc" | "price-desc" | "popular" | "rating";
 const ITEMS_PER_PAGE = 8;
 
 const Shop = () => {
@@ -23,7 +23,7 @@ const Shop = () => {
     const cat = searchParams.get("category");
     setSelectedCategory(cat || null);
   }, [searchParams]);
-  const [sort, setSort] = useState<SortOption>("popular");
+  const [sort, setSort] = useState<SortOption>("default");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
   const [inStockOnly, setInStockOnly] = useState(false);
@@ -43,6 +43,7 @@ const Shop = () => {
       case "price-desc": result.sort((a, b) => b.variants[0].price - a.variants[0].price); break;
       case "rating": result.sort((a, b) => b.rating - a.rating); break;
       case "popular": result.sort((a, b) => b.reviewCount - a.reviewCount); break;
+      // "default" keeps the sort_order from context
     }
     return result;
   }, [products, search, selectedCategory, sort, priceRange, inStockOnly]);
@@ -70,6 +71,7 @@ const Shop = () => {
             <div className="flex gap-2">
               <div className="relative">
                 <select value={sort} onChange={(e) => setSort(e.target.value as SortOption)} className="h-11 pl-4 pr-10 rounded-xl bg-muted border-0 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 appearance-none cursor-pointer">
+                  <option value="default">{t("shop.sort_default") || "ডিফল্ট"}</option>
                   <option value="popular">{t("shop.sort_popular")}</option>
                   <option value="newest">{t("shop.sort_newest")}</option>
                   <option value="price-asc">{t("shop.sort_price_asc")}</option>
