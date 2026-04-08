@@ -7,6 +7,7 @@ type AdminContextType = {
   adminRole: string | null;
   adminName: string | null;
   login: (email: string, password: string) => Promise<boolean>;
+  setAdminSession: (email: string, role: string, name: string) => void;
   logout: () => void;
 };
 
