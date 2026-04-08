@@ -76,6 +76,17 @@ const Contact = () => {
                       </div>
                     </div>
                   ))}
+                  <div className="flex items-start gap-4">
+                    <div className="h-11 w-11 rounded-xl bg-accent flex items-center justify-center shrink-0">
+                      <Mail className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{t("contact_page.email")}</p>
+                      {emails.map((em: string) => (
+                        <a key={em} href={`mailto:${em}`} className="text-sm text-muted-foreground hover:text-primary block">{em}</a>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 <h3 className="font-semibold text-foreground mb-3">{t("contact_page.direct_contact")}</h3>
