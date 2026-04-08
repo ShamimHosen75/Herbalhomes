@@ -35,7 +35,6 @@ const Contact = () => {
 
   const contactItems = [
     { icon: Phone, label: t("contact_page.phone"), value: phone, href: `tel:${phoneRaw}` },
-    { icon: Mail, label: t("contact_page.email"), value: email, href: `mailto:${email}` },
     { icon: MapPin, label: t("contact_page.address"), value: address, href: null },
     { icon: Clock, label: t("contact_page.hours"), value: hours, href: null },
   ];
