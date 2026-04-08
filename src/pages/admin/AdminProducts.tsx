@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useProducts } from "@/contexts/ProductsContext";
 import type { Product, ProductVariant } from "@/data/products";
