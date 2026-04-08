@@ -3,10 +3,14 @@ import { Star, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const getYouTubeId = (url: string): string | null => {
+  // Standard YouTube URLs
   const match = url.match(
     /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([^?&/]+)/
   );
-  return match ? match[1] : null;
+  if (match) return match[1];
+  // Google Ads redirect URLs with video_id param
+  const vidParam = url.match(/[?&]video_id=([^&]+)/);
+  return vidParam ? vidParam[1] : null;
 };
 
 interface VideoReview {
