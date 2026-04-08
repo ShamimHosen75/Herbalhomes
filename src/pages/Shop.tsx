@@ -43,6 +43,7 @@ const Shop = () => {
       case "price-desc": result.sort((a, b) => b.variants[0].price - a.variants[0].price); break;
       case "rating": result.sort((a, b) => b.rating - a.rating); break;
       case "popular": result.sort((a, b) => b.reviewCount - a.reviewCount); break;
+      // "default" keeps the sort_order from context
     }
     return result;
   }, [products, search, selectedCategory, sort, priceRange, inStockOnly]);
