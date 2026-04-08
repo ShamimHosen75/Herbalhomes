@@ -48,6 +48,15 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     return true;
   };
 
+  const setAdminSession = (email: string, role: string, name: string) => {
+    localStorage.setItem(ADMIN_KEY, email);
+    localStorage.setItem(ADMIN_ROLE_KEY, role);
+    localStorage.setItem(ADMIN_NAME_KEY, name);
+    setAdminEmail(email);
+    setAdminRole(role);
+    setAdminName(name);
+  };
+
   const logout = () => {
     localStorage.removeItem(ADMIN_KEY);
     localStorage.removeItem(ADMIN_ROLE_KEY);
@@ -58,7 +67,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AdminContext.Provider value={{ isAdmin: !!adminEmail, adminEmail, adminRole, adminName, login, logout }}>
+    <AdminContext.Provider value={{ isAdmin: !!adminEmail, adminEmail, adminRole, adminName, login, setAdminSession, logout }}>
       {children}
     </AdminContext.Provider>
   );
