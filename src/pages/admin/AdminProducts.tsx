@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useProducts } from "@/contexts/ProductsContext";
 import type { Product, ProductVariant } from "@/data/products";
@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, X, Upload, Search, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Upload, Search, ArrowUp, ArrowDown, GripVertical } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import DragDropImageUpload from "@/components/admin/DragDropImageUpload";
 
@@ -212,11 +212,13 @@ function ProductForm({
 }
 
 export default function AdminProducts() {
-  const { products, addProduct, updateProduct, deleteProduct, moveProduct } = useProducts();
+  const { products, addProduct, updateProduct, deleteProduct, moveProduct, reorderProducts } = useProducts();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -395,6 +397,7 @@ export default function AdminProducts() {
               <TableHead className="w-10">
                 <Checkbox checked={allSelected} onCheckedChange={toggleAll} />
               </TableHead>
+              <TableHead className="w-10"></TableHead>
               <TableHead className="w-12">#</TableHead>
               <TableHead>PRODUCT</TableHead>
               <TableHead>SKU</TableHead>
@@ -406,9 +409,39 @@ export default function AdminProducts() {
           </TableHeader>
           <TableBody>
             {filtered.map((p, idx) => (
-              <TableRow key={p.id} data-state={selected.has(p.id) ? "selected" : undefined}>
+              <TableRow
+                key={p.id}
+                data-state={selected.has(p.id) ? "selected" : undefined}
+                className={`transition-colors ${dragOverId === p.id ? "bg-primary/10 border-t-2 border-primary" : ""} ${dragId === p.id ? "opacity-40" : ""}`}
+                draggable={!search}
+                onDragStart={(e) => {
+                  setDragId(p.id);
+                  e.dataTransfer.effectAllowed = "move";
+                }}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = "move";
+                  setDragOverId(p.id);
+                }}
+                onDragLeave={() => setDragOverId(null)}
+                onDrop={async (e) => {
+                  e.preventDefault();
+                  setDragOverId(null);
+                  if (dragId && dragId !== p.id) {
+                    await reorderProducts(dragId, p.id);
+                    toast({ title: "প্রোডাক্ট ক্রম আপডেট হয়েছে!" });
+                  }
+                  setDragId(null);
+                }}
+                onDragEnd={() => { setDragId(null); setDragOverId(null); }}
+              >
                 <TableCell>
                   <Checkbox checked={selected.has(p.id)} onCheckedChange={() => toggleOne(p.id)} />
+                </TableCell>
+                <TableCell>
+                  <div className={`cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground ${search ? "opacity-30 pointer-events-none" : ""}`}>
+                    <GripVertical className="h-4 w-4" />
+                  </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-col gap-0.5">
@@ -465,7 +498,7 @@ export default function AdminProducts() {
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
                   {search ? "কোনো প্রোডাক্ট পাওয়া যায়নি" : "কোনো প্রোডাক্ট নেই"}
                 </TableCell>
               </TableRow>
