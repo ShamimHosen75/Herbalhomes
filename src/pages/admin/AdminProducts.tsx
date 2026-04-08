@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, X, Upload, Search } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Upload, Search, ArrowUp, ArrowDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import DragDropImageUpload from "@/components/admin/DragDropImageUpload";
 
@@ -85,6 +85,7 @@ function ProductForm({
       faq: initial?.faq || [],
       metaTitle: form.metaTitle || form.name!,
       metaDesc: form.metaDesc || form.shortDesc || "",
+      sortOrder: initial?.sortOrder || 0,
     };
 
     onSave(product);
@@ -211,7 +212,7 @@ function ProductForm({
 }
 
 export default function AdminProducts() {
-  const { products, addProduct, updateProduct, deleteProduct } = useProducts();
+  const { products, addProduct, updateProduct, deleteProduct, moveProduct } = useProducts();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");
@@ -314,6 +315,7 @@ export default function AdminProducts() {
             faq: [],
             metaTitle: name,
             metaDesc: get("short_desc") || "",
+            sortOrder: 0,
           };
           addProduct(product);
           count++;
@@ -393,6 +395,7 @@ export default function AdminProducts() {
               <TableHead className="w-10">
                 <Checkbox checked={allSelected} onCheckedChange={toggleAll} />
               </TableHead>
+              <TableHead className="w-12">#</TableHead>
               <TableHead>PRODUCT</TableHead>
               <TableHead>SKU</TableHead>
               <TableHead>PRICE</TableHead>
@@ -402,10 +405,20 @@ export default function AdminProducts() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filtered.map((p) => (
+            {filtered.map((p, idx) => (
               <TableRow key={p.id} data-state={selected.has(p.id) ? "selected" : undefined}>
                 <TableCell>
                   <Checkbox checked={selected.has(p.id)} onCheckedChange={() => toggleOne(p.id)} />
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-col gap-0.5">
+                    <Button variant="ghost" size="icon" className="h-6 w-6" disabled={idx === 0} onClick={() => moveProduct(p.id, "up")}>
+                      <ArrowUp className="h-3 w-3" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" disabled={idx === filtered.length - 1} onClick={() => moveProduct(p.id, "down")}>
+                      <ArrowDown className="h-3 w-3" />
+                    </Button>
+                  </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-3">
@@ -452,7 +465,7 @@ export default function AdminProducts() {
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                   {search ? "কোনো প্রোডাক্ট পাওয়া যায়নি" : "কোনো প্রোডাক্ট নেই"}
                 </TableCell>
               </TableRow>

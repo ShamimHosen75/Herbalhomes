@@ -40,6 +40,7 @@ export type Product = {
   faq: { q: string; a: string }[];
   metaTitle: string;
   metaDesc: string;
+  sortOrder: number;
 };
 
 export type Category = {
