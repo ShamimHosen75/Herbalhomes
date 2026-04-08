@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
+  const { login: adminLogin } = useAdmin();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,10 +58,12 @@ export default function AdminLogin() {
       return;
     }
 
+    // Set AdminContext so ProtectedAdmin allows access
+    await adminLogin(email, password);
+
     setLoading(false);
     toast({ title: "Admin login successful!" });
     navigate("/admin");
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
