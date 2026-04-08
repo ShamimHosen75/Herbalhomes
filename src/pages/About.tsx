@@ -68,7 +68,7 @@ const About = () => {
                 <img src={heroBanner} alt={title} className="rounded-2xl w-full h-auto object-cover shadow-lg" />
               </div>
               <div className="flex-1">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">{storyTitle}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">{storyTitle}</h2>
                 {storyParagraphs.map((p: string, i: number) => (
                   <p key={i} className="text-muted-foreground leading-relaxed mb-4">{p}</p>
                 ))}
@@ -79,7 +79,7 @@ const About = () => {
 
         <section className="py-12 md:py-16 bg-muted/50">
           <div className="container mx-auto px-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-10">{valuesTitle}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-10">{valuesTitle}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {values.map((item: any, i: number) => {
                 const Icon = iconMap[item.icon] || Leaf;

@@ -20,7 +20,7 @@ const ContactSection = ({ title, subtitle, content }: Props) => {
     <section id="contact" className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-3">{title || t("contact_section.title")}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">{title || t("contact_section.title")}</h2>
           <p className="text-sm md:text-base text-muted-foreground mb-8">{subtitle || t("contact_section.subtitle")}</p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
