@@ -25,7 +25,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
-      const { data: rows, error } = await supabase.from("products").select("*") as any;
+      const { data: rows, error } = await supabase.from("products").select("*").order("sort_order", { ascending: true }) as any;
       if (error) throw error;
 
       const { data: allVariants } = await supabase.from("product_variants").select("*") as any;
