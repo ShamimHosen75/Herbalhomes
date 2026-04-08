@@ -135,6 +135,20 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
     await fetchProducts();
   }, [fetchProducts]);
 
+  const moveProduct = useCallback(async (id: string, direction: "up" | "down") => {
+    const idx = products.findIndex((p) => p.id === id);
+    if (idx < 0) return;
+    const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= products.length) return;
+
+    const current = products[idx];
+    const swap = products[swapIdx];
+
+    await supabase.from("products").update({ sort_order: swap.sortOrder } as any).eq("id", current.id);
+    await supabase.from("products").update({ sort_order: current.sortOrder } as any).eq("id", swap.id);
+    await fetchProducts();
+  }, [products, fetchProducts]);
+
   const getProductBySlug = useCallback(
     (slug: string) => products.find((p) => p.slug === slug),
     [products]
@@ -152,7 +166,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
 
   return (
     <ProductsContext.Provider
-      value={{ products, loading, addProduct, updateProduct, deleteProduct, getProductBySlug, getProductById, getProductsByCategory, refreshProducts: fetchProducts }}
+      value={{ products, loading, addProduct, updateProduct, deleteProduct, getProductBySlug, getProductById, getProductsByCategory, refreshProducts: fetchProducts, moveProduct }}
     >
       {children}
     </ProductsContext.Provider>
