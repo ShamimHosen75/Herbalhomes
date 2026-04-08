@@ -212,11 +212,13 @@ function ProductForm({
 }
 
 export default function AdminProducts() {
-  const { products, addProduct, updateProduct, deleteProduct, moveProduct } = useProducts();
+  const { products, addProduct, updateProduct, deleteProduct, moveProduct, reorderProducts } = useProducts();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
