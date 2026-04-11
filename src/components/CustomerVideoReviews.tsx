@@ -61,7 +61,7 @@ const CustomerVideoReviews = () => {
     "bg-gradient-to-b from-[hsl(258,50%,12%)] via-[hsl(260,42%,18%)] to-[hsl(262,45%,14%)]";
 
   return (
-    <section className={`py-14 md:py-20 ${sectionBg} relative overflow-hidden`}>
+    <section className={`py-12 md:py-16 relative overflow-hidden bg-transparent`}>
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
       <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
 

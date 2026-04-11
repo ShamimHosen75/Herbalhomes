@@ -51,7 +51,7 @@ const VideoSliderSection = () => {
   if (videos.length === 0) return null;
 
   return (
-    <section className="py-14 md:py-20 bg-muted/40">
+    <section className="py-8 md:py-12 bg-transparent relative z-10">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-primary text-center mb-10">
           {title}

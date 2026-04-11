@@ -104,7 +104,7 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
   // ─── IMAGE TESTIMONIALS ───
   if (hasImages && imageList.length > 0) {
     return (
-      <section className={`py-16 md:py-24 ${sectionBg} relative overflow-hidden`}>
+      <section className={`py-12 md:py-16 relative overflow-hidden bg-transparent`}>
         <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
 
@@ -181,7 +181,7 @@ const Testimonials = ({ title, subtitle, content }: Props) => {
 
   // ─── TEXT TESTIMONIALS (fallback) ───
   return (
-    <section className={`py-16 md:py-24 ${sectionBg} relative overflow-hidden`}>
+    <section className={`py-12 md:py-16 relative overflow-hidden bg-transparent`}>
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
       <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
 

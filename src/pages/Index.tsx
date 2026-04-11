@@ -34,43 +34,23 @@ const sectionComponents: Record<string, React.FC<any>> = {
 };
 
 const Index = () => {
-  const [sections, setSections] = useState<SectionConfig[]>([]);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    supabase
-      .from("homepage_sections")
-      .select("section_type, active, sort_order")
-      .order("sort_order")
-      .then(({ data }) => {
-        if (data) setSections(data as SectionConfig[]);
-        setLoaded(true);
-      });
-  }, []);
-
   return (
     <div className="min-h-screen">
       <Navbar />
       <main>
-        {loaded ? (
-          sections
-            .filter((s) => s.active)
-            .map((s) => {
-              const Component = sectionComponents[s.section_type];
-              if (!Component) return null;
-              return <Component key={s.section_type} />;
-            })
-        ) : (
-          <>
-            <HeroSection />
-            <CategoriesSection />
-            <AllProducts />
-            <WhyChooseUs />
-            <Testimonials />
-            <CustomerVideoReviews />
-          </>
-        )}
-        <VideoSliderSection />
+        <HeroSection />
+        <CategoriesSection />
+        <FreeDeliveryBanner />
+        <AllProducts />
+        <WhyChooseUs />
+        
+        {/* Unified Dark Section for all reviews/videos as in screenshot */}
+        <div className="bg-gradient-to-b from-[hsl(258,50%,12%)] via-[hsl(260,42%,18%)] to-[hsl(262,45%,14%)] text-white">
+          <Testimonials />
+          <VideoSliderSection />
+          <CustomerVideoReviews />
+        </div>
+        
         <BSTICertificates />
       </main>
       <Footer />

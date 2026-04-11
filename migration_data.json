@@ -1,0 +1,936 @@
+{
+  "products": [
+    {
+      "short_desc": "জাফরান ও ছাগলের দুধ সমৃদ্ধ প্রিমিয়াম সাবান",
+      "description": "",
+      "ingredients": "জাফরান, ছাগলের দুধ, শিয়া বাটার, অলিভ অয়েল",
+      "benefits": [
+        "ত্বক উজ্জ্বল করে",
+        "গভীর ময়েশ্চারাইজিং",
+        "অ্যান্টি-এজিং",
+        "প্রাকৃতিক গ্লো"
+      ],
+      "usage_info": "প্রতিদিন গোসলের সময় ব্যবহার করুন।",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/saffron-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "জাফরান",
+        "গোট মিল্ক"
+      ],
+      "rating": 4.9,
+      "review_count": 142,
+      "related_ids": [
+        "p8",
+        "p3"
+      ],
+      "faq": [],
+      "meta_title": "Saffron Goat Milk Soap | ALiNA",
+      "meta_desc": "জাফরান ও ছাগলের দুধ সমৃদ্ধ প্রিমিয়াম সাবান।",
+      "id": "p9",
+      "slug": "saffron-goat-milk-soap",
+      "name": "Saffron Goat Milk Soap(110g) - জাফরান ছাগলের দুধের সাবান",
+      "badge": "সেরা",
+      "sort_order": 0
+    },
+    {
+      "short_desc": "প্রাকৃতিক নিম সাবান",
+      "description": "",
+      "ingredients": "",
+      "benefits": [
+        "গভীর ময়েশ্চারাইজিং",
+        "শুষ্ক ত্বকে আরাম",
+        "ত্বক নরম করে",
+        "প্রাকৃতিক এক্সফোলিয়েশন"
+      ],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/neem-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "নিম"
+      ],
+      "rating": 4.8,
+      "review_count": 120,
+      "related_ids": [
+        "p2",
+        "p3"
+      ],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "p1",
+      "slug": "neem-soap",
+      "name": "Neem Soap(110g) - নিম সাবান",
+      "sort_order": 1
+    },
+    {
+      "short_desc": "প্রাকৃতিক দারুচিনি সাবান",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/cinnamon-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "দারুচিনি"
+      ],
+      "rating": 4.7,
+      "review_count": 95,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "p2",
+      "slug": "cinnamon-soap",
+      "name": "Cinnamon Soap(110g) - দারুচিনি সাবান",
+      "sort_order": 2
+    },
+    {
+      "short_desc": "প্রাকৃতিক চন্দন সাবান",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/sandalwood-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "চন্দন"
+      ],
+      "rating": 4.9,
+      "review_count": 150,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "p3",
+      "slug": "sandalwood-soap",
+      "name": "Sandalwood Soap(110g) - চন্দন সাবান",
+      "badge": "জনপ্রিয়",
+      "sort_order": 3
+    },
+    {
+      "short_desc": "সামুদ্রিক শৈবাল সাবান",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/seaweed-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "সি-উইড"
+      ],
+      "rating": 4.6,
+      "review_count": 88,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "p4",
+      "slug": "seaweed-soap",
+      "name": "Seaweed Soap(110g) - সি-উইড সাবান",
+      "sort_order": 4
+    },
+    {
+      "short_desc": "অ্যাক্টিভেটেড চারকোল সাবান",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/charcoal-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "চারকোল"
+      ],
+      "rating": 4.7,
+      "review_count": 100,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "p5",
+      "slug": "charcoal-soap",
+      "name": "Charcoal Soap(110g) - চারকোল সাবান",
+      "sort_order": 5
+    },
+    {
+      "short_desc": "প্রাকৃতিক হলুদ সাবান",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/turmeric-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "হলুদ"
+      ],
+      "rating": 4.8,
+      "review_count": 110,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "p6",
+      "slug": "turmeric-soap",
+      "name": "Turmeric Soap(110g) - হলুদ সাবান",
+      "badge": "নতুন",
+      "sort_order": 6
+    },
+    {
+      "short_desc": "মরিঙ্গা সাবান",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/moringa-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "মরিঙ্গা"
+      ],
+      "rating": 4.7,
+      "review_count": 90,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "p7",
+      "slug": "moringa-soap",
+      "name": "Moringa Soap (Activated)(110g) - মরিঙ্গা সাবান",
+      "sort_order": 7
+    },
+    {
+      "short_desc": "ছাগলের দুধের সাবান",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/goat-milk-soap.jpg"
+      ],
+      "category": "Soap - সাবান",
+      "brand": "ALiNA",
+      "tags": [
+        "সাবান",
+        "গোট মিল্ক"
+      ],
+      "rating": 4.8,
+      "review_count": 130,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "p8",
+      "slug": "goat-milk-soap",
+      "name": "Goat Milk Soap(110g) - ছাগলের দুধের সাবান",
+      "sort_order": 8
+    },
+    {
+      "short_desc": "কোল্ড প্রেসড নারিকেল তেল কাচের বোতলে",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [
+        "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/product-images/coconut-oil-glass.jpg"
+      ],
+      "category": "Oil - তেল",
+      "brand": "ALiNA",
+      "tags": [
+        "তেল",
+        "নারিকেল"
+      ],
+      "rating": 4.9,
+      "review_count": 80,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "coconut-oil-glass-01",
+      "slug": "coconut-oil-glass-1l",
+      "name": "Cold Pressed Coconut Oil (Glass Bottle) - নারিকেল তেল (কাচের বোতল)",
+      "sort_order": 9
+    },
+    {
+      "short_desc": "কোল্ড প্রেসড নারিকেল তেল ৫০০মিলি",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [],
+      "category": "Oil - তেল",
+      "brand": "ALiNA",
+      "tags": [],
+      "rating": 4.9,
+      "review_count": 60,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "coconut-oil-glass-500ml",
+      "slug": "coconut-oil-glass-500ml",
+      "name": "Cold Pressed Coconut Oil 500ml (Glass) - নারিকেল তেল ৫০০মিলি (কাচ)",
+      "sort_order": 10
+    },
+    {
+      "short_desc": "কোল্ড প্রেসড নারিকেল তেল ৩৭৫মিলি",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [],
+      "category": "Oil - তেল",
+      "brand": "ALiNA",
+      "tags": [],
+      "rating": 4.8,
+      "review_count": 45,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "coconut-oil-glass-375ml",
+      "slug": "coconut-oil-glass-375ml",
+      "name": "Cold Pressed Coconut Oil 375ml (Glass) - নারিকেল তেল ৩৭৫মিলি (কাচ)",
+      "sort_order": 11
+    },
+    {
+      "short_desc": "কোল্ড প্রেসড নারিকেল তেল প্লাস্টিক বোতলে",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [],
+      "category": "Oil - তেল",
+      "brand": "ALiNA",
+      "tags": [],
+      "rating": 4.7,
+      "review_count": 55,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "coconut-oil-plastic-01",
+      "slug": "coconut-oil-plastic-1l",
+      "name": "Cold Pressed Coconut Oil (Plastic Bottle) - নারিকেল তেল (প্লাস্টিক বোতল)",
+      "sort_order": 12
+    },
+    {
+      "short_desc": "কোল্ড প্রেসড নারিকেল তেল ৫০০মিলি",
+      "description": "",
+      "ingredients": "",
+      "benefits": [],
+      "usage_info": "",
+      "images": [],
+      "category": "Oil - তেল",
+      "brand": "ALiNA",
+      "tags": [],
+      "rating": 4.7,
+      "review_count": 40,
+      "related_ids": [],
+      "faq": [],
+      "meta_title": "",
+      "meta_desc": "",
+      "id": "coconut-oil-plastic-500ml",
+      "slug": "coconut-oil-plastic-500ml",
+      "name": "Cold Pressed Coconut Oil 500ml (Plastic) - নারিকেল তেল ৫০০মিলি (প্লাস্টিক)",
+      "sort_order": 13
+    }
+  ],
+  "product_variants": [
+    {
+      "id": "p9-v1",
+      "product_id": "p9",
+      "label": "110g",
+      "price": 950,
+      "old_price": 1250,
+      "stock": 25,
+      "sku": "AL-SOAP-SAFF"
+    },
+    {
+      "id": "p1-v1",
+      "product_id": "p1",
+      "label": "110g",
+      "price": 520,
+      "old_price": 650,
+      "stock": 50,
+      "sku": "AL-SOAP-NEEM"
+    },
+    {
+      "id": "p2-v1",
+      "product_id": "p2",
+      "label": "110g",
+      "price": 520,
+      "old_price": 650,
+      "stock": 50,
+      "sku": "AL-SOAP-CINN"
+    },
+    {
+      "id": "p3-v1",
+      "product_id": "p3",
+      "label": "110g",
+      "price": 520,
+      "old_price": 650,
+      "stock": 45,
+      "sku": "AL-SOAP-SAND"
+    },
+    {
+      "id": "p4-v1",
+      "product_id": "p4",
+      "label": "110g",
+      "price": 520,
+      "old_price": 650,
+      "stock": 40,
+      "sku": "AL-SOAP-SEAW"
+    },
+    {
+      "id": "p5-v1",
+      "product_id": "p5",
+      "label": "110g",
+      "price": 520,
+      "old_price": 650,
+      "stock": 55,
+      "sku": "AL-SOAP-CHAR"
+    },
+    {
+      "id": "p6-v1",
+      "product_id": "p6",
+      "label": "110g",
+      "price": 520,
+      "old_price": 650,
+      "stock": 60,
+      "sku": "AL-SOAP-TURM"
+    },
+    {
+      "id": "p7-v1",
+      "product_id": "p7",
+      "label": "110g",
+      "price": 520,
+      "old_price": 650,
+      "stock": 40,
+      "sku": "AL-SOAP-MORN"
+    },
+    {
+      "id": "p8-v1",
+      "product_id": "p8",
+      "label": "110g",
+      "price": 650,
+      "old_price": 790,
+      "stock": 35,
+      "sku": "AL-SOAP-GOAT"
+    },
+    {
+      "id": "cp-glass-1l",
+      "product_id": "coconut-oil-glass-01",
+      "label": "1 Liter",
+      "price": 1500,
+      "old_price": null,
+      "stock": 50,
+      "sku": "CO-GL-1L"
+    },
+    {
+      "id": "cp-glass-500ml-single",
+      "product_id": "coconut-oil-glass-500ml",
+      "label": "500 ml",
+      "price": 800,
+      "old_price": null,
+      "stock": 50,
+      "sku": "CO-GL-500ML-S"
+    },
+    {
+      "id": "cp-glass-375ml-single",
+      "product_id": "coconut-oil-glass-375ml",
+      "label": "375 ml",
+      "price": 600,
+      "old_price": null,
+      "stock": 50,
+      "sku": "CO-GL-375ML-S"
+    },
+    {
+      "id": "cp-plastic-1l",
+      "product_id": "coconut-oil-plastic-01",
+      "label": "1 Liter",
+      "price": 1400,
+      "old_price": null,
+      "stock": 50,
+      "sku": "CO-PL-1L"
+    },
+    {
+      "id": "cp-plastic-500ml-single",
+      "product_id": "coconut-oil-plastic-500ml",
+      "label": "500 ml",
+      "price": 700,
+      "old_price": null,
+      "stock": 50,
+      "sku": "CO-PL-500ML-S"
+    }
+  ],
+  "product_reviews": [],
+  "categories": [
+    {
+      "id": "cat-soap",
+      "name": "Soap - সাবান",
+      "slug": "Soap - সাবান",
+      "description": "প্রাকৃতিক উপাদানে তৈরি সাবান",
+      "image": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/category-images/1775043054390-mfya.png",
+      "count": 9,
+      "sort_order": 0
+    },
+    {
+      "id": "cat-1775045483266",
+      "name": "Oil - তেল",
+      "slug": "Oil - তেল",
+      "description": "প্রাকৃতিক উপাদানে তৈরি তেল",
+      "image": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/category-images/1775643024822-i328.png",
+      "count": 0,
+      "sort_order": 1
+    },
+    {
+      "id": "cat-1775106747824",
+      "name": "Spices - মশলা",
+      "slug": "Spices - মশলা",
+      "description": "প্রাকৃতিক উপাদানে তৈরি মশলা",
+      "image": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/category-images/1775643051686-fv78.png",
+      "count": 0,
+      "sort_order": 2
+    },
+    {
+      "id": "cat-1775282803348",
+      "name": "Simple Oil - সাধারণ তেল",
+      "slug": "simple-oil----",
+      "description": "প্রাকৃতিক উপাদানে তৈরি সাধারণ তেল",
+      "image": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/category-images/1775643040062-iwvt.png",
+      "count": 0,
+      "sort_order": 2
+    }
+  ],
+  "customer_video_reviews": [
+    {
+      "id": "1a128256-e0a8-4e33-b45e-79628cebf31a",
+      "customer_name": "Karim Ullah",
+      "rating": 5,
+      "sort_order": 0,
+      "thumbnail_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/slider-images/1775633730635-rqm7.png",
+      "video_url": "https://www.youtube.com/watch?v=ex1lYddL_bc"
+    },
+    {
+      "id": "5803e04e-fff8-4c08-9e2e-805bd0485d8f",
+      "customer_name": "Samiullah",
+      "rating": 5,
+      "sort_order": 0,
+      "thumbnail_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/slider-images/1775633973092-vjbe.png",
+      "video_url": "https://www.youtube.com/watch?v=ex1lYddL_bc"
+    }
+  ],
+  "bsti_certificates": [
+    {
+      "id": "1a33bc4b-2b2b-4ea2-b766-5bc8b7fc13b8",
+      "product_name": "Castor Oil Certificated",
+      "image_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/bsti-certificates/1a33bc4b-2b2b-4ea2-b766-5bc8b7fc13b8.png",
+      "sort_order": 1
+    },
+    {
+      "id": "51246b15-5a6a-4e9f-9266-8d0a76f1c147",
+      "product_name": "Coconut Oil Certificated",
+      "image_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/bsti-certificates/51246b15-5a6a-4e9f-9266-8d0a76f1c147.png",
+      "sort_order": 2
+    },
+    {
+      "id": "801822b7-3aab-454f-91aa-45b8008d0af8",
+      "product_name": "Cinnamon Bar Certificated",
+      "image_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/bsti-certificates/801822b7-3aab-454f-91aa-45b8008d0af8.png",
+      "sort_order": 3
+    },
+    {
+      "id": "c05d6400-478a-40d0-a4fc-979cf3408745",
+      "product_name": "Charcoal Bar Certificated",
+      "image_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/bsti-certificates/c05d6400-478a-40d0-a4fc-979cf3408745.png",
+      "sort_order": 4
+    },
+    {
+      "id": "497d6e50-540a-4e79-8c55-619878fe005d",
+      "product_name": "Moringa Bar Certificated",
+      "image_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/bsti-certificates/497d6e50-540a-4e79-8c55-619878fe005d.png",
+      "sort_order": 5
+    },
+    {
+      "id": "931e916f-a9e4-480f-afa5-7f5e30a42e35",
+      "product_name": "Tulsi Bar Certificated",
+      "image_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/bsti-certificates/931e916f-a9e4-480f-afa5-7f5e30a42e35.png",
+      "sort_order": 6
+    }
+  ],
+  "sliders": [
+    {
+      "id": "slide-1775132307832",
+      "heading": "আপনার পছন্দের অর্গানিক পণ্য এখন আপনার হাতের নাগালে",
+      "text": "জৈব সাবান, প্রাকৃতিক তেল, ভেষজ স্কিনকেয়ার ও স্বাস্থ্যকর খাবার — সবকিছু এক জায়গায়। ক্যাশ অন ডেলিভারি ও দ্রুত হোম ডেলিভারি সুবিধা।",
+      "cta_text": "Shop Now",
+      "cta_link": "/shop",
+      "layout": "banner",
+      "image_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/slider-images/1775132294125-e6ke.jpeg",
+      "banner_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/slider-images/1775132347553-7eie.jpeg",
+      "sort_order": 0
+    },
+    {
+      "id": "slide-1775132370441",
+      "heading": "আপনার পছন্দের অর্গানিক পণ্য এখন আপনার হাতের নাগালে",
+      "text": "জৈব সাবান, প্রাকৃতিক তেল, ভেষজ স্কিনকেয়ার ও স্বাস্থ্যকর খাবার — সবকিছু এক জায়গায়। ক্যাশ অন ডেলিভারি ও দ্রুত হোম ডেলিভারি সুবিধা।",
+      "cta_text": "Shop Now",
+      "cta_link": "/shop",
+      "layout": "banner",
+      "image_url": "",
+      "banner_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/slider-images/1775132368177-l03h.jpeg",
+      "sort_order": 0
+    },
+    {
+      "id": "slide-1773214734740",
+      "heading": "আপনার পছন্দের অর্গানিক পণ্য এখন আপনার হাতের নাগালে",
+      "text": "জৈব সাবান, প্রাকৃতিক তেল, ভেষজ স্কিনকেয়ার ও স্বাস্থ্যকর খাবার — সবকিছু এক জায়গায়। ক্যাশ অন ডেলিভারি ও দ্রুত হোম ডেলিভারি সুবিধা।",
+      "cta_text": "Shop Now",
+      "cta_link": "/shop",
+      "layout": "banner",
+      "image_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/slider-images/slide-1773221614449.jpg",
+      "banner_url": "https://nnkpeqmekllamtdntdzy.supabase.co/storage/v1/object/public/slider-images/1775040174924-r50h.jpeg",
+      "sort_order": 0
+    }
+  ],
+  "site_settings": [
+    {
+      "key": "store_name",
+      "value": "Herbal Homes"
+    },
+    {
+      "key": "tagline",
+      "value": "প্রাকৃতিক ও জৈব পণ্যের বিশ্বস্ত ঠিকানা"
+    },
+    {
+      "key": "currency",
+      "value": "BDT"
+    },
+    {
+      "key": "meta_title",
+      "value": "Herbal Homes - প্রাকৃতিক ও জৈব পণ্য"
+    },
+    {
+      "key": "meta_description",
+      "value": "প্রাকৃতিক ও জৈব পণ্যের বিশ্বস্ত অনলাইন শপ"
+    },
+    {
+      "key": "theme_accent",
+      "value": "#2f068e"
+    },
+    {
+      "key": "topbar_enabled",
+      "value": "false"
+    },
+    {
+      "key": "language",
+      "value": "en"
+    },
+    {
+      "key": "facebook",
+      "value": "https://www.facebook.com/HerbalhomesBD"
+    },
+    {
+      "key": "whatsapp",
+      "value": "8801850602230"
+    },
+    {
+      "key": "email",
+      "value": "info.herbalhomes26@gmail.com"
+    },
+    {
+      "key": "phone",
+      "value": "+880 1850602230"
+    },
+    {
+      "key": "address",
+      "value": "87/1, Fudkipara, Ghoramara, Boalia, Rajshahi 6100, Bangladesh"
+    },
+    {
+      "key": "instagram",
+      "value": ""
+    },
+    {
+      "key": "youtube",
+      "value": ""
+    },
+    {
+      "key": "logo",
+      "value": ""
+    }
+  ],
+  "payment_methods": [
+    {
+      "id": "pm-cod",
+      "name": "ক্যাশ অন ডেলিভারি (COD)",
+      "code": "cod",
+      "description": "পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন",
+      "instructions": "ডেলিভারি ম্যানকে সরাসরি টাকা দিন।",
+      "enabled": true,
+      "require_transaction_id": false,
+      "sort_order": 1
+    },
+    {
+      "id": "pm-bkash",
+      "name": "বিকাশ (bKash)",
+      "code": "bkash",
+      "description": "বিকাশে পেমেন্ট করুন",
+      "instructions": "01XXXXXXXXX নম্বরে Send Money করুন এবং ট্রানজেকশন আইডি দিন।",
+      "enabled": true,
+      "require_transaction_id": true,
+      "sort_order": 2
+    },
+    {
+      "id": "pm-nagad",
+      "name": "নগদ (Nagad)",
+      "code": "nagad",
+      "description": "নগদে পেমেন্ট করুন",
+      "instructions": "01XXXXXXXXX নম্বরে Send Money করুন এবং ট্রানজেকশন আইডি দিন।",
+      "enabled": true,
+      "require_transaction_id": true,
+      "sort_order": 3
+    }
+  ],
+  "courier_settings": [
+    {
+      "id": "steadfast",
+      "enabled": true,
+      "api_base_url": "https://portal.packzy.com/api/v1",
+      "api_key": "xafwagrkmkfvxn7rfvqljfu92nx0a4im",
+      "api_secret": "zwvwlcn1jspuib2pjhbt5wua",
+      "show_tracking": true,
+      "enable_cod": true,
+      "default_weight": 0.5
+    }
+  ],
+  "staff_users": [
+    {
+      "id": "admin-default",
+      "email": "admin@store.com",
+      "password": "admin123",
+      "name": "Admin",
+      "role": "admin",
+      "active": true
+    }
+  ],
+  "orders": [
+    {
+      "discount": 0,
+      "shipping_cost": 0,
+      "cod_fee": 20,
+      "total": 970,
+      "status": "shipped",
+      "payment_method": "cod",
+      "shipping_method": "স্ট্যান্ডার্ড ডেলিভারি",
+      "tracking_number": "SFR260411ST1AC8700BD",
+      "courier_name": "Steadfast",
+      "address": {
+        "address": "Uttara, Dhaka 1230",
+        "fullName": "Shamim",
+        "phone": "01786473796"
+      },
+      "customer_name": "Shamim",
+      "customer_phone": "01786473796",
+      "id": "HH-PHRCCCRU",
+      "subtotal": 950
+    },
+    {
+      "discount": 0,
+      "shipping_cost": 0,
+      "cod_fee": 20,
+      "total": 540,
+      "status": "packed",
+      "payment_method": "cod",
+      "shipping_method": "স্ট্যান্ডার্ড ডেলিভারি",
+      "address": {
+        "address": "Sector 1, Uttara, Dhaka 1230",
+        "fullName": "Shamim",
+        "phone": "01786473796"
+      },
+      "customer_name": "Shamim",
+      "customer_phone": "01786473796",
+      "id": "HH-F0F8JCKM",
+      "subtotal": 520
+    },
+    {
+      "discount": 0,
+      "shipping_cost": 0,
+      "cod_fee": 20,
+      "total": 1060,
+      "status": "confirmed",
+      "payment_method": "cod",
+      "shipping_method": "স্ট্যান্ডার্ড ডেলিভারি",
+      "tracking_number": "SFR260402ST817A9E5BD",
+      "courier_name": "Steadfast",
+      "address": {
+        "address": "Sector 1, Uttara, Dhaka 1230",
+        "fullName": "Test Order 2",
+        "phone": "01712345647"
+      },
+      "customer_name": "Test Order 2",
+      "customer_phone": "01712345647",
+      "id": "HH-YKG9YU14",
+      "subtotal": 1040
+    },
+    {
+      "discount": 0,
+      "shipping_cost": 0,
+      "cod_fee": 20,
+      "total": 1060,
+      "status": "shipped",
+      "payment_method": "cod",
+      "shipping_method": "স্ট্যান্ডার্ড ডেলিভারি",
+      "tracking_number": "SFR260402STA43DA86BD",
+      "courier_name": "Steadfast",
+      "address": {
+        "address": "Uttara, Dhaka 1230",
+        "fullName": "Test Order",
+        "phone": "01712345678"
+      },
+      "customer_name": "Test Order",
+      "customer_phone": "01712345678",
+      "id": "HH-AJIL7XF6",
+      "subtotal": 1040
+    },
+    {
+      "discount": 0,
+      "shipping_cost": 60,
+      "cod_fee": 20,
+      "total": 580,
+      "status": "shipped",
+      "payment_method": "cod",
+      "shipping_method": "ঢাকার ভিতরে (স্ট্যান্ডার্ড)",
+      "tracking_number": "SFR260402STF3DC668BD",
+      "courier_name": "Steadfast",
+      "address": {
+        "address": "Uttara, Dhaka",
+        "fullName": "test order",
+        "phone": "01712345678"
+      },
+      "customer_name": "test order",
+      "customer_phone": "01712345678",
+      "id": "HH-119SUGBO",
+      "subtotal": 500
+    },
+    {
+      "discount": 0,
+      "shipping_cost": 60,
+      "cod_fee": 20,
+      "total": 330,
+      "status": "delivered",
+      "payment_method": "cod",
+      "shipping_method": "ঢাকার ভিতরে (স্ট্যান্ডার্ড)",
+      "address": {
+        "address": "sgdsg",
+        "fullName": "faeae",
+        "phone": "01721365476"
+      },
+      "customer_name": "faeae",
+      "customer_phone": "01721365476",
+      "id": "HH-76LOSG9K",
+      "subtotal": 250
+    }
+  ],
+  "order_items": [
+    {
+      "image": "/src/assets/product-soap-lavender.jpg",
+      "id": "c32029c8-0a35-422e-b86c-573a1b80e597",
+      "order_id": "HH-76LOSG9K",
+      "product_id": "p1",
+      "variant_id": "p1-v1",
+      "name": "ল্যাভেন্ডার জৈব সাবান",
+      "variant_label": "75g",
+      "price": 250,
+      "quantity": 1
+    },
+    {
+      "image": "/src/assets/product-soap-lavender.jpg",
+      "id": "8d2c1315-72a9-4342-be42-46bba33630df",
+      "order_id": "HH-119SUGBO",
+      "product_id": "p1",
+      "variant_id": "p1-v1",
+      "name": "ল্যাভেন্ডার জৈব সাবান",
+      "variant_label": "75g",
+      "price": 250,
+      "quantity": 2
+    },
+    {
+      "image": "",
+      "id": "f7dcd187-5b6f-4235-817e-2559c19abba1",
+      "order_id": "HH-AJIL7XF6",
+      "product_id": "p7",
+      "variant_id": "p7-v1",
+      "name": "Moringa Soap (Activated)",
+      "variant_label": "110g",
+      "price": 520,
+      "quantity": 2
+    },
+    {
+      "image": "",
+      "id": "4965c26e-ba3a-4fa7-a2e7-672c9b04ba2b",
+      "order_id": "HH-YKG9YU14",
+      "product_id": "p6",
+      "variant_id": "p6-v1",
+      "name": "Turmeric Soap",
+      "variant_label": "110g",
+      "price": 520,
+      "quantity": 2
+    },
+    {
+      "image": "",
+      "id": "bf9439e3-14c0-47a8-a772-a14d685de534",
+      "order_id": "HH-F0F8JCKM",
+      "product_id": "p6",
+      "variant_id": "p6-v1",
+      "name": "Turmeric Soap(110g) - হলুদ সাবান",
+      "variant_label": "110g",
+      "price": 520,
+      "quantity": 1
+    },
+    {
+      "image": "",
+      "id": "0095f7b1-bf65-48af-a4c8-aa9d4ccee109",
+      "order_id": "HH-PHRCCCRU",
+      "product_id": "p9",
+      "variant_id": "p9-v1",
+      "name": "Saffron Goat Milk Soap(110g) - জাফরান ছাগলের দুধের সাবান",
+      "variant_label": "110g",
+      "price": 950,
+      "quantity": 1
+    }
+  ],
+  "shipping_methods": [],
+  "shipping_zones": [],
+  "coupons": [],
+  "landing_pages": []
+}
