@@ -54,7 +54,17 @@ const HeroSection = (_props: Props) => {
 
   const slide = slides[current];
 
-  if (loading || slides.length === 0) {
+  if (loading) {
+    return (
+      <section className="relative overflow-hidden bg-background">
+        <div className="container mx-auto px-4 flex justify-center items-center min-h-[400px] md:min-h-[600px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (slides.length === 0) {
     return <FallbackHero />;
   }
 
